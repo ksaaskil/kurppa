@@ -1,0 +1,8 @@
+config:
+  gcp:project: havis-416710
+  gcp:region: europe-north1
+  havis:appPath: ..
+  havis:concurrency: "1"
+  havis:containerPort: "3000"
+  havis:cpu: "1"
+  havis:memory: 1Gi
