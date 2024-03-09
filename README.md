@@ -6,6 +6,16 @@ Havis is an easy-to-use system for collecting bird observations
 
 - Input bird observations using natural language (powered by OpenAI)
 
+## To do
+
+- Record speech
+- Transcribe speech (Whisper)
+- Understand intent (ChatGPT)
+- Deploy to cloud (Google Cloud Run + Pulumi)
+- Authentication (Auth0)
+- List of observations
+- Use location
+
 ## Development
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).

@@ -15,6 +15,7 @@ COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
 
+RUN corepack enable
 RUN yarn run build
 
 FROM base AS runner
