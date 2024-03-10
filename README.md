@@ -60,3 +60,10 @@ pulumi preview
 pulumi up
 pulumi destroy
 ```
+
+## Acknowledgements
+
+- [Tiira](https://www.tiira.fi/)
+- [Tiira foorumi](https://www.tiirafoorumi.info/keskustelu/phpBB3/index.php)
+- [Muuttolintujen kevät](https://www.jyu.fi/fi/tutkimus/muuttolintujen-kevat)
+- [`openai-speech-to-text`](https://github.com/ZaharBerku/openai-speech-to-text)
