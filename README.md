@@ -1,20 +1,25 @@
 # Havis
 
-Havis is an easy-to-use system for collecting bird observations
+Havis on puheohjattu järjestelmä lintuhavaintojen kirjaamiseen. Havainnon voi kirjata äänisyötteellä kuten "kolme varista". Järjestelmä kirjaa havainnon lajin ("varis"), määrän (3), sijainnin ja kellonajan automaattisesti. Havainnot voi viedä ulkoisiin järjestelmiin kuten [Tiiraan](https://www.tiira.fi/) lataamalla havainnot tiedostona.
 
-## Features
+Havis is a system for collecting bird observations using natural language.
 
-- Input bird observations using natural language (powered by OpenAI)
+## Ominaisuudet
+
+- Kirjaa havainto
+- Katsele omia havaintoja
+- Lataa havainnot tiedostona
 
 ## To do
 
-- Record speech
-- Transcribe speech (Whisper)
-- Understand intent (ChatGPT)
-- Deploy to cloud (Google Cloud Run + Pulumi)
-- Authentication (Auth0)
-- List of observations
-- Use location
+- [x] Record speech
+- [x] Transcribe speech (Whisper)
+- [ ] Understand intent (ChatGPT)
+- [ ] UI layout
+- [ ] Deploy to cloud (Google Cloud Run + Pulumi)
+- [ ] Authentication (Auth0)
+- [ ] List of observations
+- [ ] Use location
 
 ## Development
 
@@ -41,4 +46,17 @@ See [`Dockerfile`](./Dockerfile).
 ```sh
 docker build -t havis .
 docker run -p 3000:3000 havis
+```
+
+## Cloud deployment
+
+The folder [`pulumi`](./pulumi) contains an example deployment to Google Cloud managed with [Pulumi](https://www.pulumi.com/).
+
+To deploy:
+
+```sh
+cd pulumi
+pulumi preview
+pulumi up
+pulumi destroy
 ```
