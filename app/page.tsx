@@ -1,6 +1,7 @@
 "use client";
 import { useRecordVoice } from "@/app/hooks/useRecordVoice";
 import { useTranscribe } from "@/app/hooks/useTranscribe";
+import Transcription from "./components/transcription";
 
 export default function Home() {
   const { recording, startRecording, stopRecording, recordingBase64 } =
@@ -24,7 +25,10 @@ export default function Home() {
         <button className="btn" onClick={toggleRecording}>
           {recording ? `Nauhoittaa...` : `Kirjaa havainto`}
         </button>
-        <p>{transcription}</p>
+        <Transcription
+          transcription={transcription}
+          isTranscribing={isTranscribing}
+        />
       </div>
     </main>
   );
