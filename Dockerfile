@@ -1,4 +1,4 @@
-FROM node:20 AS base
+FROM node:20-bookworm-slim AS base
 
 FROM base AS deps
 # RUN apk add --no-cache libc6-compat

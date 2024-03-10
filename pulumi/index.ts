@@ -3,7 +3,6 @@ import * as gcp from "@pulumi/gcp";
 import * as docker from "@pulumi/docker";
 import * as random from "@pulumi/random";
 
-// Import the program's configuration settings.
 const config = new pulumi.Config();
 const imageName = config.get("imageName") || "my-app";
 const appPath = config.get("appPath") || "./app";
@@ -12,7 +11,6 @@ const cpu = config.getNumber("cpu") || 1;
 const memory = config.get("memory") || "1Gi";
 const concurrency = config.getNumber("concurrency") || 80;
 
-// Import the provider's configuration settings.
 const gcpConfig = new pulumi.Config("gcp");
 const location = gcpConfig.require("region");
 const project = gcpConfig.require("project");
@@ -25,17 +23,15 @@ const uniqueString = new random.RandomString("unique-string", {
     numeric: true,
     special: false,
 })
-let repoId = uniqueString.result.apply(result => "repo-" + result);
+let repoId = uniqueString.result.apply(result => "havis-" + result);
 
-// Create an Artifact Registry repository
 const repository = new gcp.artifactregistry.Repository("repository", {
-    description: "Repository for container image",
+    description: "Repository for Havis container image",
     format: "DOCKER",
     location: location,
     repositoryId: repoId,
 });
 
-// Form the repository URL
 let repoUrl = pulumi.concat(location, "-docker.pkg.dev/", project, "/", repository.repositoryId);
 
 // Create a container image for the service.
@@ -54,7 +50,6 @@ const image = new docker.Image("image", {
     },
 });
 
-// Create a Cloud Run service definition.
 const service = new gcp.cloudrun.Service("service", {
     location,
     template: {
