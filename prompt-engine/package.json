@@ -1,0 +1,7 @@
+{
+  "name": "havis-prompt-engineering",
+  "dependencies": {
+    "prompt-engine": "0.0.31",
+    "ts-node": "10.9.2"
+  }
+}

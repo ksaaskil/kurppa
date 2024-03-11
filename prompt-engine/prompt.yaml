@@ -1,0 +1,15 @@
+type: prompt-engine
+config:
+  model-config:
+    max-tokens: 1024
+  description-prefix: ">>"
+  description-postfix: ""
+  newline-operator: "\n"
+  input-prefix: "Syöte:"
+  input-postfix: ""
+  output-prefix: "Vastaus:"
+  output-postfix: ""
+description: "Mikä lintulaji ja määrä oli havaittu?"
+examples:
+  - input: "Kolme varista"
+    response: "{ \"laji\": \"varis\", \"määrä\": 3 }"
