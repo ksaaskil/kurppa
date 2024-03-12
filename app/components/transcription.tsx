@@ -9,7 +9,7 @@ export default function Transcription({
 }) {
   return (
     <div>
-      {isTranscribing && <p>`Kääntää tekstiksi...`</p>}
+      {isTranscribing && <p>Kääntää tekstiksi...</p>}
       {transcription && !isTranscribing && <p>{isTranscribing && transcription ? `` : transcription}</p>}
       {transcriptionError && <p>Transcription error: {transcriptionError.message}</p>}
     </div>
