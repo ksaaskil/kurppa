@@ -23,7 +23,8 @@ function useTranscribe({ audioBase64 }: { audioBase64: String | null }) {
           audio: audioBase64,
         }),
       }).then((res) => res.json());
-      const { text } = response;
+      // const { text } = response;
+      const { text } = { text: "Kolme varista" }; // DEBUG
       console.log(`Got response: ${text}`);
       setTranscription(text);
     } catch (error: any) {

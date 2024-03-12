@@ -1,7 +1,11 @@
 import { PromptEngine } from "prompt-engine";
 
 export default function buildPrompt(userInput: string) {
-    const description = "Mikä lintulaji ja määrä oli havaittu? Käyttäjän syöte on teksti kuten 'kolme töyhtökiurua' ja vastaus on JSON-objekti jossa on laji ja määrä."
+    const description = `Mikä lintulaji ja määrä oli havaittu? Käyttäjän syöte on teksti kuten 'kolme töyhtökiurua' ja vastaus on JSON-objekti jossa on laji ja määrä
+kuten '{ "laji": "töyhtökiuru", "määrä": 3 }'. Vastauksen täytyy olla JSON-muodossa. Käytä lajin nimenä yksikkömuotoa ja määränä kokonaislukua.
+Esimerkiksi 'kolme töyhtökiurua' on oikein, mutta 'kolme töyhtökiurut' on väärin.
+
+Esimerkkejä:`
     const examples = [
         {
             input: "Kolme varista",
@@ -16,7 +20,15 @@ export default function buildPrompt(userInput: string) {
             response: "{ \"laji\": \"varpunen\", \"määrä\": 1 }"
         },
     ]
-    const promptEngine = new PromptEngine(description, examples);
+    const promptEngine = new PromptEngine(description, examples, undefined, {
+        descriptionPrefix: ">>",
+        descriptionPostfix: "",
+        inputPrefix: "Syöte:",
+        outputPrefix: "Vastaus:",
+        inputPostfix: "",
+        outputPostfix: "",
+        newlineOperator: "\n"
+    });
 
     return promptEngine.buildPrompt(userInput)
 }

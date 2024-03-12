@@ -10,6 +10,8 @@ interface ResponseData {
     error?: string;
 }
 
+const MODEL = "gpt-3.5-turbo-0125";
+
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<ResponseData>,
@@ -27,9 +29,9 @@ ${prompt}
     try {
         const completion = await openai.chat.completions.create({
             messages: [
-                { "role": "assistant", "content": prompt }
+                { "role": "user", "content": prompt }
             ],
-            model: "gpt-3.5-turbo-0125",
+            model: MODEL,
             response_format: { type: "json_object" },
         });
         const content = completion.choices[0].message.content;
