@@ -8,9 +8,11 @@ interface ResponseData {
     species?: string;
     amount?: number;
     error?: string;
+    prompt: string;
 }
 
-const MODEL = "gpt-3.5-turbo-0125";
+// const MODEL = "gpt-3.5-turbo-0125";
+const MODEL = "gpt-3.5-turbo";
 
 export default async function handler(
     req: NextApiRequest,
@@ -32,16 +34,17 @@ ${prompt}
                 { "role": "user", "content": prompt }
             ],
             model: MODEL,
-            response_format: { type: "json_object" },
+            // response_format: { type: "json_object" },
         });
+        console.log(`Got response: ${JSON.stringify(completion)}`);
         const content = completion.choices[0].message.content;
         if (!content) {
             throw new Error("No content in response");
         }
         const result = JSON.parse(content)
-        res.status(200).json({ species: result.species, amount: result.amount });
+        res.status(200).json({ species: result.laji, amount: result.määrä, prompt });
     } catch (error: any) {
         console.error("Error deciphering text", error);
-        return res.status(500).json({ error: `Error deciphering: ${error.message}` });
+        return res.status(500).json({ error: `Error deciphering: ${error.message}`, prompt });
     }
 }

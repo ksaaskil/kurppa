@@ -13,7 +13,7 @@ export default function Home() {
     audioBase64: recordingBase64,
   });
 
-  const { result: decipherResult, error: decipherError, loading: deciphering } = useDecipher({ userInput: transcription });
+  const { result: decipherResult, error: decipherError, loading: deciphering, prompt } = useDecipher({ userInput: transcription });
 
   function toggleRecording() {
     if (recording) {
@@ -38,6 +38,7 @@ export default function Home() {
           result={decipherResult}
           error={decipherError}
           loading={deciphering}
+          prompt={prompt}
         />
       </div>
     </main>

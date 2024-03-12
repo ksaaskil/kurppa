@@ -9,6 +9,7 @@ function useDecipher({ userInput }: { userInput: String | null }) {
     const [result, setResult] = useState(undefined as Result | undefined);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(undefined as Error | undefined);
+    const [prompt, setPrompt] = useState(undefined as string | undefined);
 
     useEffect(() => {
         async function decipher() {
@@ -28,8 +29,20 @@ function useDecipher({ userInput }: { userInput: String | null }) {
                     body: JSON.stringify({
                         text: userInput,
                     }),
-                }).then((res) => res.json());
-                const { species, amount } = response;
+                })
+                const responseJson = await response.json();
+
+                const { species, amount, error, prompt } = responseJson;
+
+                if (prompt) {
+                    setPrompt(prompt);
+                }
+
+                if (error) {
+                    setError(error);
+                    return
+                }
+
                 console.log(`Got response: ${JSON.stringify(response)}`);
                 setResult({ species, amount });
             } catch (error: any) {
@@ -43,7 +56,7 @@ function useDecipher({ userInput }: { userInput: String | null }) {
         decipher();
     }, [userInput]);
 
-    return { result, loading, error };
+    return { result, loading, error, prompt };
 }
 
 export { useDecipher }

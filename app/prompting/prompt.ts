@@ -24,7 +24,7 @@ Esimerkkejä:`
         descriptionPrefix: ">>",
         descriptionPostfix: "",
         inputPrefix: "Syöte:",
-        outputPrefix: "Vastaus:",
+        outputPrefix: "",
         inputPostfix: "",
         outputPostfix: "",
         newlineOperator: "\n"
