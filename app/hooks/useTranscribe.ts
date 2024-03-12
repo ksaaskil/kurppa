@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 function useTranscribe({ audioBase64 }: { audioBase64: String | null }) {
   const [transcription, setTranscription] = useState("");
   const [isTranscribing, setIsTranscibing] = useState(false);
+  const [transcriptionError, setTranscriptionError] = useState(null as Error | null);
 
   async function transcribe() {
+    setTranscriptionError(null);
     if (!audioBase64) {
       setTranscription("");
       return;
@@ -24,8 +26,9 @@ function useTranscribe({ audioBase64 }: { audioBase64: String | null }) {
       const { text } = response;
       console.log(`Got response: ${text}`);
       setTranscription(text);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      setTranscriptionError(error);
     } finally {
       setIsTranscibing(false);
     }
@@ -35,7 +38,7 @@ function useTranscribe({ audioBase64 }: { audioBase64: String | null }) {
     transcribe();
   }, [audioBase64]);
 
-  return { transcription, isTranscribing };
+  return { transcription, isTranscribing, transcriptionError };
 }
 
 export { useTranscribe };

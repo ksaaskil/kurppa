@@ -2,14 +2,18 @@
 import { useRecordVoice } from "@/app/hooks/useRecordVoice";
 import { useTranscribe } from "@/app/hooks/useTranscribe";
 import Transcription from "./components/transcription";
+import { useDecipher } from "./hooks/useDecipher";
+import Decipher from "./components/decipher";
 
 export default function Home() {
   const { recording, startRecording, stopRecording, recordingBase64 } =
     useRecordVoice();
 
-  const { transcription, isTranscribing } = useTranscribe({
+  const { transcription, isTranscribing, transcriptionError } = useTranscribe({
     audioBase64: recordingBase64,
   });
+
+  const { prompt } = useDecipher({ userInput: transcription });
 
   function toggleRecording() {
     if (recording) {
@@ -27,7 +31,11 @@ export default function Home() {
         </button>
         <Transcription
           transcription={transcription}
+          transcriptionError={transcriptionError}
           isTranscribing={isTranscribing}
+        />
+        <Decipher
+          prompt={prompt}
         />
       </div>
     </main>

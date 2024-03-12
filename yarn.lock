@@ -609,6 +609,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"array-keyed-map@npm:^2.1.3":
+  version: 2.1.3
+  resolution: "array-keyed-map@npm:2.1.3"
+  checksum: 10c0/2943dc0d59f4bf10318335c7a6a3990f99d4247488478864a49ec9b1832800f844eb043bdf55475f5d333e8efe5c6ae951b512e3a479c5ac40119b69124c72cc
+  languageName: node
+  linkType: hard
+
 "array-union@npm:^2.1.0":
   version: 2.1.0
   resolution: "array-union@npm:2.1.0"
@@ -2059,6 +2066,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gpt3-tokenizer@npm:^1.1.2":
+  version: 1.1.5
+  resolution: "gpt3-tokenizer@npm:1.1.5"
+  dependencies:
+    array-keyed-map: "npm:^2.1.3"
+  checksum: 10c0/8186b28bd614c58d5becb614381323f7991f3bded4e604b5afb67e98e48da62f226c257a18d787051457e747d01dd708604f9ddd07b57c0d48e59d044a2010f0
+  languageName: node
+  linkType: hard
+
 "graceful-fs@npm:^4.2.11, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6":
   version: 4.2.11
   resolution: "graceful-fs@npm:4.2.11"
@@ -2144,6 +2160,7 @@ __metadata:
     openai: "npm:^4.28.4"
     postcss: "npm:^8"
     prettier: "npm:3.2.5"
+    prompt-engine: "npm:^0.0.31"
     react: "npm:^18"
     react-dom: "npm:^18"
     tailwindcss: "npm:^3.3.0"
@@ -3477,6 +3494,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prompt-engine@npm:^0.0.31":
+  version: 0.0.31
+  resolution: "prompt-engine@npm:0.0.31"
+  dependencies:
+    gpt3-tokenizer: "npm:^1.1.2"
+    yaml: "npm:^2.1.1"
+  checksum: 10c0/d7bb7d622fde23c7fdcbdde902d4486d0464d5b3551a3a07f564763394b0aa8956607e104188541f23828cf94b7c65a1b863c693aa784a600eed74f9104187fd
+  languageName: node
+  linkType: hard
+
 "prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
@@ -4453,7 +4480,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.3.4":
+"yaml@npm:^2.1.1, yaml@npm:^2.3.4":
   version: 2.4.1
   resolution: "yaml@npm:2.4.1"
   bin:
