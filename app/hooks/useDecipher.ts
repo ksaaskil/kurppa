@@ -43,6 +43,10 @@ function useDecipher({ userInput }: { userInput: String | null }) {
                     return
                 }
 
+                if (!species || !amount) {
+                    throw new Error("Invalid species or amount from deciphering input");
+                }
+
                 console.log(`Got response: ${JSON.stringify(response)}`);
                 setResult({ species, amount });
             } catch (error: any) {

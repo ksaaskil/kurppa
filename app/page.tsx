@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div>
-        <button className="btn" onClick={toggleRecording}>
+        <button className="btn btn-primary" onClick={toggleRecording}>
           {recording ? `Nauhoittaa...` : `Kirjaa havainto`}
         </button>
         <Transcription
