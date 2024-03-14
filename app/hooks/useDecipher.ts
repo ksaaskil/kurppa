@@ -5,7 +5,7 @@ export interface Result {
     amount: number;
 }
 
-function useDecipher({ userInput }: { userInput: String | null }) {
+function useDecipher({ userInput }: { userInput: String | undefined }) {
     const [result, setResult] = useState(undefined as Result | undefined);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(undefined as Error | undefined);

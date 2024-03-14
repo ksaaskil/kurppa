@@ -3,15 +3,35 @@ export default function Transcription({
   isTranscribing,
   transcriptionError,
 }: {
-  transcription: String;
+  transcription: String | undefined;
   isTranscribing: boolean;
   transcriptionError: Error | null;
 }) {
   return (
-    <div>
-      {isTranscribing && <p>Kääntää tekstiksi...</p>}
-      {transcription && !isTranscribing && <p>{isTranscribing && transcription ? `` : transcription}</p>}
-      {transcriptionError && <p>Transcription error: {transcriptionError.message}</p>}
-    </div>
+    <div className="toast toast-end toast-bottom">
+      {isTranscribing && (
+        <div className="alert alert-info">
+          <p className="font-bold">Käännetään tekstiksi...</p>
+        </div>)
+      }
+      {transcriptionError && (
+        <div className="alert alert-error">
+          <h3 className="font-bold">Virhe: tekstiksi kääntäminen epäonnistui</h3>
+        </div>
+      )}
+      {transcription === "" && (
+        <div className="alert alert-error">
+          <h3 className="font-bold">Virhe: tekstiksi kääntäminen tuotti tyhjän syötteen</h3>
+        </div>)
+      }
+      {transcription && (
+        <div className="alert alert-success">
+          <div>
+            <h3 className="font-bold">Tekstiksi kääntäminen onnistui</h3>
+            <div className="text-xs">{transcription}</div>
+          </div>
+        </div>)
+      }
+    </div >
   );
 }
