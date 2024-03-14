@@ -27,10 +27,10 @@ export default function Home() {
   const btnClassSuffix = recording ? "warning" : processing ? "neutral" : "primary";
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-end p-24">
       <div>
         {
-          <button className={`btn btn-${btnClassSuffix}`} onClick={toggleRecording}>
+          <button className={`btn btn-lg btn-outline btn-${btnClassSuffix}`} onClick={toggleRecording}>
             {recording ? (
               <><span>Nauhoittaa</span><span className="loading loading-dots loading-sm"></span>
               </>
