@@ -7,6 +7,7 @@ function useTranscribe({ audioBase64 }: { audioBase64: String | null }) {
 
   async function transcribe() {
     setTranscriptionError(null);
+
     if (!audioBase64) {
       setTranscription(undefined);
       return;
@@ -14,6 +15,7 @@ function useTranscribe({ audioBase64 }: { audioBase64: String | null }) {
 
     setIsTranscibing(true);
     try {
+
       const response = await fetch("/api/transcribe", {
         method: "POST",
         headers: {
