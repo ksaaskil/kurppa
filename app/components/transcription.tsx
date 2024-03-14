@@ -11,7 +11,9 @@ export default function Transcription({
     <div className="toast toast-end toast-bottom">
       {isTranscribing && (
         <div className="alert alert-info">
-          <p className="font-bold">Käännetään tekstiksi...</p>
+          <p className="font-bold">Käännetään tekstiksi
+            <span className="loading loading-dots loading-sm"></span>
+          </p>
         </div>)
       }
       {transcriptionError && (

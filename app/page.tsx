@@ -23,12 +23,27 @@ export default function Home() {
     }
   }
 
+  const processing = isTranscribing || deciphering;
+  const btnClassSuffix = recording ? "warning" : processing ? "neutral" : "primary";
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div>
-        <button className="btn btn-primary" onClick={toggleRecording}>
-          {recording ? `Nauhoittaa...` : `Kirjaa havainto`}
-        </button>
+        {
+          <button className={`btn btn-${btnClassSuffix}`} onClick={toggleRecording}>
+            {recording ? (
+              <><span>Nauhoittaa</span><span className="loading loading-dots loading-sm"></span>
+              </>
+            ) : processing ?
+              (
+                <><span>Prosessoi</span><span className="loading loading-dots loading-sm"></span>
+                </>
+              ) :
+              "Kirjaa havainto"
+            }
+          </button>
+
+        }
         <Transcription
           transcription={transcription}
           transcriptionError={transcriptionError}
@@ -41,6 +56,6 @@ export default function Home() {
           prompt={prompt}
         />
       </div>
-    </main>
+    </main >
   );
 }
