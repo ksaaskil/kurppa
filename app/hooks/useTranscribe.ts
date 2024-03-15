@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
 
 function useTranscribe({ audioBase64 }: { audioBase64: String | null }) {
-  const [transcription, setTranscription] = useState("");
+  const [transcription, setTranscription] = useState(undefined as String | undefined);
   const [isTranscribing, setIsTranscibing] = useState(false);
   const [transcriptionError, setTranscriptionError] = useState(null as Error | null);
 
   async function transcribe() {
     setTranscriptionError(null);
+
     if (!audioBase64) {
-      setTranscription("");
+      setTranscription(undefined);
       return;
     }
 
     setIsTranscibing(true);
     try {
+
       const response = await fetch("/api/transcribe", {
         method: "POST",
         headers: {
