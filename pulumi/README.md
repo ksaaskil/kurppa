@@ -18,3 +18,11 @@ pulumi preview
 pulumi up
 pulumi destroy
 ```
+
+## Troubleshooting
+
+Delete problematic service state:
+
+```sh
+pulumi state delete urn:pulumi:dev::havis::gcp:cloudrun/service:Service::service --target-dependents
+```

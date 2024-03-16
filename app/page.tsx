@@ -80,7 +80,7 @@ export default function Home() {
           </button>
         }
 
-        <div className="toast toast-end toast-bottom flex flex-col">
+        <div className="toast toast-end toast-middle flex flex-col">
           <Transcription
             transcription={transcription}
             transcriptionError={transcriptionError}

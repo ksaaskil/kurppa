@@ -7,4 +7,4 @@ config:
   havis:cpu: "1"
   havis:memory: 1Gi
   havis:openAIApiKey:
-    secure: AAABAJ651sp0RKTUgYpSHiMWKOnXQwFw+zQuROZ9QMLfaM9TTm8kAoh2UkhMtwUSGELbjg6gg/c4HRu3WAEnPkhpt7Uo1Nkadz3ValzD9y+uMEI=
+    secure: AAABAHqlTe1/htWv9E2/yzsVizxKGD3tvdwnKckLk4yOx7Cp3GPXIy55FWky0ImpwbRucpscRxcw90Uyeo9ZFUDiDsNwXupImyl0hOZ/ueCV2HQ=
