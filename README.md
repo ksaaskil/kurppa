@@ -24,7 +24,7 @@ Havaintojen syöttäminen Tiiraan on työlästä erityisesti linturetken aikana.
 
 - [x] Record speech
 - [x] Transcribe speech (Whisper)
-  - [] Validate input
+  - [x] Validate input
 - [x] Understand intent (ChatGPT)
   - [] Validate species
 - [ ] UI layout

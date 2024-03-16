@@ -32,11 +32,18 @@ function useTranscribe({ audio }: { audio: Blob | null }) {
             audio: audioBase64,
           }),
         }).then((res) => res.json());
-        const { text } = response;
+        const { text, error } = response;
+
+        if (error) {
+          console.error(`Error transcribing`, error);
+          setTranscriptionError(new Error(error));
+          return;
+        }
+
         console.log(`Got response: ${text}`);
         setTranscription(text);
       } catch (error: any) {
-        console.error(error);
+        console.error(`Error transcribing`, error);
         setTranscriptionError(error);
       } finally {
         setIsTranscibing(false);

@@ -8,7 +8,9 @@ const MOCK_TRANSCRIPTIONS = [
   "Kolme varista",
   "Kaksitoista kiurua",
   "Viisisataa kottaraista",
-]
+];
+
+const MAX_AUDIO_BYTE_LENGTH = 80 * 1024;
 
 const openai = new OpenAI();
 
@@ -24,6 +26,15 @@ export default async function handler(
   const body = req.body;
   const base64Audio = body.audio;
   const audio = Buffer.from(base64Audio, "base64");
+
+  const byteLength = audio.byteLength;
+
+  if (byteLength >= MAX_AUDIO_BYTE_LENGTH) {
+    res.status(400).json({
+      error: `Audio too large: ${(byteLength / 1024).toFixed(0)} kB > ${MAX_AUDIO_BYTE_LENGTH / 1024} kB`,
+    });
+  }
+
   console.log(`Transcribing audio of ${audio.byteLength} bytes`);
   const filePath = "tmp/input.webm";
 

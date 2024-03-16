@@ -19,9 +19,12 @@ export default function Transcription({
       )}
       {transcriptionError && (
         <div className="alert alert-error">
-          <h3 className="font-bold">
-            Virhe: tekstiksi kääntäminen epäonnistui
-          </h3>
+          <div>
+            <h3 className="font-bold">
+              Virhe: tekstiksi kääntäminen epäonnistui
+            </h3>
+            <p className="text-xs">{transcriptionError.message}</p>
+          </div>
         </div>
       )}
       {transcription === "" && (
