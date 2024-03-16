@@ -1,7 +1,8 @@
 import { MOCK_TRANSCRIPTION_RESPONSE } from "@/app/utils/config";
 import fs from "fs";
+import * as path from "path";
+import * as os from "os";
 import { NextApiRequest, NextApiResponse } from "next";
-import { mock } from "node:test";
 import OpenAI from "openai";
 
 const MOCK_TRANSCRIPTIONS = [
@@ -36,7 +37,6 @@ export default async function handler(
   }
 
   console.log(`Transcribing audio of ${audio.byteLength} bytes`);
-  const filePath = "tmp/input.webm";
 
   if (MOCK_TRANSCRIPTION_RESPONSE) {
     const randomIndex = Math.floor(Math.random() * MOCK_TRANSCRIPTIONS.length);
@@ -44,6 +44,8 @@ export default async function handler(
     res.status(200).json({ text: mockTranscription });
     return;
   }
+
+  const filePath = path.join(os.tmpdir(), "havis-input.webm");
 
   try {
     console.log(`Writing file: ${filePath}`);

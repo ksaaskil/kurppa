@@ -9,7 +9,8 @@ const appPath = config.get("appPath") || "./app";
 const containerPort = config.getNumber("containerPort") || 8080;
 const cpu = config.getNumber("cpu") || 1;
 const memory = config.get("memory") || "1Gi";
-const concurrency = config.getNumber("concurrency") || 80;
+const concurrency = config.getNumber("concurrency") || 1;
+const openAIApikey = config.requireSecret("openAIApiKey");
 
 const gcpConfig = new pulumi.Config("gcp");
 const location = gcpConfig.require("region");
@@ -63,7 +64,12 @@ const service = new gcp.cloudrun.Service("service", {
       containers: [
         {
           image: image.repoDigest,
-          envs: [],
+          envs: [
+            {
+              name: `OPENAI_API_KEY`,
+              value: pulumi.interpolate`${openAIApikey}`,
+            },
+          ],
           resources: {
             limits: {
               memory,

@@ -6,3 +6,5 @@ config:
   havis:containerPort: "3000"
   havis:cpu: "1"
   havis:memory: 1Gi
+  havis:openAIApiKey:
+    secure: AAABAJ651sp0RKTUgYpSHiMWKOnXQwFw+zQuROZ9QMLfaM9TTm8kAoh2UkhMtwUSGELbjg6gg/c4HRu3WAEnPkhpt7Uo1Nkadz3ValzD9y+uMEI=
