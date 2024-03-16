@@ -8,11 +8,10 @@ import { useDecipher } from "./hooks/useDecipher";
 import Decipher from "./components/decipher";
 
 export default function Home() {
-  const { recording, startRecording, stopRecording, recordingBase64 } =
-    useRecordVoice();
+  const { recording, startRecording, stopRecording, audio } = useRecordVoice();
 
   const { transcription, isTranscribing, transcriptionError } = useTranscribe({
-    audioBase64: recordingBase64,
+    audio,
   });
 
   const {

@@ -5,7 +5,7 @@ import { createMediaStream } from "@/app/utils/createMediaStream";
 
 function useRecordVoice() {
   const [state, setState] = useState("Waiting");
-  const [recordingBase64, setRecordingBase64] = useState(null as string | null);
+  const [audio, setAudio] = useState(null as Blob | null);
   const [mediaRecorder, setMediaRecorder] = useState(
     null as MediaRecorder | null,
   );
@@ -52,9 +52,7 @@ function useRecordVoice() {
       console.log(`Converting ${chunks.current.length} chunks`);
       const type = mediaRecorder.mimeType;
       const audioBlob = new Blob(chunks.current, { type });
-      // const audioUrl = URL.createObjectURL(audioBlob);
-      const base64 = await blobToBase64(audioBlob);
-      setRecordingBase64(base64);
+      setAudio(audioBlob);
     };
 
     setMediaRecorder(mediaRecorder);
@@ -73,7 +71,7 @@ function useRecordVoice() {
     initialize();
   }, []);
 
-  return { recording, startRecording, stopRecording, recordingBase64, state };
+  return { recording, startRecording, stopRecording, audio, state };
 }
 
 export { useRecordVoice };
