@@ -10,12 +10,25 @@ Havis is a system for collecting bird observations using natural language.
 - Katsele omia havaintoja
 - Lataa havainnot tiedostona
 
+## Usein kysytyt kysymykset
+
+### Miksi ei Muuttolintujen kevät?
+
+Muuttolintujen kevät on sovellus lintuäänien nauhoittamiseen ja tunnistamiseen. Havis käyttää äänitunnistusta käyttäjän puhesyötteen tunnistamiseen.
+
+### Miksi ei Tiira tai Tiira Mobile?
+
+Havaintojen syöttäminen Tiiraan on työlästä erityisesti linturetken aikana. Haviksen avulla havainnot voi kerätä talteen jo retkellä ja siirtää myöhemmin Tiiraan.
+
 ## To do
 
 - [x] Record speech
 - [x] Transcribe speech (Whisper)
-- [ ] Understand intent (ChatGPT)
+  - [] Validate input
+- [x] Understand intent (ChatGPT)
+  - [] Validate species
 - [ ] UI layout
+  - [x] Theme
 - [ ] Deploy to cloud (Google Cloud Run + Pulumi)
 - [ ] Authentication (Auth0)
 - [ ] List of observations
