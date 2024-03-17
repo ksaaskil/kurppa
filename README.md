@@ -6,9 +6,11 @@ Havis is a system for collecting bird observations using natural language.
 
 ## Ominaisuudet
 
-- Kirjaa havainto
+- Kirjaa havainto napin painalluksella
 - Katsele omia havaintoja
 - Lataa havainnot tiedostona
+- 100 % avointa lähdekoodia
+- Ei vaadi Android- tai iOS-sovelluksen asentamista
 
 ## Usein kysytyt kysymykset
 
@@ -26,10 +28,10 @@ Havaintojen syöttäminen Tiiraan on työlästä erityisesti linturetken aikana.
 - [x] Transcribe speech (Whisper)
   - [x] Validate input
 - [x] Understand intent (ChatGPT)
-  - [] Validate species
-- [ ] UI layout
+  - [x] Validate species
+- [x] UI layout
   - [x] Theme
-- [ ] Deploy to cloud (Google Cloud Run + Pulumi)
+- [x] Deploy to cloud (Google Cloud Run)
 - [ ] Authentication (Auth0)
 - [ ] List of observations
 - [ ] Use location
