@@ -19,3 +19,9 @@ export interface DecipherResult {
   species: ListedSpecies;
   amount: number;
 }
+
+export interface Observation {
+  species: ListedSpecies;
+  amount: number;
+  date: Date;
+}

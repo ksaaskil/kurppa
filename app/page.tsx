@@ -4,6 +4,9 @@ import { useTranscribe } from "@/app/hooks/useTranscribe";
 import { useDecipher } from "./hooks/useDecipher";
 import RecordButton from "./components/RecordButton";
 import StatusToast from "./components/StatusToast";
+import { useObservations } from "./hooks/useObservations";
+import { useEffect } from "react";
+import LastObservation from "./components/LastObservation";
 
 export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
@@ -19,6 +22,14 @@ export default function Home() {
     prompt,
   } = useDecipher({ userInput: transcription });
 
+  const { observations, createObservation } = useObservations();
+
+  useEffect(() => {
+    if (decipherResult) {
+      createObservation(decipherResult);
+    }
+  }, [decipherResult]);
+
   function toggleRecording() {
     if (recording) {
       stopRecording();
@@ -29,24 +40,29 @@ export default function Home() {
 
   const processing = isTranscribing || deciphering;
 
+  const lastObservation = observations[observations.length - 1];
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-end p-24">
-      <div>
+      <div className="grow">
+        {lastObservation && <LastObservation observation={lastObservation} />}
+      </div>
+      <div className="">
         <RecordButton
           processing={processing}
           recording={recording}
           toggleRecording={toggleRecording}
         />
-        <StatusToast
-          transcription={transcription}
-          transcriptionError={transcriptionError}
-          isTranscribing={isTranscribing}
-          decipherResult={decipherResult}
-          decipherError={decipherError}
-          isDeciphering={deciphering}
-          prompt={prompt}
-        />
       </div>
+      <StatusToast
+        transcription={transcription}
+        transcriptionError={transcriptionError}
+        isTranscribing={isTranscribing}
+        decipherResult={decipherResult}
+        decipherError={decipherError}
+        isDeciphering={deciphering}
+        prompt={prompt}
+      />
     </main>
   );
 }
