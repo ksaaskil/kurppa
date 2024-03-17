@@ -3,16 +3,16 @@ import { blobToBase64 } from "../utils/blobToBase64";
 
 function useTranscribe({ audio }: { audio: Blob | null }) {
   const [transcription, setTranscription] = useState(
-    undefined as String | undefined,
+    undefined as string | undefined,
   );
   const [isTranscribing, setIsTranscibing] = useState(false);
   const [transcriptionError, setTranscriptionError] = useState(
-    null as Error | null,
+    undefined as Error | undefined,
   );
 
   useEffect(() => {
     async function transcribe() {
-      setTranscriptionError(null);
+      setTranscriptionError(undefined);
 
       if (!audio) {
         setTranscription(undefined);

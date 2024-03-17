@@ -3,9 +3,9 @@ export default function Transcription({
   isTranscribing,
   transcriptionError,
 }: {
-  transcription: String | undefined;
+  transcription: string | undefined;
   isTranscribing: boolean;
-  transcriptionError: Error | null;
+  transcriptionError: Error | undefined;
 }) {
   return (
     <div>
