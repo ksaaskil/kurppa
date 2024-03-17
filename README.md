@@ -38,6 +38,12 @@ Havaintojen syöttäminen Tiiraan on työlästä erityisesti linturetken aikana.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+Stack also includes:
+
+- [Daisy UI](https://daisyui.com/)
+- [OpenAI speech-to-text](https://platform.openai.com/docs/guides/speech-to-text)
+- [OpenAI text generation](https://platform.openai.com/docs/guides/text-generation) to parse user input from natural language to structured format
+
 ## Getting Started
 
 Install Node.js >= 20.
@@ -63,6 +69,8 @@ docker run -p 3000:3000 havis
 
 ## Cloud deployment
 
+### Pulumi
+
 The folder [`pulumi`](./pulumi) contains an example deployment to Google Cloud managed with [Pulumi](https://www.pulumi.com/).
 
 To deploy:
@@ -73,6 +81,15 @@ pulumi preview
 pulumi up
 pulumi destroy
 ```
+
+> Pulumi deployment currently cannot be updated after creation due to
+> "unmarshaling" error.
+
+### Manual deployment
+
+Setup continuous deployment in Google Cloud run following the [documentation](https://cloud.google.com/run/docs/continuous-deployment-with-cloud-build).
+
+Configure the environment variable `OPENAI_API_KEY` secret as described in the [documentation](https://cloud.google.com/run/docs/configuring/services/secrets).
 
 ## Acknowledgements
 
