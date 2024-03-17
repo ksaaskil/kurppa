@@ -1,10 +1,8 @@
-import { promises as fs } from "fs";
-
 import { NextApiRequest, NextApiResponse } from "next";
 import OpenAI from "openai";
 
 import buildPrompt from "@/app/prompting/prompt";
-import { ListedSpecies } from "@/app/utils/shared";
+import { ListedSpecies, readSpeciesList } from "@/app/utils/shared";
 
 const openai = new OpenAI();
 
@@ -29,8 +27,6 @@ interface RawResult {
 }
 
 async function validateResult(result: RawResult): Promise<Result> {
-  const content = await fs.readFile(process.cwd() + "/app/linnut.json", "utf8");
-
   const speciesFinnishInput = result.laji;
 
   if (!speciesFinnishInput) {
@@ -43,7 +39,7 @@ async function validateResult(result: RawResult): Promise<Result> {
     throw new Error(`Invalid amount: ${amount}`);
   }
 
-  const speciesList: ListedSpecies[] = JSON.parse(content).species;
+  const speciesList: ListedSpecies[] = await readSpeciesList();
 
   const matchedSpecies = speciesList.find(
     (listedSpecies) =>
