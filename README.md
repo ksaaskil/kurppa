@@ -64,7 +64,7 @@ See [`Dockerfile`](./Dockerfile).
 
 ```sh
 docker build -t havis .
-docker run -p 3000:3000 havis
+docker run -p 3000:3000 --env-file .env havis
 ```
 
 ## Cloud deployment

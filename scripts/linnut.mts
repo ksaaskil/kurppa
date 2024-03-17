@@ -6,17 +6,17 @@ import * as jsdom from "jsdom";
 
 const { JSDOM } = jsdom;
 
-interface Species {
+interface ListedSpecies {
   scientificName: string;
-  href: string;
-  commonName: string;
+  link: string;
+  finnishName: string;
 }
 
 function main() {
   const textContent = fs.readFileSync("linnut.html");
   const dom = new JSDOM(textContent);
   const speciesNodeList = dom.window.document.querySelectorAll("a.speciescard");
-  const speciesList: Species[] = [];
+  const speciesList: ListedSpecies[] = [];
   speciesNodeList.forEach((n) => {
     const scientificName = n
       .querySelector(".scientificname")
@@ -27,7 +27,8 @@ function main() {
     if (!(scientificName && href && commonName)) {
       throw new Error(`Invalid result`);
     }
-    const species = { scientificName, href, commonName };
+    const link = `https://luontoportti.com${href}`;
+    const species = { scientificName, link, finnishName: commonName };
     speciesList.push(species);
   });
 

@@ -1,6 +1,4 @@
 "use client";
-import Image from "next/image";
-import microphone from "../public/microphone.svg";
 import { useRecordVoice } from "@/app/hooks/useRecordVoice";
 import { useTranscribe } from "@/app/hooks/useTranscribe";
 import Transcription from "./components/transcription";
@@ -42,6 +40,7 @@ export default function Home() {
         {
           <button
             className={`btn btn-lg btn-outline btn-${btnClassSuffix}`}
+            disabled={processing}
             onClick={toggleRecording}
           >
             {recording ? (

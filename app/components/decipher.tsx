@@ -27,7 +27,7 @@ export default function Decipher({
         <div className="alert alert-success">
           <div>
             <h3 className="font-bold">Lajihavainnon luonti onnistui</h3>
-            <div className="text-xs">Laji: {result.species}</div>
+            <div className="text-xs">Laji: {result.species.finnishName}</div>
             <div className="text-xs">Määrä: {result.amount}</div>
           </div>
         </div>
