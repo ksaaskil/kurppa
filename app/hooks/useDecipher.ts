@@ -35,6 +35,7 @@ function useDecipher({ userInput }: { userInput: String | undefined }) {
         }
 
         if (error) {
+          setResult(undefined);
           setError(error);
           return;
         }
@@ -47,6 +48,7 @@ function useDecipher({ userInput }: { userInput: String | undefined }) {
         setResult({ species, amount });
       } catch (error: any) {
         console.error(error);
+        setResult(undefined);
         setError(error);
       } finally {
         setLoading(false);
