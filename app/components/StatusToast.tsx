@@ -1,4 +1,4 @@
-import { Result } from "../hooks/useDecipher";
+import { DecipherResult } from "../utils/shared";
 import Decipher from "./decipher";
 import Transcription from "./transcription";
 
@@ -14,7 +14,7 @@ export default function StatusToast({
   transcription?: string;
   transcriptionError?: Error;
   isTranscribing: boolean;
-  decipherResult?: Result;
+  decipherResult?: DecipherResult;
   decipherError?: Error;
   isDeciphering: boolean;
   prompt?: string;

@@ -14,3 +14,8 @@ export async function readSpeciesList(): Promise<ListedSpecies[]> {
   const json = JSON.parse(content);
   return json.species;
 }
+
+export interface DecipherResult {
+  species: ListedSpecies;
+  amount: number;
+}

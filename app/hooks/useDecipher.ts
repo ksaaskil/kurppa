@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
-import { ListedSpecies } from "../utils/shared";
-
-export interface Result {
-  species: ListedSpecies;
-  amount: number;
-}
+import { DecipherResult } from "../utils/shared";
 
 function useDecipher({ userInput }: { userInput: String | undefined }) {
-  const [result, setResult] = useState(undefined as Result | undefined);
+  const [result, setResult] = useState(undefined as DecipherResult | undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(undefined as Error | undefined);
   const [prompt, setPrompt] = useState(undefined as string | undefined);

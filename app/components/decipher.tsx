@@ -1,4 +1,4 @@
-import { Result } from "../hooks/useDecipher";
+import { DecipherResult } from "../utils/shared";
 
 export default function Decipher({
   prompt,
@@ -7,7 +7,7 @@ export default function Decipher({
   loading,
 }: {
   prompt?: string;
-  result?: Result;
+  result?: DecipherResult;
   error?: Error;
   loading: boolean;
 }) {
