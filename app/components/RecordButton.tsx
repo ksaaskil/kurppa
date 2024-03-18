@@ -8,13 +8,13 @@ export default function RecordButton({
   recording: boolean;
 }) {
   const btnClassSuffix = recording
-    ? "warning"
+    ? "neutral"
     : processing
       ? "neutral"
       : "primary";
   return (
     <button
-      className={`btn btn-lg btn-outline btn-${btnClassSuffix}`}
+      className={`btn btn-lg bg-${btnClassSuffix} btn-circle`}
       disabled={processing}
       onClick={toggleRecording}
     >
