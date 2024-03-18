@@ -8,6 +8,7 @@ import { useObservations } from "./hooks/useObservations";
 import { useEffect } from "react";
 import LastObservation from "./components/LastObservation";
 import Instructions from "./components/Instructions";
+import NavBar from "./components/NavBar";
 
 export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
@@ -44,27 +45,30 @@ export default function Home() {
   const lastObservation = observations[observations.length - 1];
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-end p-24">
-      <div className="grow">
-        {lastObservation && <LastObservation observation={lastObservation} />}
-        {!lastObservation && <Instructions />}
-      </div>
-      <div className="">
-        <RecordButton
-          processing={processing}
-          recording={recording}
-          toggleRecording={toggleRecording}
+    <main className="min-h-screen">
+      <NavBar />
+      <div className="h-[calc(100vh-74px)] flex flex-col items-center justify-end">
+        <div className="grow p-4">
+          {lastObservation && <LastObservation observation={lastObservation} />}
+          {!lastObservation && <Instructions />}
+        </div>
+        <div className="p-24">
+          <RecordButton
+            processing={processing}
+            recording={recording}
+            toggleRecording={toggleRecording}
+          />
+        </div>
+        <StatusToast
+          transcription={transcription}
+          transcriptionError={transcriptionError}
+          isTranscribing={isTranscribing}
+          decipherResult={decipherResult}
+          decipherError={decipherError}
+          isDeciphering={deciphering}
+          prompt={prompt}
         />
       </div>
-      <StatusToast
-        transcription={transcription}
-        transcriptionError={transcriptionError}
-        isTranscribing={isTranscribing}
-        decipherResult={decipherResult}
-        decipherError={decipherError}
-        isDeciphering={deciphering}
-        prompt={prompt}
-      />
     </main>
   );
 }
