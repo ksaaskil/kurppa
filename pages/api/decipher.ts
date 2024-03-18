@@ -5,6 +5,7 @@ import buildPrompt from "@/app/prompting/prompt";
 import { ListedSpecies, readSpeciesList } from "@/app/utils/shared";
 
 const openai = new OpenAI();
+const DECIPHER_TIMEOUT_SECONDS = 5;
 
 interface ResponseData {
   species?: ListedSpecies;
@@ -72,11 +73,13 @@ Sending prompt to OpenAI:
 ${prompt}
 `);
   try {
-    const completion = await openai.chat.completions.create({
-      messages: [{ role: "user", content: prompt }],
-      model: MODEL,
-      // response_format: { type: "json_object" },
-    });
+    const completion = await openai.chat.completions.create(
+      {
+        messages: [{ role: "user", content: prompt }],
+        model: MODEL,
+      },
+      { timeout: DECIPHER_TIMEOUT_SECONDS * 1000 },
+    );
     console.log(`Got response: ${JSON.stringify(completion)}`);
     const content = completion.choices[0].message.content;
     if (!content) {

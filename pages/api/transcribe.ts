@@ -12,6 +12,7 @@ const MOCK_TRANSCRIPTIONS = [
 ];
 
 const MAX_AUDIO_BYTE_LENGTH = 80 * 1024;
+const TRANSCRIBE_TIMEOUT_SECONDS = 5;
 
 const openai = new OpenAI();
 
@@ -53,11 +54,14 @@ export default async function handler(
     const readStream = fs.createReadStream(filePath);
 
     console.log(`Sending audio to OpenAI...`);
-    const data = await openai.audio.transcriptions.create({
-      file: readStream,
-      model: "whisper-1",
-      language: "fi",
-    });
+    const data = await openai.audio.transcriptions.create(
+      {
+        file: readStream,
+        model: "whisper-1",
+        language: "fi",
+      },
+      { timeout: TRANSCRIBE_TIMEOUT_SECONDS * 1000 },
+    );
     console.log(`Got OpenAI speech-to-text transcription: ${data.text}`);
     res.status(200).json({ text: data.text });
   } catch (error) {
