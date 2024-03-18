@@ -14,7 +14,7 @@ export default function RecordButton({
       : "primary";
   return (
     <button
-      className={`btn btn-lg bg-${btnClassSuffix} btn-circle`}
+      className={`btn btn-lg bg-${btnClassSuffix} btn-circle hover:bg-neutral`}
       disabled={processing}
       onClick={toggleRecording}
     >
