@@ -7,6 +7,7 @@ import StatusToast from "./components/StatusToast";
 import { useObservations } from "./hooks/useObservations";
 import { useEffect } from "react";
 import LastObservation from "./components/LastObservation";
+import Instructions from "./components/Instructions";
 
 export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
@@ -46,6 +47,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-end p-24">
       <div className="grow">
         {lastObservation && <LastObservation observation={lastObservation} />}
+        {!lastObservation && <Instructions />}
       </div>
       <div className="">
         <RecordButton
