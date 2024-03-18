@@ -28,7 +28,7 @@ export default function Home() {
     if (decipherResult) {
       createObservation(decipherResult);
     }
-  }, [decipherResult]);
+  }, [decipherResult, createObservation]);
 
   function toggleRecording() {
     if (recording) {
