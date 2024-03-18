@@ -12,9 +12,10 @@ export default function RecordButton({
     : processing
       ? "neutral"
       : "primary";
+  const canRecord = !(processing || recording);
   return (
     <button
-      className={`btn btn-lg bg-${btnClassSuffix} btn-circle hover:bg-neutral`}
+      className={`btn btn-lg ${canRecord ? `bg-primary` : ``} btn-circle hover:bg-neutral`}
       disabled={processing}
       onClick={toggleRecording}
     >
