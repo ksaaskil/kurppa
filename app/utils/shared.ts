@@ -25,3 +25,8 @@ export interface Observation {
   amount: number;
   date: Date;
 }
+
+export enum Errors {
+  UNKNOWN_ERROR = "Unknown error",
+  UKNOWN_SPECIES = "Unknown species",
+}

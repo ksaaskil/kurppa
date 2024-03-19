@@ -72,6 +72,7 @@ Sending prompt to OpenAI:
 
 ${prompt}
 `);
+  let chatResult: string | null;
   try {
     const completion = await openai.chat.completions.create(
       {
@@ -81,21 +82,42 @@ ${prompt}
       { timeout: DECIPHER_TIMEOUT_SECONDS * 1000 },
     );
     console.log(`Got response: ${JSON.stringify(completion)}`);
-    const content = completion.choices[0].message.content;
-    if (!content) {
-      throw new Error("No content in response");
-    }
-    const result: RawResult = JSON.parse(content);
-    const validatedResult = await validateResult(result);
-    res.status(200).json({
-      species: validatedResult.species,
-      amount: validatedResult.amount,
-      prompt,
-    });
+    chatResult = completion.choices[0].message.content;
   } catch (error: any) {
     console.error("Error deciphering text", error);
     return res
       .status(500)
       .json({ error: `Error deciphering: ${error.message}`, prompt });
   }
+
+  if (!chatResult) {
+    return res
+      .status(500)
+      .json({ error: `Error deciphering: empty response`, prompt });
+  }
+
+  let result: RawResult;
+  try {
+    result = JSON.parse(chatResult);
+  } catch (error: any) {
+    return res
+      .status(500)
+      .json({ error: `Error deciphering: invalid response`, prompt });
+  }
+
+  let validatedResult: Result;
+  try {
+    validatedResult = await validateResult(result);
+  } catch (error: any) {
+    console.error("Error validating result", error);
+    return res
+      .status(500)
+      .json({ error: `Error deciphering: ${error.message}`, prompt });
+  }
+
+  res.status(200).json({
+    species: validatedResult.species,
+    amount: validatedResult.amount,
+    prompt,
+  });
 }
