@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import OpenAI from "openai";
 
 import buildPrompt from "@/app/prompting/prompt";
-import { ListedSpecies, readSpeciesList } from "@/app/utils/shared";
+import { Errors, ListedSpecies, readSpeciesList } from "@/app/utils/shared";
 
 const openai = new OpenAI();
 const DECIPHER_TIMEOUT_SECONDS = 5;
@@ -22,22 +22,27 @@ interface Result {
   amount: number;
 }
 
+interface ValidateResult {
+  result?: Result;
+  error?: Errors;
+}
+
 interface RawResult {
   laji?: string;
   määrä?: string;
 }
 
-async function validateResult(result: RawResult): Promise<Result> {
+async function validateResult(result: RawResult): Promise<ValidateResult> {
   const speciesFinnishInput = result.laji;
 
   if (!speciesFinnishInput) {
-    throw new Error(`No species found`);
+    return { error: Errors.EMPTY_SPECIES };
   }
 
   const amount = result.määrä;
 
   if (typeof amount !== "number") {
-    throw new Error(`Invalid amount: ${amount}`);
+    return { error: Errors.INVALID_NUMBER };
   }
 
   const speciesList: ListedSpecies[] = await readSpeciesList();
@@ -49,12 +54,14 @@ async function validateResult(result: RawResult): Promise<Result> {
   );
 
   if (!matchedSpecies) {
-    throw new Error(`No matching species found for: ${speciesFinnishInput}`);
+    return { error: Errors.UKNOWN_SPECIES };
   }
 
   return {
-    species: matchedSpecies,
-    amount,
+    result: {
+      species: matchedSpecies,
+      amount,
+    },
   };
 }
 
@@ -96,28 +103,31 @@ ${prompt}
       .json({ error: `Error deciphering: empty response`, prompt });
   }
 
-  let result: RawResult;
+  let rawResult: RawResult;
   try {
-    result = JSON.parse(chatResult);
+    rawResult = JSON.parse(chatResult);
   } catch (error: any) {
     return res
       .status(500)
       .json({ error: `Error deciphering: invalid response`, prompt });
   }
 
-  let validatedResult: Result;
-  try {
-    validatedResult = await validateResult(result);
-  } catch (error: any) {
-    console.error("Error validating result", error);
-    return res
-      .status(500)
-      .json({ error: `Error deciphering: ${error.message}`, prompt });
+  const validationResult = await validateResult(rawResult);
+
+  const validationError = validationResult.error;
+  if (validationError) {
+    return res.status(500).json({ error: validationError.toString(), prompt });
+  }
+
+  const finalResult = validationResult.result;
+
+  if (!finalResult) {
+    throw new Error(`Did not expect empty result`);
   }
 
   res.status(200).json({
-    species: validatedResult.species,
-    amount: validatedResult.amount,
+    species: finalResult.species,
+    amount: finalResult.amount,
     prompt,
   });
 }

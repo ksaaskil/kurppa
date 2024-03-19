@@ -29,4 +29,6 @@ export interface Observation {
 export enum Errors {
   UNKNOWN_ERROR = "Unknown error",
   UKNOWN_SPECIES = "Unknown species",
+  EMPTY_SPECIES = "Empty species",
+  INVALID_NUMBER = "Invalid number",
 }
