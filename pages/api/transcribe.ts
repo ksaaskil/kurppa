@@ -46,7 +46,7 @@ export default async function handler(
     return;
   }
 
-  const filePath = path.join(os.tmpdir(), "havis-input.webm");
+  const filePath = path.join(os.tmpdir(), "kurppa-input.webm");
 
   try {
     console.log(`Writing file: ${filePath}`);

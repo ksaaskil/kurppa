@@ -24,10 +24,10 @@ const uniqueString = new random.RandomString("unique-string", {
   numeric: true,
   special: false,
 });
-let repoId = uniqueString.result.apply((result) => "havis-" + result);
+let repoId = uniqueString.result.apply((result) => "kurppa-" + result);
 
 const repository = new gcp.artifactregistry.Repository("repository", {
-  description: "Repository for Havis container image",
+  description: "Repository for Kurppa container image",
   format: "DOCKER",
   location: location,
   repositoryId: repoId,

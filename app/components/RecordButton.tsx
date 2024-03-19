@@ -7,11 +7,6 @@ export default function RecordButton({
   toggleRecording: () => void;
   recording: boolean;
 }) {
-  const btnClassSuffix = recording
-    ? "neutral"
-    : processing
-      ? "neutral"
-      : "primary";
   const canRecord = !(processing || recording);
   return (
     <button

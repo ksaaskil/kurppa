@@ -1,8 +1,8 @@
-# Havis
+# Kurppa
 
-Havis on puheohjattu järjestelmä lintuhavaintojen kirjaamiseen. Havainnon voi kirjata äänisyötteellä kuten "kolme varista". Järjestelmä kirjaa havainnon lajin ("varis"), määrän (3), sijainnin ja kellonajan automaattisesti. Havainnot voi viedä ulkoisiin järjestelmiin kuten [Tiiraan](https://www.tiira.fi/) lataamalla havainnot tiedostona.
+Kurppa on puheohjattu järjestelmä lintuhavaintojen kirjaamiseen. Havainnon voi kirjata äänisyötteellä kuten "kolme varista". Järjestelmä kirjaa havainnon lajin ("varis"), määrän (3), sijainnin ja kellonajan automaattisesti. Havainnot voi viedä ulkoisiin järjestelmiin kuten [Tiiraan](https://www.tiira.fi/) lataamalla havainnot tiedostona.
 
-Havis is a system for collecting bird observations using natural language.
+Kurppa is a system for collecting bird observations using natural language.
 
 ## Ominaisuudet
 
@@ -16,7 +16,7 @@ Havis is a system for collecting bird observations using natural language.
 
 ### Miksi ei Muuttolintujen kevät?
 
-Muuttolintujen kevät on sovellus lintuäänien nauhoittamiseen ja tunnistamiseen. Havis käyttää äänitunnistusta käyttäjän puhesyötteen tunnistamiseen.
+Muuttolintujen kevät on sovellus lintuäänien nauhoittamiseen ja tunnistamiseen. Kurppa käyttää äänitunnistusta käyttäjän puhesyötteen tunnistamiseen.
 
 ### Miksi ei Tiira tai Tiira Mobile?
 
@@ -65,8 +65,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 See [`Dockerfile`](./Dockerfile).
 
 ```sh
-docker build -t havis .
-docker run -p 3000:3000 --env-file .env havis
+docker build -t kurppa .
+docker run -p 3000:3000 --env-file .env kurppa
 ```
 
 ## Cloud deployment
