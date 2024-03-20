@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { DecipherResult } from "../utils/shared";
+import { ApiErrorResponse, DecipherApiResponse, DecipherResult } from "../utils/shared";
 
 function useDecipher({ userInput }: { userInput: String | undefined }) {
   const [result, setResult] = useState(undefined as DecipherResult | undefined);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(undefined as Error | undefined);
+  const [error, setError] = useState(undefined as ApiErrorResponse | undefined);
   const [prompt, setPrompt] = useState(undefined as string | undefined);
 
   useEffect(() => {
@@ -26,17 +26,17 @@ function useDecipher({ userInput }: { userInput: String | undefined }) {
             text: userInput,
           }),
         });
-        const responseJson = await response.json();
+        const responseJson: DecipherApiResponse = await response.json();
 
-        const { species, amount, error, prompt } = responseJson;
+        const { species, amount, errors, prompt } = responseJson;
 
         if (prompt) {
           setPrompt(prompt);
         }
 
-        if (error) {
+        if (errors) {
           setResult(undefined);
-          setError(error);
+          setError(errors[0]);
           return;
         }
 
@@ -49,7 +49,7 @@ function useDecipher({ userInput }: { userInput: String | undefined }) {
       } catch (error: any) {
         console.error(error);
         setResult(undefined);
-        setError(error);
+        setError({ title: "Error calling decipher API", detail: error.message });
       } finally {
         setLoading(false);
       }

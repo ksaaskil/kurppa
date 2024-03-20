@@ -2,17 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import OpenAI from "openai";
 
 import buildPrompt from "@/app/prompting/prompt";
-import { Errors, ListedSpecies, readSpeciesList } from "@/app/utils/shared";
+import { ApiError, ApiErrorResponse, DecipherApiResponse, ListedSpecies, readSpeciesList } from "@/app/utils/shared";
 
 const openai = new OpenAI();
 const DECIPHER_TIMEOUT_SECONDS = 5;
-
-interface ResponseData {
-  species?: ListedSpecies;
-  amount?: number;
-  error?: string;
-  prompt: string;
-}
 
 // const MODEL = "gpt-3.5-turbo-0125";
 const MODEL = "gpt-3.5-turbo";
@@ -24,7 +17,7 @@ interface Result {
 
 interface ValidateResult {
   result?: Result;
-  error?: Errors;
+  error?: ApiError;
 }
 
 interface RawResult {
@@ -36,13 +29,13 @@ async function validateResult(result: RawResult): Promise<ValidateResult> {
   const speciesFinnishInput = result.laji;
 
   if (!speciesFinnishInput) {
-    return { error: Errors.EMPTY_SPECIES };
+    return { error: ApiError.EMPTY_SPECIES };
   }
 
   const amount = result.määrä;
 
   if (typeof amount !== "number") {
-    return { error: Errors.INVALID_NUMBER };
+    return { error: ApiError.INVALID_NUMBER };
   }
 
   const speciesList: ListedSpecies[] = await readSpeciesList();
@@ -54,7 +47,7 @@ async function validateResult(result: RawResult): Promise<ValidateResult> {
   );
 
   if (!matchedSpecies) {
-    return { error: Errors.UKNOWN_SPECIES };
+    return { error: ApiError.UKNOWN_SPECIES };
   }
 
   return {
@@ -67,7 +60,7 @@ async function validateResult(result: RawResult): Promise<ValidateResult> {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData>,
+  res: NextApiResponse<DecipherApiResponse>,
 ) {
   const text = req.body.text;
   console.log(`Deciphering text: ${text}`);
@@ -94,13 +87,21 @@ ${prompt}
     console.error("Error deciphering text", error);
     return res
       .status(500)
-      .json({ error: `Error deciphering: ${error.message}`, prompt });
+      .json({
+        errors: [
+          { title: `Error deciphering: Request to ChatGPT failed with: ${error.message}` }
+        ], prompt
+      });
   }
 
   if (!chatResult) {
     return res
       .status(500)
-      .json({ error: `Error deciphering: empty response`, prompt });
+      .json({
+        errors: [
+          { title: `Error deciphering: empty response from ChatGPT` }
+        ], prompt
+      })
   }
 
   let rawResult: RawResult;
@@ -109,14 +110,18 @@ ${prompt}
   } catch (error: any) {
     return res
       .status(500)
-      .json({ error: `Error deciphering: invalid response`, prompt });
-  }
+      .json({
+        errors: [
+          { title: `Error deciphering: invalid response from ChatGPT` }
+        ], prompt
+      });
+  };
 
   const validationResult = await validateResult(rawResult);
 
   const validationError = validationResult.error;
   if (validationError) {
-    return res.status(500).json({ error: validationError.toString(), prompt });
+    return res.status(500).json({ errors: [{ title: validationError.toString(), detail: rawResult.laji }], prompt });
   }
 
   const finalResult = validationResult.result;

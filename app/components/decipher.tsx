@@ -1,4 +1,4 @@
-import { DecipherResult } from "../utils/shared";
+import { ApiErrorResponse, DecipherResult } from "../utils/shared";
 
 export default function Decipher({
   prompt,
@@ -8,7 +8,7 @@ export default function Decipher({
 }: {
   prompt?: string;
   result?: DecipherResult;
-  error?: Error;
+  error?: ApiErrorResponse;
   loading: boolean;
 }) {
   return (
@@ -20,7 +20,11 @@ export default function Decipher({
       )}
       {error && (
         <div className="alert alert-error">
-          <h3 className="font-bold">Virhe: lajihavainnon luonti epäonnistui</h3>
+          <div>
+            <h3 className="font-bold">Virhe: lajihavainnon luonti epäonnistui</h3>
+            <div className="text-xs">{error.title}</div>
+            <div className="text-xs">{error.detail}</div>
+          </div>
         </div>
       )}
       {result && (
