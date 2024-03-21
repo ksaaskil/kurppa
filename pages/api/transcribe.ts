@@ -9,6 +9,7 @@ const MOCK_TRANSCRIPTIONS = [
   "Kolme varista",
   "Kaksitoista kiurua",
   "Viisisataa kottaraista",
+  "Lapin pöllö"
 ];
 
 const MAX_AUDIO_BYTE_LENGTH = 80 * 1024;

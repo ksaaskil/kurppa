@@ -5,6 +5,8 @@ export default function buildPrompt(userInput: string) {
 kuten '{ "laji": "töyhtökiuru", "määrä": 3 }'. Vastauksen täytyy olla JSON-muodossa. Käytä lajin nimenä yksikkömuotoa ja määränä kokonaislukua.
 Jos lintulajia ja määrää ei voida määrittää, vastauksen täytyy olla tyhjä JSON-objekti '{}'.
 
+Jos lintulaji on kirjoitettu väärin, korjaa se oikeaan muotoon.
+
 Esimerkkejä:`
     const examples = [
         {
@@ -22,7 +24,19 @@ Esimerkkejä:`
         {
             input: "Kiitos kun katsoit!",
             response: "{}"
-        }
+        },
+        {
+            input: "Iso koskelo",
+            response: `{ "laji": "isokoskelo", "määrä": 1 }`
+        },
+        {
+            input: "Kaksi käpytikkoa",
+            response: `{ "laji": "käpytikka", "määrä": 2 }`
+        },
+        {
+            input: "Viiru pöllä",
+            response: `{ "laji": "viirupöllö", "määrä": 1 }`
+        },
     ]
     const promptEngine = new PromptEngine(description, examples, undefined, {
         descriptionPrefix: ">>",
