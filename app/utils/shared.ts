@@ -26,9 +26,21 @@ export interface Observation {
   date: Date;
 }
 
-export enum Errors {
+export enum ApiError {
   UNKNOWN_ERROR = "Unknown error",
   UKNOWN_SPECIES = "Unknown species",
   EMPTY_SPECIES = "Empty species",
   INVALID_NUMBER = "Invalid number",
+}
+
+export interface ApiErrorResponse {
+  title: string;
+  detail?: string;
+}
+
+export interface DecipherApiResponse {
+  species?: ListedSpecies;
+  amount?: number;
+  prompt: string;
+  errors?: ApiErrorResponse[];
 }

@@ -1,4 +1,4 @@
-import { DecipherResult } from "../utils/shared";
+import { ApiErrorResponse, DecipherResult } from "../utils/shared";
 import Decipher from "./decipher";
 import Transcription from "./transcription";
 
@@ -15,7 +15,7 @@ export default function StatusToast({
   transcriptionError?: Error;
   isTranscribing: boolean;
   decipherResult?: DecipherResult;
-  decipherError?: Error;
+  decipherError?: ApiErrorResponse;
   isDeciphering: boolean;
   prompt?: string;
 }) {
