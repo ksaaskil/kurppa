@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { blobToBase64 } from "../utils/blobToBase64";
 
-function useTranscribe({ audio }: { audio: Blob | null }) {
+function useTranscribe({ audio }: { audio?: Blob }) {
   const [transcription, setTranscription] = useState(
     undefined as string | undefined,
   );

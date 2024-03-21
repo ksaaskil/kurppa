@@ -5,7 +5,7 @@ import { createMediaStream } from "@/app/utils/createMediaStream";
 
 function useRecordVoice() {
   const [state, setState] = useState("Waiting");
-  const [audio, setAudio] = useState(null as Blob | null);
+  const [audio, setAudio] = useState(undefined as Blob | undefined);
   const [mediaRecorder, setMediaRecorder] = useState(
     null as MediaRecorder | null,
   );
