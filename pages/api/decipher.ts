@@ -29,7 +29,7 @@ async function validateResult(result: RawResult): Promise<ValidateResult> {
   const speciesFinnishInput = result.laji;
 
   if (!speciesFinnishInput) {
-    return { error: ApiError.EMPTY_SPECIES };
+    return { error: ApiError.NO_SPECIES_FOUND };
   }
 
   const amount = result.määrä;
