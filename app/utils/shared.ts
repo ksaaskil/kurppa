@@ -29,7 +29,7 @@ export interface Observation {
 export enum ApiError {
   UNKNOWN_ERROR = "Unknown error",
   UKNOWN_SPECIES = "Unknown species",
-  EMPTY_SPECIES = "Empty species",
+  NO_SPECIES_FOUND = "No species found",
   INVALID_NUMBER = "Invalid number",
 }
 

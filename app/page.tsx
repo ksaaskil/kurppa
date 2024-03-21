@@ -1,7 +1,5 @@
 "use client";
 import { useRecordVoice } from "@/app/hooks/useRecordVoice";
-import { useTranscribe } from "@/app/hooks/useTranscribe";
-import { useDecipher } from "./hooks/useDecipher";
 import RecordButton from "./components/RecordButton";
 import StatusToast from "./components/StatusToast";
 import { useObservations } from "./hooks/useObservations";
@@ -9,20 +7,12 @@ import { useEffect } from "react";
 import LastObservation from "./components/LastObservation";
 import Instructions from "./components/Instructions";
 import NavBar from "./components/NavBar";
+import useProcessing from "./hooks/useProcessing";
 
 export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
 
-  const { transcription, isTranscribing, transcriptionError } = useTranscribe({
-    audio,
-  });
-
-  const {
-    result: decipherResult,
-    error: decipherError,
-    loading: deciphering,
-    prompt,
-  } = useDecipher({ userInput: transcription });
+  const { transcription, transcriptionError, decipherError, isTranscribing, decipherResult, deciphering, prompt } = useProcessing({ audio })
 
   const { observations, createObservation } = useObservations();
 
