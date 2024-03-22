@@ -56,6 +56,7 @@ export default function Home() {
           decipherResult={decipherResult}
           decipherError={decipherError}
           isDeciphering={deciphering}
+          visible={!recording && processing || !!decipherError || !!transcriptionError}
           prompt={prompt}
         />
       </div>
