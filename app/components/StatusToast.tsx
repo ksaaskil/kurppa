@@ -9,8 +9,8 @@ export default function StatusToast({
   decipherResult,
   decipherError,
   isDeciphering,
-  prompt,
-  visible
+  visible,
+  isRecording,
 }: {
   transcription?: string;
   transcriptionError?: Error;
@@ -20,11 +20,12 @@ export default function StatusToast({
   isDeciphering: boolean;
   prompt?: string;
   visible: boolean;
+  isRecording: boolean;
 }) {
   return (
     visible &&
-    < div className="toast toast-end toast-middle flex flex-col" >
-      <div className="flex flex-col items-end justify-between alert bg-neutral">
+    <div className="toast toast-end toast-middle flex flex-col" >
+      <div className="flex flex-col items-end justify-between alert bg-neutral min-w-96">
         <Transcription
           transcription={transcription}
           transcriptionError={transcriptionError}
@@ -34,7 +35,6 @@ export default function StatusToast({
           result={decipherResult}
           error={decipherError}
           loading={isDeciphering}
-          prompt={prompt}
         />
       </div>
     </div > || null
