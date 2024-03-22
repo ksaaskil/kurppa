@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import OpenAI from "openai";
 
 import buildPrompt from "@/app/prompting/prompt";
-import { ApiError, ApiErrorResponse, DecipherApiResponse, ListedSpecies, readSpeciesList } from "@/app/utils/shared";
+import { ApiError, DecipherApiResponse, ListedSpecies, readSpeciesList } from "@/app/utils/shared";
 
 const openai = new OpenAI();
 const DECIPHER_TIMEOUT_SECONDS = 5;
@@ -98,7 +98,7 @@ ${prompt}
       .status(500)
       .json({
         errors: [
-          { title: `Error deciphering: Request to ChatGPT failed with: ${error.message}` }
+          { title: ApiError.ERROR_CALLING_GPT, detail: error.message }
         ], prompt
       });
   }
@@ -108,7 +108,7 @@ ${prompt}
       .status(500)
       .json({
         errors: [
-          { title: `Error deciphering: empty response from ChatGPT` }
+          { title: ApiError.EMPTY_RESPONSE_FROM_GPT }
         ], prompt
       })
   }
@@ -121,7 +121,7 @@ ${prompt}
       .status(500)
       .json({
         errors: [
-          { title: `Error deciphering: invalid response from ChatGPT` }
+          { title: ApiError.INVALID_RESPONSE_FROM_GPT, detail: chatResult }
         ], prompt
       });
   };
