@@ -31,6 +31,10 @@ export enum ApiError {
   UKNOWN_SPECIES = "Unknown species",
   NO_SPECIES_FOUND = "No species found",
   INVALID_NUMBER = "Invalid number",
+  ERROR_CALLING_GPT = "Error calling GPT",
+  EMPTY_RESPONSE_FROM_GPT = "Empty response from GPT",
+  INVALID_RESPONSE_FROM_GPT = "Invalid response from GPT",
+  INPUT_TOO_LONG = "Input too long",
 }
 
 export interface ApiErrorResponse {
@@ -41,6 +45,6 @@ export interface ApiErrorResponse {
 export interface DecipherApiResponse {
   species?: ListedSpecies;
   amount?: number;
-  prompt: string;
+  prompt?: string;
   errors?: ApiErrorResponse[];
 }

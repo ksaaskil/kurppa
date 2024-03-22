@@ -2,13 +2,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 import OpenAI from "openai";
 
 import buildPrompt from "@/app/prompting/prompt";
-import { ApiError, ApiErrorResponse, DecipherApiResponse, ListedSpecies, readSpeciesList } from "@/app/utils/shared";
+import { ApiError, DecipherApiResponse, ListedSpecies, readSpeciesList } from "@/app/utils/shared";
 
 const openai = new OpenAI();
 const DECIPHER_TIMEOUT_SECONDS = 5;
 
-// const MODEL = "gpt-3.5-turbo-0125";
-const MODEL = "gpt-3.5-turbo";
+const MODEL = "gpt-3.5-turbo-0125";
+// const MODEL = "gpt-3.5-turbo";
 
 interface Result {
   species: ListedSpecies;
@@ -58,6 +58,8 @@ async function validateResult(result: RawResult): Promise<ValidateResult> {
   };
 }
 
+const MAX_TEXT_LENGTH = 100;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<DecipherApiResponse>,
@@ -65,18 +67,37 @@ export default async function handler(
   const text = req.body.text;
   console.log(`Deciphering text: ${text}`);
 
-  const prompt = buildPrompt(text);
+  if (text.length > MAX_TEXT_LENGTH) {
+    res.status(400).json({
+      errors: [
+        { title: ApiError.INPUT_TOO_LONG, detail: `Received ${text.length} characters, expected less than ${MAX_TEXT_LENGTH} characters` }
+      ],
+    });
+  }
+
+  const { system: systemPrompt, user: userPrompt } = buildPrompt(text);
+
+  // Only used for logging
+  const prompt = `
+${systemPrompt}
+
+${userPrompt}
+`
 
   console.log(`
 Sending prompt to OpenAI:
 
 ${prompt}
 `);
+
   let chatResult: string | null;
   try {
     const completion = await openai.chat.completions.create(
       {
-        messages: [{ role: "user", content: prompt }],
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt },
+        ],
         model: MODEL,
       },
       { timeout: DECIPHER_TIMEOUT_SECONDS * 1000 },
@@ -89,7 +110,7 @@ ${prompt}
       .status(500)
       .json({
         errors: [
-          { title: `Error deciphering: Request to ChatGPT failed with: ${error.message}` }
+          { title: ApiError.ERROR_CALLING_GPT, detail: error.message }
         ], prompt
       });
   }
@@ -99,7 +120,7 @@ ${prompt}
       .status(500)
       .json({
         errors: [
-          { title: `Error deciphering: empty response from ChatGPT` }
+          { title: ApiError.EMPTY_RESPONSE_FROM_GPT }
         ], prompt
       })
   }
@@ -112,7 +133,7 @@ ${prompt}
       .status(500)
       .json({
         errors: [
-          { title: `Error deciphering: invalid response from ChatGPT` }
+          { title: ApiError.INVALID_RESPONSE_FROM_GPT, detail: chatResult }
         ], prompt
       });
   };
