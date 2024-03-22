@@ -65,7 +65,13 @@ export default async function handler(
   const text = req.body.text;
   console.log(`Deciphering text: ${text}`);
 
-  const prompt = buildPrompt(text);
+  const { system: systemPrompt, user: userPrompt } = buildPrompt(text);
+
+  const prompt = `
+${systemPrompt}
+
+${userPrompt}
+`
 
   console.log(`
 Sending prompt to OpenAI:
@@ -76,7 +82,10 @@ ${prompt}
   try {
     const completion = await openai.chat.completions.create(
       {
-        messages: [{ role: "user", content: prompt }],
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: userPrompt },
+        ],
         model: MODEL,
       },
       { timeout: DECIPHER_TIMEOUT_SECONDS * 1000 },
