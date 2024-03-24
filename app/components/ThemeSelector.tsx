@@ -4,7 +4,7 @@ export default function ThemeSelector({
   setTheme,
 }: {
   themes: string[];
-  theme: string;
+  theme?: string;
   setTheme: (s: string) => void;
 }) {
   return (
@@ -12,13 +12,12 @@ export default function ThemeSelector({
       <div className="label">
         <span className="label-text">Valitse väriteema</span>
       </div>
-      <select className="select select-primary select-bordered">
+      <select
+        className="select select-primary select-bordered"
+        defaultValue={theme}
+      >
         {themes.map((theme_) => (
-          <option
-            key={theme_}
-            selected={theme_ === theme}
-            onClick={() => setTheme(theme_)}
-          >
+          <option key={theme_} onClick={() => setTheme(theme_)}>
             {theme_}
           </option>
         ))}

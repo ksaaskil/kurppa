@@ -35,12 +35,22 @@ export const THEMES = [
   "sunset",
 ];
 
+const DEFAULT_THEME = "forest";
+
 export default function useTheme() {
-  const [theme, setTheme] = useState("forest");
+  const [theme, setTheme] = useState("" as string | undefined);
+
+  function selectTheme(theme: string) {
+    document.querySelector("html")?.setAttribute("data-theme", theme);
+    console.log(`Setting theme in local storage: ${theme}`);
+    window.localStorage.setItem("data-theme", theme);
+    setTheme(theme);
+  }
 
   useEffect(() => {
-    document.querySelector("html")?.setAttribute("data-theme", theme);
-  }, [theme]);
+    const selectedTheme = window.localStorage.getItem("data-theme");
+    selectTheme(selectedTheme || DEFAULT_THEME);
+  }, []);
 
-  return { theme, themes: THEMES, setTheme };
+  return { theme, themes: THEMES, setTheme: selectTheme };
 }

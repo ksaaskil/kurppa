@@ -15,7 +15,9 @@ export default function SettingsDialog() {
           </form>
         </div>
         <h3 className="font-bold text-lg">Asetukset</h3>
-        <ThemeSelector theme={theme} themes={themes} setTheme={setTheme} />
+        {theme && (
+          <ThemeSelector theme={theme} themes={themes} setTheme={setTheme} />
+        )}
       </div>
       <form method="dialog" className="modal-backdrop">
         <button>close</button>
