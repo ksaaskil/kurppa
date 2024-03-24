@@ -1,7 +1,7 @@
 export default function NavBar() {
   return (
     <div className="navbar bg-transparent text-neutral-content prose">
-      <h3 className="font-bold">Kurppa</h3>
+      <h1 className="font-bold px-2">Kurppa</h1>
     </div>
   );
 }
