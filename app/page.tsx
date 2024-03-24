@@ -62,12 +62,12 @@ export default function Home() {
           {lastObservation && <LastObservation observation={lastObservation} />}
           {!lastObservation && <Instructions />}
         </div>
-        <div className="p-24 flex flex-row justify-center w-full">
-          <div className="mx-24 mt-8">
+        <div className="p-12 flex flex-row justify-center w-full">
+          <div className="mx-12 mt-8">
             <ObservationsButton onClick={openObservations} />
           </div>
 
-          <div className="mx-24">
+          <div className="mx-12">
             <RecordButton
               processing={processing}
               recording={recording}
@@ -75,7 +75,7 @@ export default function Home() {
             />
           </div>
 
-          <div className="mx-24 mt-8">
+          <div className="mx-12 mt-8">
             <SettingsButton onClick={openSettings} />
           </div>
         </div>
