@@ -59,16 +59,26 @@ function useRecordVoice() {
   };
 
   useEffect(() => {
+    let stream: MediaStream;
     async function initialize() {
       if (typeof window !== "undefined") {
-        const stream = await navigator.mediaDevices.getUserMedia({
+        stream = await navigator.mediaDevices.getUserMedia({
           audio: true,
         });
         initializeMediaRecorder(stream);
-        // window.dontGCThis = stream;
       }
     }
     initialize();
+
+    function close() {
+      const tracks = stream?.getTracks() || [];
+      console.log(`Stopping ${tracks.length} tracks`);
+      for (const track of tracks) {
+        track.stop();
+      }
+    }
+
+    return close;
   }, []);
 
   return { recording, startRecording, stopRecording, audio, state };
