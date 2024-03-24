@@ -11,6 +11,7 @@ import useProcessing from "./hooks/useProcessing";
 import SettingsButton from "./components/SettingsButton";
 import ObservationsButton from "./components/ObservationsButton";
 import SettingsDialog from "./components/SettingsDialog";
+import ObservationsDialog from "./components/ObservationsDialog";
 export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
 
@@ -44,16 +45,12 @@ export default function Home() {
 
   const lastObservation = observations[observations.length - 1];
 
-  const [settingsVisible, setSettingsVisible] = useState(false);
-  const [observationsVisible, setObservationsVisible] = useState(false);
-
   function openSettings() {
     (document.getElementById("settings") as any)?.showModal();
-    // setSettingsVisible(true);
   }
 
   function openObservations() {
-    setObservationsVisible(true);
+    (document.getElementById("observations") as any)?.showModal();
   }
 
   return (
@@ -100,6 +97,7 @@ export default function Home() {
         />
       </div>
       <SettingsDialog />
+      <ObservationsDialog observations={observations} />
     </main>
   );
 }

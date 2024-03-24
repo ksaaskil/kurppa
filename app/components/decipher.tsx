@@ -54,7 +54,7 @@ export default function Decipher({
         </div>
       )}
       {result && !loading && (
-        <div className="alert alert-success">
+        <div className="alert alert-neutral">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="stroke-current shrink-0 h-6 w-6"
