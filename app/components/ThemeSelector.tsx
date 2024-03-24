@@ -14,10 +14,11 @@ export default function ThemeSelector({
       </div>
       <select
         className="select select-primary select-bordered"
-        defaultValue={theme}
+        value={theme}
+        onChange={(ev) => setTheme(ev.target.value)}
       >
         {themes.map((theme_) => (
-          <option key={theme_} onClick={() => setTheme(theme_)}>
+          <option key={theme_} value={theme_}>
             {theme_}
           </option>
         ))}
