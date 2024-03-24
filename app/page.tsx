@@ -12,6 +12,7 @@ import SettingsButton from "./components/SettingsButton";
 import ObservationsButton from "./components/ObservationsButton";
 import SettingsDialog from "./components/SettingsDialog";
 import ObservationsDialog from "./components/ObservationsDialog";
+import InfoDialog from "./components/InfoDialog";
 export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
 
@@ -98,6 +99,7 @@ export default function Home() {
       </div>
       <SettingsDialog />
       <ObservationsDialog observations={observations} />
+      <InfoDialog />
     </main>
   );
 }

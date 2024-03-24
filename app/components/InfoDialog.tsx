@@ -1,10 +1,6 @@
-import useTheme from "../hooks/useTheme";
-import ThemeSelector from "./ThemeSelector";
-
-export default function SettingsDialog() {
-  const { theme, setTheme, themes } = useTheme();
+export default function InfoDialog() {
   return (
-    <dialog id="settings" className="modal">
+    <dialog id="info" className="modal">
       <div className="modal-box min-h-96 w-11/12 max-w-1xl">
         <div className="modal-action">
           <form method="dialog">
@@ -15,11 +11,17 @@ export default function SettingsDialog() {
           </form>
         </div>
         <div className="prose">
-          <h2 className="font-bold text-lg">Asetukset</h2>
+          <h2 className="font-bold text-lg">Mikä Kurppa?</h2>
+          <p>Kurppa on järjestelmä lintuhavaintojen tallentamiseen.</p>
+          <p>
+            Kurppa on avointa lähdekoodia ja koodi löytyy kokonaisuudessaan
+            osoitteesta{" "}
+            <a target="_blank" href="https://github.com/ksaaskil/havis">
+              github.com/ksaaskil/kurppa
+            </a>
+            .
+          </p>
         </div>
-        {theme && (
-          <ThemeSelector theme={theme} themes={themes} setTheme={setTheme} />
-        )}
       </div>
       <form method="dialog" className="modal-backdrop">
         <button>close</button>

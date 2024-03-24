@@ -17,7 +17,9 @@ export default function ObservationsDialog({
             </button>
           </form>
         </div>
-        <h3 className="font-bold text-lg">Havainnot</h3>
+        <div className="prose">
+          <h2 className="font-bold text-lg">Havainnot</h2>
+        </div>
         <ObservationList observations={observations} />
       </div>
       <form method="dialog" className="modal-backdrop">
