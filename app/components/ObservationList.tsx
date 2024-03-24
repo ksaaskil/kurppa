@@ -5,11 +5,31 @@ export default function ObservationList({
 }: {
   observations: Observation[];
 }) {
+  const sorted = observations.toSorted(
+    (a, b) => b.date.valueOf() - a.date.valueOf(),
+  );
   return (
-    <div className="prose">
-      {observations.map((observation, index) => (
-        <div key={index}>{observation.species.finnishName}</div>
-      ))}
+    <div className="overflow-x-auto prose mt-2">
+      <table className="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Laji</th>
+            <th>Määrä</th>
+            <th>Päivämäärä</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sorted.map((observation, index) => (
+            <tr key={index}>
+              <th>{sorted.length - index}</th>
+              <td>{observation.species.finnishName}</td>
+              <td>{observation.amount}</td>
+              <td>{observation.date.toLocaleDateString("FI")}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
