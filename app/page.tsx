@@ -10,6 +10,7 @@ import NavBar from "./components/NavBar";
 import useProcessing from "./hooks/useProcessing";
 import SettingsButton from "./components/SettingsButton";
 import ObservationsButton from "./components/ObservationsButton";
+import SettingsDialog from "./components/SettingsDialog";
 export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
 
@@ -47,7 +48,8 @@ export default function Home() {
   const [observationsVisible, setObservationsVisible] = useState(false);
 
   function openSettings() {
-    setSettingsVisible(true);
+    (document.getElementById("settings") as any)?.showModal();
+    // setSettingsVisible(true);
   }
 
   function openObservations() {
@@ -97,6 +99,7 @@ export default function Home() {
           prompt={prompt}
         />
       </div>
+      <SettingsDialog />
     </main>
   );
 }
