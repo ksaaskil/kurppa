@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 const EXAMPLES = [
   "kolme varista",
   "viisitoista kiurua",
@@ -6,9 +8,16 @@ const EXAMPLES = [
 ]
 
 export default function Instructions() {
-  const example = EXAMPLES[Math.floor(Math.random() * EXAMPLES.length)];
+
+  const [example, setExample] = useState("");
+
+  useEffect(() => {
+    setExample(EXAMPLES[Math.floor(Math.random() * EXAMPLES.length)])
+  }, [])
+
   return (
-    <div className="card card-bordered w-full shadow-xl border-primary">
+    <>
+    { example && (<div className="card card-bordered w-full shadow-xl border-primary">
       <div className="card-body flex flex-row text-center">
         <div className="grow prose text-xs lg:text-base">
           <span>1. Paina mikrofonikuvaketta</span>
@@ -18,6 +27,7 @@ export default function Instructions() {
           <span>3. Lopeta nauhoitus painamalla kuvaketta</span>
         </div>
       </div>
-    </div>
+    </div>) }
+    </>
   );
 }
