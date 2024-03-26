@@ -57,17 +57,17 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <NavBar />
-      <div className="h-[calc(100vh-74px)] flex flex-col items-center justify-end">
+      <div className="h-[calc(100vh-74px)] container mx-auto flex flex-col items-center justify-end">
         <div className="grow p-4">
           {lastObservation && <LastObservation observation={lastObservation} />}
           {!lastObservation && <Instructions />}
         </div>
-        <div className="p-12 flex flex-row justify-center w-full">
-          <div className="mx-12 mt-8">
+        <div className="flex flex-row justify-between w-full p-4 lg:max-w-lg">
+          <div className="mt-8">
             <ObservationsButton onClick={openObservations} />
           </div>
 
-          <div className="mx-12">
+          <div className="">
             <RecordButton
               processing={processing}
               recording={recording}
@@ -75,7 +75,7 @@ export default function Home() {
             />
           </div>
 
-          <div className="mx-12 mt-8">
+          <div className="mt-8">
             <SettingsButton onClick={openSettings} />
           </div>
         </div>
