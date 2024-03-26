@@ -20,7 +20,7 @@ Muuttolintujen kevät on sovellus lintuäänien nauhoittamiseen ja tunnistamisee
 
 ### Miksi ei Tiira tai Tiira Mobile?
 
-Havaintojen syöttäminen Tiiraan on työlästä erityisesti linturetken aikana. Haviksen avulla havainnot voi kerätä talteen jo retkellä ja siirtää myöhemmin Tiiraan.
+Havaintojen syöttäminen Tiiraan on työlästä erityisesti linturetken aikana. Kurpan avulla havainnot voi kerätä talteen jo retkellä ja siirtää myöhemmin Tiiraan.
 
 ## To do
 
@@ -33,8 +33,10 @@ Havaintojen syöttäminen Tiiraan on työlästä erityisesti linturetken aikana.
   - [x] Theme
 - [x] Deploy to cloud (Google Cloud Run)
 - [ ] Authentication (Auth0)
-- [ ] List of observations
+- [x] List of observations
 - [ ] Use location
+- [ ] Persist data to SQL
+- [ ] Evaluation framework
 
 ## Development
 

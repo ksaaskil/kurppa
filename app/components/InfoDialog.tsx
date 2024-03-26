@@ -16,7 +16,7 @@ export default function InfoDialog() {
           <p>
             Kurppa on avointa lähdekoodia ja koodi löytyy kokonaisuudessaan
             osoitteesta{" "}
-            <a target="_blank" href="https://github.com/ksaaskil/havis">
+            <a target="_blank" href="https://github.com/ksaaskil/kurppa">
               github.com/ksaaskil/kurppa
             </a>
             .
