@@ -62,7 +62,7 @@ export default function Home() {
           {lastObservation && <LastObservation observation={lastObservation} />}
           {!lastObservation && <Instructions />}
         </div>
-        <div className="flex flex-row justify-between w-full p-4 lg:max-w-lg">
+        <div className="flex flex-row justify-between w-full p-4 lg:max-w-lg mb-4">
           <div className="mt-8">
             <ObservationsButton onClick={openObservations} />
           </div>
