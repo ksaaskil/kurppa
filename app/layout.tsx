@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Providers from "./components/Providers";
+import Root from "./components/Root";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,5 +15,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <Providers inter={inter}>{children}</Providers>;
+  return <Root inter={inter}>{children}</Root>;
 }

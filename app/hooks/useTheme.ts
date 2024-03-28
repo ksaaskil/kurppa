@@ -42,7 +42,7 @@ export default function useTheme() {
   const [theme, setTheme] = useState("" as string | undefined);
 
   function selectTheme(theme: string) {
-    document.querySelector("html")?.setAttribute("data-theme", theme);
+    // document.querySelector("html")?.setAttribute("data-theme", theme);
     console.log(`Setting theme in local storage: ${theme}`);
     window.localStorage.setItem("data-theme", theme);
     setTheme(theme);

@@ -1,28 +1,32 @@
 "use client";
 import { createContext } from "react";
-import useTheme from "../hooks/useTheme";
 
 export interface ThemeProps {
   theme?: string;
   setTheme: (theme: string) => void;
+  themes: string[];
 }
 
-const ThemeContext = createContext<ThemeProps | null>(null);
+export const ThemeContext = createContext<ThemeProps>({
+  theme: "light",
+  setTheme: () => {},
+  themes: [],
+});
 
 export default function Providers({
-  inter,
+  theme,
+  setTheme,
+  themes,
   children,
 }: {
-  inter: any;
+  theme?: string;
+  setTheme: (theme: string) => void;
+  themes: string[];
   children: React.ReactNode;
 }) {
-  const { theme, setTheme } = useTheme();
-
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
-      <html lang="en" data-theme={theme}>
-        <body className={inter.className}>{children}</body>
-      </html>
+    <ThemeContext.Provider value={{ theme, setTheme, themes }}>
+      {children}
     </ThemeContext.Provider>
   );
 }
