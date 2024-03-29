@@ -1,12 +1,11 @@
-import { useContext } from "react";
+import { ChangeEvent, useContext } from "react";
 import { LocationContext } from "./Providers";
 
 export default function LocationSwitch() {
   const { enabled, start, stop } = useContext(LocationContext);
 
-  function onChange(e: any) {
+  function onChange(e: ChangeEvent<HTMLInputElement>) {
     const value = e.target.checked;
-    console.log(value);
     if (value) {
       start();
     } else {
