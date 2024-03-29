@@ -1,6 +1,6 @@
 "use client";
 import { createContext } from "react";
-import { useLocation } from "../hooks/useLocation";
+import { WorldLocation, useLocation } from "../hooks/useLocation";
 
 export interface ThemeProps {
   theme?: string;
@@ -12,6 +12,8 @@ export interface LocationProps {
   enabled: boolean;
   start: () => void;
   stop: () => void;
+  location?: WorldLocation;
+  locationError?: GeolocationPositionError;
 }
 
 export const ThemeContext = createContext<ThemeProps>({
@@ -24,6 +26,8 @@ export const LocationContext = createContext<LocationProps>({
   enabled: false,
   start: () => {},
   stop: () => {},
+  location: undefined,
+  locationError: undefined,
 });
 
 export default function Providers({
@@ -37,11 +41,23 @@ export default function Providers({
   themes: string[];
   children: React.ReactNode;
 }) {
-  const { enabled: locationEnabled, start, stop } = useLocation();
+  const {
+    enabled: locationEnabled,
+    start,
+    stop,
+    location,
+    locationError,
+  } = useLocation();
   return (
     <ThemeContext.Provider value={{ theme, setTheme, themes }}>
       <LocationContext.Provider
-        value={{ enabled: locationEnabled, start, stop }}
+        value={{
+          enabled: locationEnabled,
+          start,
+          stop,
+          location,
+          locationError,
+        }}
       >
         {children}
       </LocationContext.Provider>
