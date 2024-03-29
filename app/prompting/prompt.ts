@@ -10,7 +10,7 @@ Käytä lajin nimenä yksikkömuotoa ja määränä kokonaislukua.
 
 Jos lintulajia ja määrää ei voida määrittää, vastauksen täytyy olla tyhjä JSON-objekti '{}'.
 
-Jos lintulaji on kirjoitettu väärin, korjaa se oikeaan muotoon. Korjauksen pitää olla pieni, enintään kolme kirjainta.
+Jos lintulaji on kirjoitettu väärin, korjaa se oikeaan muotoon. Korjauksen pitää olla pieni, enintään yksi kirjain.
 `;
   const examples = [
     {
@@ -20,6 +20,10 @@ Jos lintulaji on kirjoitettu väärin, korjaa se oikeaan muotoon. Korjauksen pit
     {
       input: "Kaksi harakkaa",
       response: '{ "laji": "harakka", "määrä": 2 }',
+    },
+    {
+      input: "Taivaan vuohi",
+      response: '{ "laji": "taivaanvuohi", "määrä": 1 }',
     },
     {
       input: "Varpunen",

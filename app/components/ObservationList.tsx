@@ -17,6 +17,7 @@ export default function ObservationList({
             <th>Laji</th>
             <th>Määrä</th>
             <th>Päivämäärä</th>
+            <th>Tarkkuus</th>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +27,9 @@ export default function ObservationList({
               <td>{observation.species.finnishName}</td>
               <td>{observation.amount}</td>
               <td>{observation.date.toLocaleDateString("FI")}</td>
+              {observation.location && (
+                <td>{observation.location.accuracy} m</td>
+              )}
             </tr>
           ))}
         </tbody>
