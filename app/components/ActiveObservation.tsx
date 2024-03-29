@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import { Observation } from "../utils/shared";
 
 export default function ActiveObservation({
@@ -7,9 +8,15 @@ export default function ActiveObservation({
   close: () => void;
   observation: Observation;
 }) {
+  const MapDynamic = dynamic(() => import("./Map"), {
+    loading: () => <p>Kartta latautuu...</p>,
+    ssr: false,
+  });
   return (
-    <div className="card lg:card-side bg-base-100 shadow-xl">
-      <figure></figure>
+    <div className="card bg-base-100 shadow-xl">
+      <div className="min-h-96 w-11/12 max-w-1xl">
+        <MapDynamic />
+      </div>
       <div className="card-body bg-transparent">
         <h2 className="card-title">{observation.species.finnishName}</h2>
         <p>
