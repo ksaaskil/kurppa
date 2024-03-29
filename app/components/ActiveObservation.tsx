@@ -8,14 +8,14 @@ export default function ActiveObservation({
   close: () => void;
   observation: Observation;
 }) {
-  const MapDynamic = dynamic(() => import("./Map"), {
+  const ObservationMapDynamic = dynamic(() => import("./ObservationMap"), {
     loading: () => <p>Kartta latautuu...</p>,
     ssr: false,
   });
   return (
     <div className="card bg-base-100 shadow-xl">
       <div className="min-h-96 w-11/12 max-w-1xl">
-        <MapDynamic />
+        <ObservationMapDynamic observation={observation} />
       </div>
       <div className="card-body bg-transparent">
         <h2 className="card-title">{observation.species.finnishName}</h2>
