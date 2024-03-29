@@ -19,6 +19,8 @@ export default function Map() {
   const radiusOptions = { fillColor: "blue", fillOpacity: 0.2 };
   const centerOptions = { fillColor: "blue", fillOpacity: 0.5 };
 
+  const shownAccuracy = Math.max(Math.min(location?.accuracy || 100, 100), 10);
+
   return (
     <MapContainer
       center={[centerLocation.latitude, centerLocation.longitude]}
@@ -34,17 +36,27 @@ export default function Map() {
         <LayerGroup>
           <CircleMarker
             center={[location.latitude, location.longitude]}
-            radius={location.accuracy}
+            radius={shownAccuracy}
             pathOptions={radiusOptions}
             stroke={false}
           ></CircleMarker>
           <CircleMarker
             center={[location.latitude, location.longitude]}
-            radius={3}
+            radius={10}
             pathOptions={centerOptions}
             stroke={false}
           >
-            <Popup>Nykyinen sijaintisi</Popup>
+            <Popup>
+              <div className="text-bold">
+                Sijaintisi
+                <br />
+                Leveysaste: {location.latitude.toFixed(5)}
+                <br />
+                Pituusaste: {location.longitude.toFixed(5)}
+                <br />
+                Tarkkuus: {location.accuracy} metriä
+              </div>
+            </Popup>
           </CircleMarker>
         </LayerGroup>
       )}
