@@ -2,8 +2,9 @@
 import dynamic from "next/dynamic";
 
 export default function MapDialog() {
-  const Mapz = dynamic(() => import("./Map"), {
-    loading: () => <p>A map is loading</p>,
+  // https://stackoverflow.com/questions/57704196/leaflet-with-next-js
+  const MapDynamic = dynamic(() => import("./Map"), {
+    loading: () => <p>Kartta latautuu...</p>,
     ssr: false,
   });
   return (
@@ -18,11 +19,11 @@ export default function MapDialog() {
           </form>
         </div>
         <div className="w-full h-full mt-2">
-          <Mapz />
+          <MapDynamic />
         </div>
       </div>
       <form method="dialog" className="modal-backdrop">
-        <button>close</button>
+        <button>Sulje</button>
       </form>
     </dialog>
   );

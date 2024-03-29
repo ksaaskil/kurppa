@@ -1,5 +1,11 @@
 import { useContext } from "react";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import {
+  MapContainer,
+  CircleMarker,
+  Popup,
+  TileLayer,
+  LayerGroup,
+} from "react-leaflet";
 import { LocationContext } from "./Providers";
 
 export default function Map() {
@@ -9,6 +15,9 @@ export default function Map() {
     latitude: 60.1960327054566,
     longitude: 25.059909619299244,
   };
+
+  const radiusOptions = { fillColor: "blue", fillOpacity: 0.2 };
+  const centerOptions = { fillColor: "blue", fillOpacity: 0.5 };
 
   return (
     <MapContainer
@@ -22,9 +31,22 @@ export default function Map() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {location && (
-        <Marker position={[location.latitude, location.longitude]}>
-          <Popup>Nykyinen sijaintisi</Popup>
-        </Marker>
+        <LayerGroup>
+          <CircleMarker
+            center={[location.latitude, location.longitude]}
+            radius={location.accuracy}
+            pathOptions={radiusOptions}
+            stroke={false}
+          ></CircleMarker>
+          <CircleMarker
+            center={[location.latitude, location.longitude]}
+            radius={3}
+            pathOptions={centerOptions}
+            stroke={false}
+          >
+            <Popup>Nykyinen sijaintisi</Popup>
+          </CircleMarker>
+        </LayerGroup>
       )}
     </MapContainer>
   );
