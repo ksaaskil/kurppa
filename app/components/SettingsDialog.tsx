@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import ThemeSelector from "./ThemeSelector";
 import { ThemeContext } from "./Providers";
+import LocationSwitch from "./LocationSwitch";
 
 export default function SettingsDialog() {
   const { theme, setTheme, themes } = useContext(ThemeContext);
@@ -21,6 +22,9 @@ export default function SettingsDialog() {
         {theme && (
           <ThemeSelector theme={theme} themes={themes} setTheme={setTheme} />
         )}
+        <div className="mt-2">
+          <LocationSwitch />
+        </div>
       </div>
       <form method="dialog" className="modal-backdrop">
         <button>close</button>
