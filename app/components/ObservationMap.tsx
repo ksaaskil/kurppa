@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import {
   MapContainer,
   CircleMarker,
@@ -6,15 +5,17 @@ import {
   TileLayer,
   LayerGroup,
 } from "react-leaflet";
-import { LocationContext } from "./Providers";
+import { Observation } from "../utils/shared";
 
-export default function Map() {
-  const { location } = useContext(LocationContext);
-
-  const centerLocation = location || {
-    latitude: 60.1960327054566,
-    longitude: 25.059909619299244,
-  };
+export default function ObservationMap({
+  observation,
+}: {
+  observation: Observation;
+}) {
+  const location = observation.location;
+  if (!location) {
+    return null;
+  }
 
   const radiusOptions = { fillColor: "blue", fillOpacity: 0.2 };
   const centerOptions = { fillColor: "blue", fillOpacity: 0.5 };
@@ -23,7 +24,7 @@ export default function Map() {
 
   return (
     <MapContainer
-      center={[centerLocation.latitude, centerLocation.longitude]}
+      center={[location.latitude, location.longitude]}
       zoom={13}
       scrollWheelZoom={false}
       style={{ height: 400, width: "100%" }}
@@ -48,7 +49,7 @@ export default function Map() {
           >
             <Popup>
               <div className="text-bold">
-                Sijaintisi
+                Havainnon sijainti
                 <br />
                 Leveysaste: {location.latitude.toFixed(5)}
                 <br />

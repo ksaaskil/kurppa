@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import { RESOURCES_PATH } from "./config";
+import { WorldLocation } from "../hooks/useLocation";
 
 export interface ListedSpecies {
   scientificName: string;
@@ -24,6 +25,7 @@ export interface Observation {
   species: ListedSpecies;
   amount: number;
   date: Date;
+  location?: WorldLocation;
 }
 
 export enum ApiError {
