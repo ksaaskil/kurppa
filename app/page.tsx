@@ -13,6 +13,7 @@ import ObservationsButton from "./components/ObservationsButton";
 import SettingsDialog from "./components/SettingsDialog";
 import ObservationsDialog from "./components/ObservationsDialog";
 import InfoDialog from "./components/InfoDialog";
+import MapDialog from "./components/MapDialog";
 export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
 
@@ -100,6 +101,7 @@ export default function Home() {
       <SettingsDialog />
       <ObservationsDialog observations={observations} />
       <InfoDialog />
+      <MapDialog />
     </main>
   );
 }
