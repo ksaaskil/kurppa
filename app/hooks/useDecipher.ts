@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { ApiErrorResponse, DecipherApiResponse, DecipherResult } from "../utils/shared";
+import {
+  ApiErrorResponse,
+  DecipherApiResponse,
+  DecipherResult,
+} from "../utils/shared";
 
 function useDecipher({ userInput }: { userInput: String | undefined }) {
   const [result, setResult] = useState(undefined as DecipherResult | undefined);
@@ -45,11 +49,14 @@ function useDecipher({ userInput }: { userInput: String | undefined }) {
         }
 
         console.log(`Got response: ${JSON.stringify(response)}`);
-        setResult({ species, amount });
+        setResult({ species, amount, processed: false });
       } catch (error: any) {
         console.error(error);
         setResult(undefined);
-        setError({ title: "Error calling decipher API", detail: error.message });
+        setError({
+          title: "Error calling decipher API",
+          detail: error.message,
+        });
       } finally {
         setLoading(false);
       }

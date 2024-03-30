@@ -19,6 +19,7 @@ export async function readSpeciesList(): Promise<ListedSpecies[]> {
 export interface DecipherResult {
   species: ListedSpecies;
   amount: number;
+  processed: boolean;
 }
 
 export interface Observation {

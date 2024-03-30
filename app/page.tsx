@@ -30,7 +30,8 @@ export default function Home() {
   const { observations, createObservation } = useObservations();
 
   useEffect(() => {
-    if (decipherResult) {
+    if (decipherResult && !decipherResult.processed) {
+      decipherResult.processed = true;
       createObservation(decipherResult);
     }
   }, [decipherResult, createObservation]);

@@ -7,6 +7,9 @@ export function useObservations() {
   const [observations, setObservations] = useState([] as Observation[]);
   const createObservation = useCallback(
     async function createObservation(result: DecipherResult) {
+      console.log(
+        `Creating new observation for: ${result.species.finnishName}`,
+      );
       const observationLocation = (enabled && location) || undefined;
       const observation: Observation = {
         species: result.species,
