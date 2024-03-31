@@ -1,14 +1,7 @@
 "use client";
-import dynamic from "next/dynamic";
-import { memo } from "react";
+import Map from "./Map";
 
 export default function MapDialog() {
-  // https://stackoverflow.com/questions/57704196/leaflet-with-next-js
-  const MapDynamic = dynamic(() => import("./Map"), {
-    loading: () => <p>Kartta latautuu...</p>,
-    ssr: false,
-  });
-
   return (
     <dialog id="map" className="modal">
       <div className="modal-box min-h-96 w-11/12 max-w-1xl">
@@ -21,7 +14,7 @@ export default function MapDialog() {
           </form>
         </div>
         <div className="w-full h-full mt-2">
-          <MapDynamic />
+          <Map />
         </div>
       </div>
       <form method="dialog" className="modal-backdrop">
