@@ -1,5 +1,4 @@
 import { MapContainer, TileLayer } from "react-leaflet";
-import { WorldLocation } from "../hooks/useLocation";
 
 export default function MapWrapper({
   center,
@@ -9,7 +8,7 @@ export default function MapWrapper({
   children: React.ReactNode;
 }) {
   const centerLocation = center || [60.1960327054566, 25.059909619299244];
-
+  console.log(`Rendering map`);
   return (
     <MapContainer
       center={centerLocation}

@@ -41,6 +41,21 @@ export function useLocation() {
     };
   }
 
+  function subscribe(fn: (l: WorldLocation) => void): number {
+    return navigator.geolocation.watchPosition((position) => {
+      fn({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        accuracy: position.coords.accuracy,
+        timestamp: new Date(position.timestamp),
+      });
+    });
+  }
+
+  function cancel(id: number): void {
+    navigator.geolocation.clearWatch(id);
+  }
+
   async function startz() {
     console.log(`Starting using location`);
     locationErrorRef.current = undefined;
@@ -92,5 +107,13 @@ export function useLocation() {
     }
   }, [start]);
 
-  return { enabled, start, stop, locationRef, locationErrorRef };
+  return {
+    enabled,
+    start,
+    stop,
+    locationRef,
+    locationErrorRef,
+    subscribe,
+    cancel,
+  };
 }

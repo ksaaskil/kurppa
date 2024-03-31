@@ -14,6 +14,8 @@ export interface LocationProps {
   stop: () => void;
   locationRef?: MutableRefObject<WorldLocation | undefined>;
   locationErrorRef?: MutableRefObject<GeolocationPositionError | undefined>;
+  subscribe: (fn: (loc: WorldLocation) => void) => number;
+  cancel: (s: number) => void;
 }
 
 export const ThemeContext = createContext<ThemeProps>({
@@ -28,6 +30,8 @@ export const LocationContext = createContext<LocationProps>({
   stop: () => {},
   locationRef: undefined,
   locationErrorRef: undefined,
+  subscribe: () => 0,
+  cancel: () => {},
 });
 
 export default function Providers({
@@ -47,6 +51,8 @@ export default function Providers({
     stop,
     locationRef,
     locationErrorRef,
+    subscribe,
+    cancel,
   } = useLocation();
   return (
     <ThemeContext.Provider value={{ theme, setTheme, themes }}>
@@ -57,6 +63,8 @@ export default function Providers({
           stop,
           locationRef,
           locationErrorRef,
+          subscribe,
+          cancel,
         }}
       >
         {children}

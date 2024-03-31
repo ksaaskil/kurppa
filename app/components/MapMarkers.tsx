@@ -1,15 +1,19 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { CircleMarker, Popup, LayerGroup, useMap } from "react-leaflet";
 import { LocationContext } from "./Providers";
+import { WorldLocation } from "../hooks/useLocation";
 
 export default function MapMarkers() {
   const map = useMap();
-  const { locationRef } = useContext(LocationContext);
+  const { locationRef, subscribe, cancel } = useContext(LocationContext);
+
+  const [location, setLocation] = useState<WorldLocation | undefined>(
+    undefined,
+  );
 
   const radiusOptions = { fillColor: "blue", fillOpacity: 0.2 };
   const centerOptions = { fillColor: "blue", fillOpacity: 0.5 };
 
-  const location = locationRef?.current;
   const shownAccuracy = Math.max(Math.min(location?.accuracy || 100, 100), 10);
 
   useEffect(() => {
@@ -20,6 +24,24 @@ export default function MapMarkers() {
     };
     map.setView([centerLocation.latitude, centerLocation.longitude]);
   }, [map, locationRef]);
+
+  const id = useRef<number | undefined>(undefined);
+
+  useEffect(() => {
+    function updateLocation(location: WorldLocation) {
+      setLocation(location);
+      console.log(`Received new marker location`, location);
+    }
+    if (id.current) {
+      cancel(id.current);
+    }
+    id.current = subscribe(updateLocation);
+    return () => {
+      if (id.current) {
+        cancel(id.current);
+      }
+    };
+  }, [subscribe, cancel]);
 
   return (
     <LayerGroup>
