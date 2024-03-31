@@ -1,7 +1,11 @@
 "use client";
-import Map from "./Map";
+import dynamic from "next/dynamic";
 
 export default function MapDialog() {
+  const Map = dynamic(() => import("./Map"), {
+    loading: () => <p>Kartta latautuu...</p>,
+    ssr: false,
+  });
   return (
     <dialog id="map" className="modal">
       <div className="modal-box min-h-96 w-11/12 max-w-1xl">
