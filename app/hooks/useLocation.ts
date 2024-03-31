@@ -8,9 +8,9 @@ export interface WorldLocation {
 }
 
 const geoLocationOptions: PositionOptions = {
-  enableHighAccuracy: true,
+  enableHighAccuracy: false,
   maximumAge: 600000,
-  timeout: 27000,
+  timeout: 300000,
 };
 
 export function useLocation() {
