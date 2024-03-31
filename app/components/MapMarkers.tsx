@@ -5,7 +5,8 @@ import { WorldLocation } from "../hooks/useLocation";
 
 export default function MapMarkers() {
   const map = useMap();
-  const { locationRef, subscribe, cancel } = useContext(LocationContext);
+  const { locationRef, subscribe, cancel, enabled } =
+    useContext(LocationContext);
 
   const [location, setLocation] = useState<WorldLocation | undefined>(
     undefined,
@@ -28,6 +29,9 @@ export default function MapMarkers() {
   const id = useRef<number | undefined>(undefined);
 
   useEffect(() => {
+    if (!enabled) {
+      return;
+    }
     function updateLocation(location: WorldLocation) {
       setLocation(location);
       console.log(`Received new marker location`, location);
@@ -35,13 +39,18 @@ export default function MapMarkers() {
     if (id.current) {
       cancel(id.current);
     }
-    id.current = subscribe(updateLocation);
+    const subscribeID = subscribe(updateLocation);
+    if (subscribeID == undefined) {
+      console.log(`Could not subscribe to position updates`);
+      return;
+    }
+    id.current = subscribeID;
     return () => {
       if (id.current) {
         cancel(id.current);
       }
     };
-  }, [subscribe, cancel]);
+  }, [subscribe, cancel, enabled]);
 
   return (
     <LayerGroup>

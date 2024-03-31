@@ -52,7 +52,17 @@ function useRecordVoice() {
 
   const initializeMediaRecorder = (stream: MediaStream) => {
     console.log(`Initializing media recorder...`);
-    mediaRecorder.current = new MediaRecorder(stream);
+
+    const MEDIA_TYPES = ["audio/webm", "audio/mp4"];
+
+    const supportedTypes = MEDIA_TYPES.filter((type) =>
+      MediaRecorder.isTypeSupported(type),
+    );
+    const mimeType = supportedTypes.length > 0 ? supportedTypes[0] : undefined;
+
+    console.log(`Using mime type: ${mimeType}`);
+
+    mediaRecorder.current = new MediaRecorder(stream, { mimeType });
 
     mediaRecorder.current.onstart = () => {
       console.log(`Media recorder onstart`);
@@ -66,8 +76,10 @@ function useRecordVoice() {
 
     mediaRecorder.current.onstop = async () => {
       console.log(`Media recorder onstop`);
-      const type = mediaRecorder.current?.mimeType;
-      console.log(`Creating audio blob of type ${type} from ${chunks.current.length} chunks`);
+      const type = mimeType || mediaRecorder.current?.mimeType;
+      console.log(
+        `Creating audio blob of type ${type} from ${chunks.current.length} chunks`,
+      );
       const audioBlob = new Blob(chunks.current, { type });
       setAudio(audioBlob);
     };

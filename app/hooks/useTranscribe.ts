@@ -30,6 +30,7 @@ function useTranscribe({ audio }: { audio?: Blob }) {
           },
           body: JSON.stringify({
             audio: audioBase64,
+            mimeType: audio.type,
           }),
         }).then((res) => res.json());
         const { text, error } = response;

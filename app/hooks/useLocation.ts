@@ -41,7 +41,10 @@ export function useLocation() {
     };
   }
 
-  function subscribe(fn: (l: WorldLocation) => void): number {
+  function subscribeFn(fn: (l: WorldLocation) => void): number | undefined {
+    if (!enabled) {
+      return undefined;
+    }
     return navigator.geolocation.watchPosition((position) => {
       fn({
         latitude: position.coords.latitude,
@@ -52,9 +55,13 @@ export function useLocation() {
     });
   }
 
-  function cancel(id: number): void {
+  const subscribe = useCallback(subscribeFn, [enabled]);
+
+  function cancelFn(id: number): void {
     navigator.geolocation.clearWatch(id);
   }
+
+  const cancel = useCallback(cancelFn, []);
 
   async function startz() {
     console.log(`Starting using location`);
@@ -84,7 +91,7 @@ export function useLocation() {
 
   const start = useCallback(startz, []);
 
-  async function stop() {
+  async function stopFn() {
     console.log(`Stopping using location`);
     clearWatch();
     locationErrorRef.current = undefined;
@@ -92,6 +99,8 @@ export function useLocation() {
     setEnabled(false);
     window.localStorage.setItem("use-location", "false");
   }
+
+  const stop = useCallback(stopFn, []);
 
   function clearWatch() {
     if (watchID.current) {

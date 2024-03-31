@@ -14,7 +14,7 @@ export interface LocationProps {
   stop: () => void;
   locationRef?: MutableRefObject<WorldLocation | undefined>;
   locationErrorRef?: MutableRefObject<GeolocationPositionError | undefined>;
-  subscribe: (fn: (loc: WorldLocation) => void) => number;
+  subscribe: (fn: (loc: WorldLocation) => void) => number | undefined;
   cancel: (s: number) => void;
 }
 
@@ -30,7 +30,7 @@ export const LocationContext = createContext<LocationProps>({
   stop: () => {},
   locationRef: undefined,
   locationErrorRef: undefined,
-  subscribe: () => 0,
+  subscribe: () => undefined,
   cancel: () => {},
 });
 

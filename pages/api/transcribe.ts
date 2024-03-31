@@ -10,10 +10,10 @@ const MOCK_TRANSCRIPTIONS = [
   "Kaksitoista kiurua",
   "Viisisataa kottaraista",
   "Lapin pöllö",
-  "Amerikanjääkuikka"
+  "Amerikanjääkuikka",
 ];
 
-const MAX_AUDIO_BYTE_LENGTH = 80 * 1024;
+const MAX_AUDIO_BYTE_LENGTH = 250 * 1024;
 const TRANSCRIBE_TIMEOUT_SECONDS = 5;
 
 const openai = new OpenAI();
@@ -29,6 +29,7 @@ export default async function handler(
 ) {
   const body = req.body;
   const base64Audio = body.audio;
+  const mimeType = body.mimeType;
   const audio = Buffer.from(base64Audio, "base64");
 
   const byteLength = audio.byteLength;
@@ -48,7 +49,14 @@ export default async function handler(
     return;
   }
 
-  const filePath = path.join(os.tmpdir(), "kurppa-input.webm");
+  const extension =
+    mimeType === "audio/webm"
+      ? ".webm"
+      : mimeType === "audio/mp4"
+        ? ".mp4"
+        : ".webm";
+
+  const filePath = path.join(os.tmpdir(), `kurppa-input${extension}`);
 
   try {
     console.log(`Writing file: ${filePath}`);
