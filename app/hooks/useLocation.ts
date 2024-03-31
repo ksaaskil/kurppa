@@ -4,58 +4,61 @@ export interface WorldLocation {
   latitude: number;
   longitude: number;
   accuracy: number;
+  timestamp: Date;
 }
 
 const geoLocationOptions: PositionOptions = {
   enableHighAccuracy: true,
-  maximumAge: 30000,
+  maximumAge: 600000,
   timeout: 27000,
 };
 
 export function useLocation() {
   const [enabled, setEnabled] = useState(false);
-  const [location, setLocation] = useState<WorldLocation | undefined>(
+  const locationRef = useRef<WorldLocation | undefined>(undefined);
+  const locationErrorRef = useRef<GeolocationPositionError | undefined>(
     undefined,
   );
-  const [locationError, setLocationError] = useState<
-    GeolocationPositionError | undefined
-  >(undefined);
   const watchID = useRef<number | undefined>(undefined);
 
   function onLocationUpdate({
     latitude,
     longitude,
     accuracy,
+    timestamp,
   }: {
     latitude: number;
     longitude: number;
     accuracy: number;
+    timestamp: number;
   }) {
     console.log(`Received new location`, latitude, longitude);
-    setLocation({ latitude, longitude, accuracy });
+    locationRef.current = {
+      latitude,
+      longitude,
+      accuracy,
+      timestamp: new Date(timestamp),
+    };
   }
 
   async function startz() {
     console.log(`Starting using location`);
-    setLocationError(undefined);
+    locationErrorRef.current = undefined;
 
-    if (watchID.current) {
-      setLocation(undefined);
-      navigator.geolocation.clearWatch(watchID.current);
-    }
+    clearWatch();
 
     watchID.current = navigator.geolocation.watchPosition(
       (position) => {
-        const accuracy = position.coords.accuracy;
         onLocationUpdate({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          accuracy,
+          accuracy: position.coords.accuracy,
+          timestamp: position.timestamp,
         });
       },
       (error) => {
         console.log(`Location error`, error);
-        setLocationError(error);
+        locationErrorRef.current = error;
       },
       geoLocationOptions,
     );
@@ -68,14 +71,18 @@ export function useLocation() {
 
   async function stop() {
     console.log(`Stopping using location`);
+    clearWatch();
+    locationErrorRef.current = undefined;
+    locationRef.current = undefined;
+    setEnabled(false);
+    window.localStorage.setItem("use-location", "false");
+  }
+
+  function clearWatch() {
     if (watchID.current) {
       navigator.geolocation.clearWatch(watchID.current);
       watchID.current = undefined;
     }
-    setLocationError(undefined);
-    setLocation(undefined);
-    setEnabled(false);
-    window.localStorage.setItem("use-location", "false");
   }
 
   useEffect(() => {
@@ -85,5 +92,5 @@ export function useLocation() {
     }
   }, [start]);
 
-  return { enabled, start, stop, location, locationError };
+  return { enabled, start, stop, locationRef, locationErrorRef };
 }

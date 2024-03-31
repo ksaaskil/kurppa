@@ -9,8 +9,9 @@ import {
 import { LocationContext } from "./Providers";
 
 export default function Map() {
-  const { location } = useContext(LocationContext);
+  const { locationRef } = useContext(LocationContext);
 
+  const location = locationRef?.current;
   const centerLocation = location || {
     latitude: 60.1960327054566,
     longitude: 25.059909619299244,

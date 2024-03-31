@@ -1,5 +1,5 @@
 "use client";
-import { createContext } from "react";
+import { MutableRefObject, createContext } from "react";
 import { WorldLocation, useLocation } from "../hooks/useLocation";
 
 export interface ThemeProps {
@@ -12,8 +12,8 @@ export interface LocationProps {
   enabled: boolean;
   start: () => void;
   stop: () => void;
-  location?: WorldLocation;
-  locationError?: GeolocationPositionError;
+  locationRef?: MutableRefObject<WorldLocation | undefined>;
+  locationErrorRef?: MutableRefObject<GeolocationPositionError | undefined>;
 }
 
 export const ThemeContext = createContext<ThemeProps>({
@@ -26,8 +26,8 @@ export const LocationContext = createContext<LocationProps>({
   enabled: false,
   start: () => {},
   stop: () => {},
-  location: undefined,
-  locationError: undefined,
+  locationRef: undefined,
+  locationErrorRef: undefined,
 });
 
 export default function Providers({
@@ -45,8 +45,8 @@ export default function Providers({
     enabled: locationEnabled,
     start,
     stop,
-    location,
-    locationError,
+    locationRef,
+    locationErrorRef,
   } = useLocation();
   return (
     <ThemeContext.Provider value={{ theme, setTheme, themes }}>
@@ -55,8 +55,8 @@ export default function Providers({
           enabled: locationEnabled,
           start,
           stop,
-          location,
-          locationError,
+          locationRef,
+          locationErrorRef,
         }}
       >
         {children}
