@@ -1,0 +1,9 @@
+FROM node:20-bookworm-slim AS base
+
+FROM base AS deps
+WORKDIR /app
+
+COPY package.json yarn.lock .yarnrc.yml ./
+RUN corepack enable
+RUN yarn --immutable
+RUN yarn prisma migrate deploy
