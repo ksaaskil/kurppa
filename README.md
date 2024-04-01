@@ -62,6 +62,28 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Postgres
+
+Run local instance of Postgres 15:
+
+```sh
+docker run --name postgres -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_DB=kurppa -e POSTGRES_PASSWORD=postgres -d postgres:15
+```
+
+## Prisma
+
+Create a migration:
+
+```sh
+yarn prisma migrate dev --name NAME
+```
+
+Deploy migration (through CI/CD):
+
+```sh
+yarn prisma migrate deploy
+```
+
 ## Docker
 
 See [`Dockerfile`](./Dockerfile).
