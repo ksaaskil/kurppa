@@ -6,4 +6,4 @@ WORKDIR /app
 COPY package.json yarn.lock .yarnrc.yml ./
 RUN corepack enable
 RUN yarn --immutable
-RUN yarn prisma migrate deploy
+CMD ["yarn", "prisma", "migrate", "deploy"]
