@@ -119,6 +119,18 @@ Configure the environment variable `OPENAI_API_KEY` secret as described in the [
 
 Set up connection to Cloud SQL as explained in [documentation](https://cloud.google.com/sql/docs/postgres/connect-instance-cloud-run).
 
+Stop Cloud SQL instance:
+
+```sh
+gcloud sql instances patch kurppa --activation-policy=NEVER
+```
+
+Start instance:
+
+```sh
+gcloud sql instances patch kurppa --activation-policy=ALWAYS
+```
+
 ## Acknowledgements
 
 - [Tiira](https://www.tiira.fi/)
