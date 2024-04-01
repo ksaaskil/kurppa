@@ -117,6 +117,8 @@ Setup continuous deployment in Google Cloud run following the [documentation](ht
 
 Configure the environment variable `OPENAI_API_KEY` secret as described in the [documentation](https://cloud.google.com/run/docs/configuring/services/secrets).
 
+Set up connection to Cloud SQL as explained in [documentation](https://cloud.google.com/sql/docs/postgres/connect-instance-cloud-run).
+
 ## Acknowledgements
 
 - [Tiira](https://www.tiira.fi/)
