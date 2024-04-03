@@ -45,6 +45,7 @@ export function useLocation() {
     if (!enabled) {
       return undefined;
     }
+    console.log(`Subscribing to location updates`);
     return navigator.geolocation.watchPosition((position) => {
       fn({
         latitude: position.coords.latitude,
@@ -111,7 +112,7 @@ export function useLocation() {
 
   useEffect(() => {
     const enabled = window.localStorage.getItem("use-location") === "true";
-    if (enabled) {
+    if (enabled && !watchID.current) {
       start();
     }
   }, [start]);

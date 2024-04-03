@@ -2,7 +2,7 @@
 import { useRecordVoice } from "@/app/hooks/useRecordVoice";
 import ProcessingStatus from "./components/ProcessingStatus";
 import { useObservations } from "./hooks/useObservations";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import LastObservation from "./components/LastObservation";
 import Instructions from "./components/Instructions";
 import NavBar from "./components/NavBar";
@@ -10,7 +10,6 @@ import useProcessing from "./hooks/useProcessing";
 import SettingsDialog from "./components/SettingsDialog";
 import ObservationsDialog from "./components/ObservationsDialog";
 import InfoDialog from "./components/InfoDialog";
-import MapDialog from "./components/MapDialog";
 import ActionButtons from "./components/ActionButtons";
 
 export default function Home() {
@@ -89,7 +88,7 @@ export default function Home() {
       <SettingsDialog />
       <ObservationsDialog observations={observations} />
       <InfoDialog />
-      <MapDialog />
+      {/**<MapDialog />*/}
     </main>
   );
 }
