@@ -1,6 +1,6 @@
 import { ApiErrorResponse, DecipherResult } from "../utils/shared";
-import Decipher from "./decipher";
-import Transcription from "./transcription";
+import Decipher from "./DecipherStatus";
+import Transcription from "./TranscriptionStatus";
 
 export default function StatusToast({
   transcription,

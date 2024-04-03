@@ -1,6 +1,5 @@
 "use client";
 import { useRecordVoice } from "@/app/hooks/useRecordVoice";
-import RecordButton from "./components/RecordButton";
 import StatusToast from "./components/StatusToast";
 import { useObservations } from "./hooks/useObservations";
 import { useEffect, useState } from "react";
@@ -8,12 +7,11 @@ import LastObservation from "./components/LastObservation";
 import Instructions from "./components/Instructions";
 import NavBar from "./components/NavBar";
 import useProcessing from "./hooks/useProcessing";
-import SettingsButton from "./components/SettingsButton";
-import ObservationsButton from "./components/ObservationsButton";
 import SettingsDialog from "./components/SettingsDialog";
 import ObservationsDialog from "./components/ObservationsDialog";
 import InfoDialog from "./components/InfoDialog";
 import MapDialog from "./components/MapDialog";
+import ActionButtons from "./components/ActionButtons";
 export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
 
@@ -48,14 +46,6 @@ export default function Home() {
 
   const lastObservation = observations[observations.length - 1];
 
-  function openSettings() {
-    (document.getElementById("settings") as any)?.showModal();
-  }
-
-  function openObservations() {
-    (document.getElementById("observations") as any)?.showModal();
-  }
-
   return (
     <main className="min-h-screen">
       <NavBar />
@@ -64,23 +54,12 @@ export default function Home() {
           {lastObservation && <LastObservation observation={lastObservation} />}
           {!lastObservation && <Instructions />}
         </div>
-        <div className="flex flex-row justify-between w-full p-4 lg:max-w-lg mb-4">
-          <div className="mt-8">
-            <ObservationsButton onClick={openObservations} />
-          </div>
+        <ActionButtons
+          processing={processing}
+          recording={recording}
+          toggleRecording={toggleRecording}
+        />
 
-          <div className="">
-            <RecordButton
-              processing={processing}
-              recording={recording}
-              toggleRecording={toggleRecording}
-            />
-          </div>
-
-          <div className="mt-8">
-            <SettingsButton onClick={openSettings} />
-          </div>
-        </div>
         <StatusToast
           transcription={transcription}
           transcriptionError={transcriptionError}
