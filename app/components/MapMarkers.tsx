@@ -3,10 +3,11 @@ import { CircleMarker, Popup, LayerGroup, useMap } from "react-leaflet";
 import { LocationContext } from "./Providers";
 import { WorldLocation } from "../hooks/useLocation";
 
+const LOCATION_REFRESH_INTERVAL = 5000;
+
 export default function MapMarkers() {
   const map = useMap();
-  const { locationRef, subscribe, cancel, enabled } =
-    useContext(LocationContext);
+  const { locationRef, enabled } = useContext(LocationContext);
 
   const [location, setLocation] = useState<WorldLocation | undefined>(
     undefined,
@@ -26,31 +27,30 @@ export default function MapMarkers() {
     map.setView([centerLocation.latitude, centerLocation.longitude]);
   }, [map, locationRef]);
 
-  const id = useRef<number | undefined>(undefined);
+  const id = useRef<any | undefined>(undefined);
 
   useEffect(() => {
     if (!enabled) {
       return;
     }
-    function updateLocation(location: WorldLocation) {
+    function updateLocation() {
+      const location = locationRef?.current;
       setLocation(location);
-      console.log(`Received new marker location`, location);
+      if (location) {
+        map.setView([location.latitude, location.longitude]);
+      }
+      id.current = setTimeout(updateLocation, LOCATION_REFRESH_INTERVAL);
     }
     if (id.current) {
-      cancel(id.current);
+      clearTimeout(id.current);
     }
-    const subscribeID = subscribe(updateLocation);
-    if (subscribeID == undefined) {
-      console.log(`Could not subscribe to position updates`);
-      return;
-    }
-    id.current = subscribeID;
+    updateLocation();
     return () => {
       if (id.current) {
-        cancel(id.current);
+        clearTimeout(id.current);
       }
     };
-  }, [subscribe, cancel, enabled]);
+  }, [locationRef, enabled, map]);
 
   return (
     <LayerGroup>
