@@ -5,6 +5,11 @@ import { WorldLocation } from "../hooks/useLocation";
 
 const LOCATION_REFRESH_INTERVAL = 5000;
 
+interface Center {
+  latitude: number;
+  longitude: number;
+}
+
 export default function MapMarkers() {
   const map = useMap();
   const { locationRef, enabled } = useContext(LocationContext);
@@ -13,10 +18,18 @@ export default function MapMarkers() {
     undefined,
   );
 
+  const [center, setCenter] = useState<Center | undefined>(undefined);
+
   const radiusOptions = { fillColor: "blue", fillOpacity: 0.2 };
   const centerOptions = { fillColor: "blue", fillOpacity: 0.5 };
 
   const shownAccuracy = Math.max(Math.min(location?.accuracy || 100, 100), 10);
+
+  useEffect(() => {
+    if (center) {
+      map.setView([center.latitude, center.longitude]);
+    }
+  }, [map, center]);
 
   useEffect(() => {
     const location = locationRef?.current;
@@ -24,8 +37,19 @@ export default function MapMarkers() {
       latitude: 60.1960327054566,
       longitude: 25.059909619299244,
     };
-    map.setView([centerLocation.latitude, centerLocation.longitude]);
+    setCenter(centerLocation);
   }, [map, locationRef]);
+
+  useEffect(() => {
+    if (
+      location?.latitude &&
+      location?.latitude != center?.latitude &&
+      location?.longitude &&
+      location?.longitude != center?.longitude
+    ) {
+      setCenter({ latitude: location.latitude, longitude: location.longitude });
+    }
+  }, [center, location]);
 
   const id = useRef<any | undefined>(undefined);
 
@@ -36,9 +60,6 @@ export default function MapMarkers() {
     function updateLocation() {
       const location = locationRef?.current;
       setLocation(location);
-      if (location) {
-        map.setView([location.latitude, location.longitude]);
-      }
       id.current = setTimeout(updateLocation, LOCATION_REFRESH_INTERVAL);
     }
     if (id.current) {
