@@ -1,8 +1,9 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useRecordVoice } from "@/app/hooks/useRecordVoice";
 import ProcessingStatus from "./components/ProcessingStatus";
 import { useObservations } from "./hooks/useObservations";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LastObservation from "./components/LastObservation";
 import Instructions from "./components/Instructions";
 import NavBar from "./components/NavBar";
@@ -11,6 +12,11 @@ import SettingsDialog from "./components/SettingsDialog";
 import ObservationsDialog from "./components/ObservationsDialog";
 import InfoDialog from "./components/InfoDialog";
 import ActionButtons from "./components/ActionButtons";
+
+const Map = dynamic(() => import("./components/Map"), {
+  loading: () => <p>Kartta latautuu...</p>,
+  ssr: false,
+});
 
 export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
@@ -53,42 +59,52 @@ export default function Home() {
 
   const lastObservation = observations[observations.length - 1];
 
+  const [showMap, setShowMap] = useState(false);
+
+  function toggleMap() {
+    setShowMap(!showMap);
+  }
+
   return (
     <main className="min-h-screen">
-      <NavBar />
-      <div className="h-[calc(100vh-74px)] container mx-auto flex flex-col items-center justify-end">
-        <div className="grow p-4">
-          {lastObservation && <LastObservation observation={lastObservation} />}
-          {!lastObservation && <Instructions />}
-        </div>
-        <ActionButtons
-          processing={processing}
-          recording={recording}
-          toggleRecording={toggleRecording}
-        />
+      <NavBar toggleMap={toggleMap} />
+      <div className="h-[calc(100vh-74px)] relative">
+        <div className="h-full container mx-auto flex flex-col items-center justify-end">
+          <div className="grow p-4">
+            {lastObservation && (
+              <LastObservation observation={lastObservation} />
+            )}
+            {!lastObservation && <Instructions />}
+          </div>
+          <ActionButtons
+            processing={processing}
+            recording={recording}
+            toggleRecording={toggleRecording}
+          />
 
-        <ProcessingStatus
-          transcription={transcription}
-          transcriptionError={transcriptionError}
-          isTranscribing={isTranscribing}
-          decipherResult={decipherResult}
-          decipherError={decipherError}
-          isDeciphering={deciphering}
-          isRecording={recording}
-          visible={
-            !recording &&
-            (processing ||
-              !!decipherError ||
-              !!transcriptionError ||
-              !!decipherResult)
-          }
-          prompt={prompt}
-        />
+          <ProcessingStatus
+            transcription={transcription}
+            transcriptionError={transcriptionError}
+            isTranscribing={isTranscribing}
+            decipherResult={decipherResult}
+            decipherError={decipherError}
+            isDeciphering={deciphering}
+            isRecording={recording}
+            visible={
+              !recording &&
+              (processing ||
+                !!decipherError ||
+                !!transcriptionError ||
+                !!decipherResult)
+            }
+            prompt={prompt}
+          />
+        </div>
+        {showMap && <Map />}
       </div>
       <SettingsDialog />
       <ObservationsDialog observations={observations} />
       <InfoDialog />
-      {/**<MapDialog />*/}
     </main>
   );
 }

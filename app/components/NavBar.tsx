@@ -1,14 +1,13 @@
 import { useContext } from "react";
 import { LocationContext } from "./Providers";
 
-export default function NavBar() {
+export default function NavBar({ toggleMap }: { toggleMap: () => void }) {
+  const { enabled: locationEnabled } = useContext(LocationContext);
+
   function openInfo() {
     (document.getElementById("info") as any)?.showModal();
   }
-  function openMap() {
-    (document.getElementById("map") as any)?.showModal();
-  }
-  const { enabled: locationEnabled } = useContext(LocationContext);
+
   return (
     <div className="navbar bg-transparent">
       <div className="flex-1">
@@ -20,7 +19,7 @@ export default function NavBar() {
         <button
           className="btn btn-square stroke-primary btn-ghost"
           disabled={!locationEnabled}
-          onClick={openMap}
+          onClick={toggleMap}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
