@@ -1,6 +1,6 @@
 "use client";
 import { useRecordVoice } from "@/app/hooks/useRecordVoice";
-import StatusToast from "./components/StatusToast";
+import ProcessingStatus from "./components/ProcessingStatus";
 import { useObservations } from "./hooks/useObservations";
 import { useEffect, useState } from "react";
 import LastObservation from "./components/LastObservation";
@@ -12,6 +12,7 @@ import ObservationsDialog from "./components/ObservationsDialog";
 import InfoDialog from "./components/InfoDialog";
 import MapDialog from "./components/MapDialog";
 import ActionButtons from "./components/ActionButtons";
+
 export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
 
@@ -60,7 +61,7 @@ export default function Home() {
           toggleRecording={toggleRecording}
         />
 
-        <StatusToast
+        <ProcessingStatus
           transcription={transcription}
           transcriptionError={transcriptionError}
           isTranscribing={isTranscribing}

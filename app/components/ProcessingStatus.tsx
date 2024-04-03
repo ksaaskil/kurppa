@@ -2,7 +2,7 @@ import { ApiErrorResponse, DecipherResult } from "../utils/shared";
 import Decipher from "./DecipherStatus";
 import Transcription from "./TranscriptionStatus";
 
-export default function StatusToast({
+export default function ProcessingStatus({
   transcription,
   transcriptionError,
   isTranscribing,
