@@ -1,24 +1,45 @@
+import { useCallback, useState } from "react";
 import { useDecipher } from "./useDecipher";
 import { useTranscribe } from "./useTranscribe";
 
-interface UseProcessingProps {
-    audio?: Blob;
-}
+export default function useProcessing() {
+  const [audio, setAudio] = useState<Blob | undefined>(undefined);
+  const [transcription, setTranscription] = useState<string | undefined>(
+    undefined,
+  );
 
-export default function useProcessing({ audio }: UseProcessingProps) {
-    const { transcription, isTranscribing, transcriptionError } = useTranscribe({
-        audio,
-    });
+  const { transcribe, isTranscribing, transcriptionError } = useTranscribe();
 
-    const {
-        result: decipherResult,
-        error: decipherError,
-        loading: deciphering,
-        prompt,
-    } = useDecipher({ userInput: transcription });
+  const processAudio = useCallback(
+    async (audio: Blob) => {
+      setAudio(audio);
+      setTranscription(undefined);
+      const text = await transcribe(audio);
+      setTranscription(text);
+    },
+    [transcribe],
+  );
 
-    const isProcessing = isTranscribing || deciphering;
-    const processingError = transcriptionError || decipherError;
+  const {
+    result: decipherResult,
+    error: decipherError,
+    loading: deciphering,
+    prompt,
+  } = useDecipher({ userInput: transcription });
 
-    return { isProcessing, processingError, transcription, isTranscribing, decipherResult, deciphering, prompt, transcriptionError, decipherError }
+  const isProcessing = isTranscribing || deciphering;
+  const processingError = transcriptionError || decipherError;
+
+  return {
+    isProcessing,
+    processingError,
+    transcription,
+    isTranscribing,
+    decipherResult,
+    deciphering,
+    prompt,
+    transcriptionError,
+    decipherError,
+    processAudio,
+  };
 }

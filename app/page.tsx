@@ -17,6 +17,7 @@ export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
 
   const {
+    processAudio,
     transcription,
     transcriptionError,
     decipherError,
@@ -24,7 +25,13 @@ export default function Home() {
     decipherResult,
     deciphering,
     prompt,
-  } = useProcessing({ audio });
+  } = useProcessing();
+
+  useEffect(() => {
+    if (audio) {
+      processAudio(audio);
+    }
+  }, [audio, processAudio]);
 
   const { observations, createObservation } = useObservations();
 
