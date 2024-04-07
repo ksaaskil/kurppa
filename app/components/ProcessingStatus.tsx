@@ -1,5 +1,6 @@
 import { ProcessingStatus as IProcessingStatus } from "../hooks/useProcessing";
 import Decipher from "./DecipherStatus";
+import RecordStepStatus from "./RecordStepStatus";
 import Transcription from "./TranscriptionStatus";
 
 function ProcessingIcon() {
@@ -86,6 +87,24 @@ export default function ProcessingStatus({
       <div className="toast toast-end toast-middle flex flex-col">
         <ul className="timeline timeline-vertical">
           <li>
+            <div className="timeline-middle">
+              <ResolvedIcon
+                processing={status.transcription.processing}
+                error={status.transcription.error}
+                result={status.transcription.result}
+              />
+            </div>
+            <div className="timeline-end timeline-box">
+              <RecordStepStatus
+                result={status.record.result}
+                error={status.record.error}
+                processing={status.record.processing}
+              />
+            </div>
+            {status.record.result && <hr className="bg-primary" />}
+          </li>
+          <li>
+            <hr className="bg-primary" />
             <div className="timeline-middle">
               <ResolvedIcon
                 processing={status.transcription.processing}
