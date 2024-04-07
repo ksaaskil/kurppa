@@ -85,7 +85,7 @@ export default function ProcessingStatus({
   return (
     (visible && (
       <div className="toast toast-end toast-middle flex flex-col">
-        <ul className="timeline timeline-vertical">
+        <ul className="timeline timeline-compact timeline-vertical">
           <li>
             <div className="timeline-middle">
               <ResolvedIcon
@@ -138,7 +138,6 @@ export default function ProcessingStatus({
                   loading={status.decipher.processing}
                 />
               </div>
-              <hr />
             </li>
           )}
         </ul>
