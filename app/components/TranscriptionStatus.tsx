@@ -10,10 +10,10 @@ export default function Transcription({
   return (
     <div className="w-full text-xs">
       {isTranscribing && (
-        <div className="p-4">
+        <div className="">
           <p className="font-bold">
             Käännetään tekstiksi
-            <span className="loading loading-dots loading-sm"></span>
+            <span className="ml-2 loading loading-dots loading-sm"></span>
           </p>
         </div>
       )}

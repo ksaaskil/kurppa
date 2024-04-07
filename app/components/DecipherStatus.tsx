@@ -13,7 +13,10 @@ export default function Decipher({
     <div className="w-full text-xs">
       {loading && (
         <div className="">
-          <p className="font-bold">Prosessoidaan syötettä...</p>
+          <p className="font-bold">
+            Prosessoidaan syötettä
+            <span className="ml-2 loading loading-dots loading-sm"></span>
+          </p>
         </div>
       )}
       {error && !loading && (
