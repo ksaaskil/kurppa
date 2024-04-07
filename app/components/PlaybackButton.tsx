@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 function PlayIcon() {
   return (
@@ -40,17 +40,37 @@ function StopIcon() {
 
 export default function PlaybackButton({ audio }: { audio: Blob }) {
   const [playing, setPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   function togglePlay() {
     setPlaying((playing) => !playing);
   }
 
+  useEffect(() => {
+    if (playing) {
+      audioRef.current?.play();
+    } else {
+      audioRef.current?.pause();
+    }
+  }, [playing]);
+
+  const blobUrl = useMemo(() => {
+    return URL.createObjectURL(audio);
+  }, [audio]);
+
   return (
-    <button
-      className={`btn btn-sm btn-secondary btn-circle hover:bg-neutral`}
-      onClick={togglePlay}
-    >
-      {playing ? <StopIcon /> : <PlayIcon />}
-    </button>
+    <>
+      <audio
+        src={blobUrl}
+        ref={(input) => (audioRef.current = input)}
+        onEnded={() => setPlaying(false)}
+      />
+      <button
+        className={`btn btn-sm btn-secondary btn-circle`}
+        onClick={togglePlay}
+      >
+        {playing ? <StopIcon /> : <PlayIcon />}
+      </button>
+    </>
   );
 }
