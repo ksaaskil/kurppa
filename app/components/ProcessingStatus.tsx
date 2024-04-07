@@ -1,40 +1,27 @@
-import { ApiErrorResponse, DecipherResult } from "../utils/shared";
+import { ProcessingStatus as IProcessingStatus } from "../hooks/useProcessing";
 import Decipher from "./DecipherStatus";
 import Transcription from "./TranscriptionStatus";
 
 export default function ProcessingStatus({
-  transcription,
-  transcriptionError,
-  isTranscribing,
-  decipherResult,
-  decipherError,
-  isDeciphering,
+  status,
   visible,
-  isRecording,
 }: {
-  transcription?: string;
-  transcriptionError?: Error;
-  isTranscribing: boolean;
-  decipherResult?: DecipherResult;
-  decipherError?: ApiErrorResponse;
-  isDeciphering: boolean;
-  prompt?: string;
+  status: IProcessingStatus;
   visible: boolean;
-  isRecording: boolean;
 }) {
   return (
     (visible && (
       <div className="toast toast-end toast-middle flex flex-col">
         <div className="flex flex-col items-end justify-between alert bg-neutral min-w-96">
           <Transcription
-            transcription={transcription}
-            transcriptionError={transcriptionError}
-            isTranscribing={isTranscribing}
+            transcription={status.transcription.result}
+            transcriptionError={status.transcription.error}
+            isTranscribing={status.transcription.processing}
           />
           <Decipher
-            result={decipherResult}
-            error={decipherError}
-            loading={isDeciphering}
+            result={status.decipher.result}
+            error={status.decipher.error}
+            loading={status.decipher.processing}
           />
         </div>
       </div>

@@ -29,13 +29,7 @@ export default function RecordView({
       />
 
       <ProcessingStatus
-        transcription={processingStatus.transcription.result}
-        transcriptionError={processingStatus.transcription.error}
-        isTranscribing={processingStatus.transcription.processing}
-        decipherResult={processingStatus.decipher.result}
-        decipherError={processingStatus.decipher.error}
-        isDeciphering={processingStatus.decipher.processing}
-        isRecording={recording}
+        status={processingStatus}
         visible={
           !recording &&
           (processingStatus.processing ||
