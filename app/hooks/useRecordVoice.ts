@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { createMediaStream } from "@/app/utils/createMediaStream";
 
 function useRecordVoice() {
@@ -21,16 +21,16 @@ function useRecordVoice() {
     mediaRecorder.current = null;
   }
 
-  async function initialize() {
+  const initialize = useCallback(async function initialize() {
     if (typeof window !== "undefined") {
       stream.current = await navigator.mediaDevices.getUserMedia({
         audio: true,
       });
       initializeMediaRecorder(stream.current);
     }
-  }
+  }, []);
 
-  const startRecording = async () => {
+  const startRecording = useCallback(async () => {
     console.log(`Starting recording`);
     await initialize();
     if (mediaRecorder.current) {
@@ -38,9 +38,9 @@ function useRecordVoice() {
       mediaRecorder.current?.start();
       setRecording(true);
     }
-  };
+  }, [initialize]);
 
-  const stopRecording = () => {
+  const stopRecording = useCallback(() => {
     console.log(`Stop recording`);
     if (mediaRecorder.current) {
       isRecording.current = false;
@@ -48,7 +48,7 @@ function useRecordVoice() {
       setRecording(false);
       close();
     }
-  };
+  }, []);
 
   const initializeMediaRecorder = (stream: MediaStream) => {
     console.log(`Initializing media recorder...`);

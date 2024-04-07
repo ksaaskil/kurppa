@@ -15,35 +15,57 @@ export interface ProcessingStatus {
   decipher: WorkflowStepStatus;
   processing: boolean;
   result?: DecipherResult;
+  error?: any;
 }
 
 export default function useProcessing({ recording }: { recording: boolean }) {
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState<any>(undefined);
   const [audio, setAudio] = useState<Blob | undefined>(undefined);
   const [transcription, setTranscription] = useState<string | undefined>(
     undefined,
   );
 
-  const { transcribe, isTranscribing, transcriptionError } = useTranscribe();
-
-  const processAudio = useCallback(
-    async (audio: Blob) => {
-      setAudio(audio);
-      setTranscription(undefined);
-      const text = await transcribe(audio);
-      setTranscription(text);
-    },
-    [transcribe],
-  );
-
   const {
-    result: decipherResult,
+    transcribe,
+    isTranscribing,
+    transcriptionError,
+    reset: resetTranscribe,
+  } = useTranscribe();
+
+  const [decipherResult, setDecipherResult] = useState<
+    DecipherResult | undefined
+  >(undefined);
+  const {
+    decipher,
     error: decipherError,
     loading: deciphering,
     prompt,
-  } = useDecipher({ userInput: transcription });
+    reset: resetDecipher,
+  } = useDecipher();
 
-  const isProcessing = isTranscribing || deciphering;
-  const processingError = transcriptionError || decipherError;
+  const processAudio = useCallback(
+    async (audio: Blob) => {
+      setError(undefined);
+      setProcessing(true);
+      resetTranscribe();
+      resetDecipher();
+      try {
+        setAudio(audio);
+        setTranscription(undefined);
+        const text = await transcribe(audio);
+        if (!text) {
+          return;
+        }
+        setTranscription(text);
+        const decipherResult = await decipher(text);
+        setDecipherResult(decipherResult);
+      } finally {
+        setProcessing(false);
+      }
+    },
+    [transcribe, decipher, resetDecipher, resetTranscribe],
+  );
 
   const status: ProcessingStatus = {
     record: {
@@ -60,20 +82,12 @@ export default function useProcessing({ recording }: { recording: boolean }) {
       result: decipherResult,
       error: decipherError,
     },
-    processing: isProcessing,
+    processing,
     result: decipherResult,
+    error: transcriptionError || decipherError,
   };
 
   return {
-    isProcessing,
-    processingError,
-    transcription,
-    isTranscribing,
-    decipherResult,
-    deciphering,
-    prompt,
-    transcriptionError,
-    decipherError,
     processAudio,
     status,
   };

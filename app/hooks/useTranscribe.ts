@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { blobToBase64 } from "../utils/blobToBase64";
 
-async function transcribeAudio(audio: Blob) {
+async function transcribeAudio(audio: Blob): Promise<string> {
   const audioBase64 = await blobToBase64(audio);
   try {
     const response = await fetch("/api/transcribe", {
@@ -35,12 +35,15 @@ function useTranscribe() {
     undefined as Error | undefined,
   );
 
+  const reset = useCallback(() => {
+    setTranscriptionError(undefined);
+  }, []);
+
   const transcribe = useCallback(async (audio: Blob) => {
     setTranscriptionError(undefined);
-
     setIsTranscibing(true);
     try {
-      return transcribeAudio(audio);
+      return await transcribeAudio(audio);
     } catch (error: any) {
       console.error(`Error transcribing`, error);
       setTranscriptionError(error);
@@ -49,7 +52,7 @@ function useTranscribe() {
     }
   }, []);
 
-  return { transcribe, isTranscribing, transcriptionError };
+  return { transcribe, isTranscribing, transcriptionError, reset };
 }
 
 export { useTranscribe };
