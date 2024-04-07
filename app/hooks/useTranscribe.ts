@@ -30,32 +30,30 @@ async function transcribeAudio(audio: Blob): Promise<string> {
 }
 
 function useTranscribe() {
-  const [isTranscribing, setIsTranscibing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<string | undefined>(undefined);
-  const [transcriptionError, setTranscriptionError] = useState(
-    undefined as Error | undefined,
-  );
+  const [error, setError] = useState(undefined as Error | undefined);
 
   const reset = useCallback(() => {
-    setTranscriptionError(undefined);
+    setError(undefined);
   }, []);
 
-  const transcribe = useCallback(async (audio: Blob) => {
-    setTranscriptionError(undefined);
-    setIsTranscibing(true);
+  const process = useCallback(async (audio: Blob) => {
+    setError(undefined);
+    setLoading(true);
     try {
       const result = await transcribeAudio(audio);
       setResult(result);
       return result;
     } catch (error: any) {
       console.error(`Error transcribing`, error);
-      setTranscriptionError(error);
+      setError(error);
     } finally {
-      setIsTranscibing(false);
+      setLoading(false);
     }
   }, []);
 
-  return { transcribe, isTranscribing, transcriptionError, reset, result };
+  return { process, loading, error, reset, result };
 }
 
 export { useTranscribe };

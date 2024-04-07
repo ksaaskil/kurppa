@@ -48,7 +48,7 @@ function useDecipher() {
     setError(undefined);
   }, []);
 
-  const decipher = useCallback(async function decipher(transcription: string) {
+  const process = useCallback(async function decipher(transcription: string) {
     setError(undefined);
     setLoading(true);
     try {
@@ -66,7 +66,7 @@ function useDecipher() {
     }
   }, []);
 
-  return { decipher, loading, error, prompt, reset, result };
+  return { process, loading, error, prompt, reset, result };
 }
 
 export { useDecipher };

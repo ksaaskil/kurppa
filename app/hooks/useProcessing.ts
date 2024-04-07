@@ -23,18 +23,17 @@ export default function useProcessing({ recording }: { recording: boolean }) {
   const [audio, setAudio] = useState<Blob | undefined>(undefined);
 
   const {
-    transcribe,
-    isTranscribing,
-    transcriptionError,
+    process: transcribe,
+    loading: isTranscribing,
+    error: transcriptionError,
     result: transcription,
     reset: resetTranscribe,
   } = useTranscribe();
 
   const {
-    decipher,
+    process: decipher,
     error: decipherError,
     loading: deciphering,
-    prompt,
     result: decipherResult,
     reset: resetDecipher,
   } = useDecipher();
