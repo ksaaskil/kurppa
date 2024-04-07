@@ -12,32 +12,30 @@ export default function Transcription({
       {isTranscribing && (
         <div className="">
           <p className="font-bold">
-            Käännetään tekstiksi
+            Puheesta tekstiksi
             <span className="ml-2 loading loading-dots loading-sm"></span>
           </p>
         </div>
       )}
-      {transcriptionError && !isTranscribing && (
+      {!isTranscribing && transcriptionError && (
         <div className="">
           <div>
-            <h3 className="font-bold">
-              Virhe: tekstiksi kääntäminen epäonnistui
-            </h3>
+            <h3 className="font-bold">Puheesta tekstiksi epäonnistui</h3>
             <p className="text-xs">{transcriptionError.message}</p>
           </div>
         </div>
       )}
-      {transcription === "" && (
+      {!isTranscribing && !transcriptionError && transcription === "" && (
         <div className="">
           <h3 className="font-bold">
-            Virhe: tekstiksi kääntäminen tuotti tyhjän syötteen
+            Puheesta tekstiksi tuotti tyhjän syötteen
           </h3>
         </div>
       )}
-      {transcription && !isTranscribing && (
+      {!isTranscribing && !transcriptionError && transcription && (
         <div className="">
           <div>
-            <h3 className="font-bold">Tekstiksi kääntäminen onnistui</h3>
+            <h3 className="font-bold">Puheesta tekstiksi onnistui</h3>
             <div className="text-xs">{transcription}</div>
           </div>
         </div>
