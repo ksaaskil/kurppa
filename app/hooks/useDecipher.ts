@@ -40,6 +40,7 @@ async function decipherText(
 
 function useDecipher() {
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<DecipherResult | undefined>(undefined);
   const [error, setError] = useState(undefined as ApiErrorResponse | undefined);
   const [prompt, setPrompt] = useState(undefined as string | undefined);
 
@@ -54,7 +55,9 @@ function useDecipher() {
       const { result, errors } = await decipherText(transcription);
       if (errors) {
         setError(errors[0]);
+        return;
       }
+      setResult(result);
       return result;
     } catch (err: any) {
       setError(err);
@@ -63,7 +66,7 @@ function useDecipher() {
     }
   }, []);
 
-  return { decipher, loading, error, prompt, reset };
+  return { decipher, loading, error, prompt, reset, result };
 }
 
 export { useDecipher };

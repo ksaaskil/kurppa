@@ -20,46 +20,42 @@ export interface ProcessingStatus {
 
 export default function useProcessing({ recording }: { recording: boolean }) {
   const [processing, setProcessing] = useState(false);
-  const [error, setError] = useState<any>(undefined);
   const [audio, setAudio] = useState<Blob | undefined>(undefined);
-  const [transcription, setTranscription] = useState<string | undefined>(
-    undefined,
-  );
 
   const {
     transcribe,
     isTranscribing,
     transcriptionError,
+    result: transcription,
     reset: resetTranscribe,
   } = useTranscribe();
 
-  const [decipherResult, setDecipherResult] = useState<
-    DecipherResult | undefined
-  >(undefined);
   const {
     decipher,
     error: decipherError,
     loading: deciphering,
     prompt,
+    result: decipherResult,
     reset: resetDecipher,
   } = useDecipher();
 
   const processAudio = useCallback(
     async (audio: Blob) => {
-      setError(undefined);
-      setProcessing(true);
+      // Reset workflow steps
       resetTranscribe();
       resetDecipher();
+
+      setProcessing(true);
       try {
+        // Step 1
         setAudio(audio);
-        setTranscription(undefined);
-        const text = await transcribe(audio);
-        if (!text) {
+        // Step 2
+        const transcriptionResult = await transcribe(audio);
+        if (!transcriptionResult) {
           return;
         }
-        setTranscription(text);
-        const decipherResult = await decipher(text);
-        setDecipherResult(decipherResult);
+        // Step 3
+        await decipher(transcriptionResult);
       } finally {
         setProcessing(false);
       }
