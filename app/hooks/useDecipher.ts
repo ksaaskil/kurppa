@@ -45,6 +45,7 @@ function useDecipher() {
   const [prompt, setPrompt] = useState(undefined as string | undefined);
 
   const reset = useCallback(() => {
+    setResult(undefined);
     setError(undefined);
   }, []);
 

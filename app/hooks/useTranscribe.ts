@@ -35,6 +35,7 @@ function useTranscribe() {
   const [error, setError] = useState(undefined as Error | undefined);
 
   const reset = useCallback(() => {
+    setResult(undefined);
     setError(undefined);
   }, []);
 
