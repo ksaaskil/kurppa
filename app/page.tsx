@@ -1,17 +1,14 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useRecordVoice } from "@/app/hooks/useRecordVoice";
-import ProcessingStatus from "./components/ProcessingStatus";
 import { useObservations } from "./hooks/useObservations";
 import { useEffect, useState } from "react";
-import LastObservation from "./components/LastObservation";
-import Instructions from "./components/Instructions";
 import NavBar from "./components/NavBar";
 import useProcessing from "./hooks/useProcessing";
 import SettingsDialog from "./components/SettingsDialog";
 import ObservationsDialog from "./components/ObservationsDialog";
 import InfoDialog from "./components/InfoDialog";
-import ActionButtons from "./components/ActionButtons";
+import RecordView from "./components/RecordView";
 
 const Map = dynamic(() => import("./components/Map"), {
   loading: () => <p>Kartta latautuu...</p>,
@@ -21,16 +18,9 @@ const Map = dynamic(() => import("./components/Map"), {
 export default function Home() {
   const { recording, startRecording, stopRecording, audio } = useRecordVoice();
 
-  const {
-    processAudio,
-    transcription,
-    transcriptionError,
-    decipherError,
-    isTranscribing,
-    decipherResult,
-    deciphering,
-    prompt,
-  } = useProcessing();
+  const { processAudio, status: processingStatus } = useProcessing({
+    recording,
+  });
 
   useEffect(() => {
     if (audio) {
@@ -41,11 +31,12 @@ export default function Home() {
   const { observations, createObservation } = useObservations();
 
   useEffect(() => {
-    if (decipherResult && !decipherResult.processed) {
-      decipherResult.processed = true;
-      createObservation(decipherResult);
+    const result = processingStatus.result;
+    if (result && !result.processed) {
+      result.processed = true;
+      createObservation(result);
     }
-  }, [decipherResult, createObservation]);
+  }, [processingStatus, createObservation]);
 
   function toggleRecording() {
     if (recording) {
@@ -54,8 +45,6 @@ export default function Home() {
       startRecording();
     }
   }
-
-  const processing = isTranscribing || deciphering;
 
   const lastObservation = observations[observations.length - 1];
 
@@ -69,37 +58,12 @@ export default function Home() {
     <main className="min-h-screen">
       <NavBar toggleMap={toggleMap} />
       <div className="h-[calc(100vh-74px)] relative">
-        <div className="h-full container mx-auto flex flex-col items-center justify-end">
-          <div className="grow p-4">
-            {lastObservation && (
-              <LastObservation observation={lastObservation} />
-            )}
-            {!lastObservation && <Instructions />}
-          </div>
-          <ActionButtons
-            processing={processing}
-            recording={recording}
-            toggleRecording={toggleRecording}
-          />
-
-          <ProcessingStatus
-            transcription={transcription}
-            transcriptionError={transcriptionError}
-            isTranscribing={isTranscribing}
-            decipherResult={decipherResult}
-            decipherError={decipherError}
-            isDeciphering={deciphering}
-            isRecording={recording}
-            visible={
-              !recording &&
-              (processing ||
-                !!decipherError ||
-                !!transcriptionError ||
-                !!decipherResult)
-            }
-            prompt={prompt}
-          />
-        </div>
+        <RecordView
+          toggleRecording={toggleRecording}
+          lastObservation={lastObservation}
+          recording={recording}
+          processingStatus={processingStatus}
+        />
         {showMap && <Map />}
       </div>
       <SettingsDialog />

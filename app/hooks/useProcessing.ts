@@ -1,8 +1,23 @@
 import { useCallback, useState } from "react";
 import { useDecipher } from "./useDecipher";
 import { useTranscribe } from "./useTranscribe";
+import { DecipherResult } from "../utils/shared";
 
-export default function useProcessing() {
+export interface WorkflowStepStatus {
+  result?: any;
+  error?: any;
+  processing: boolean;
+}
+
+export interface ProcessingStatus {
+  record: WorkflowStepStatus;
+  transcription: WorkflowStepStatus;
+  decipher: WorkflowStepStatus;
+  processing: boolean;
+  result?: DecipherResult;
+}
+
+export default function useProcessing({ recording }: { recording: boolean }) {
   const [audio, setAudio] = useState<Blob | undefined>(undefined);
   const [transcription, setTranscription] = useState<string | undefined>(
     undefined,
@@ -30,6 +45,25 @@ export default function useProcessing() {
   const isProcessing = isTranscribing || deciphering;
   const processingError = transcriptionError || decipherError;
 
+  const status: ProcessingStatus = {
+    record: {
+      processing: recording,
+      result: audio,
+    },
+    transcription: {
+      processing: isTranscribing,
+      result: transcription,
+      error: transcriptionError,
+    },
+    decipher: {
+      processing: deciphering,
+      result: decipherResult,
+      error: decipherError,
+    },
+    processing: isProcessing,
+    result: decipherResult,
+  };
+
   return {
     isProcessing,
     processingError,
@@ -41,5 +75,6 @@ export default function useProcessing() {
     transcriptionError,
     decipherError,
     processAudio,
+    status,
   };
 }
