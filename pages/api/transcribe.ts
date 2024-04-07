@@ -29,7 +29,7 @@ export default async function handler(
 ) {
   const body = req.body;
   const base64Audio = body.audio;
-  const mimeType = body.mimeType;
+  const mimeType: string = body.mimeType;
   const audio = Buffer.from(base64Audio, "base64");
 
   const byteLength = audio.byteLength;
@@ -49,14 +49,9 @@ export default async function handler(
     return;
   }
 
-  const extension =
-    mimeType === "audio/webm"
-      ? ".webm"
-      : mimeType === "audio/mp4"
-        ? ".mp4"
-        : ".webm";
+  const extension = mimeType?.split("/")[1] || "webm";
 
-  const filePath = path.join(os.tmpdir(), `kurppa-input${extension}`);
+  const filePath = path.join(os.tmpdir(), `kurppa-input.${extension}`);
 
   try {
     console.log(`Writing file: ${filePath}`);

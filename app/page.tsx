@@ -16,10 +16,17 @@ const Map = dynamic(() => import("./components/Map"), {
 });
 
 export default function Home() {
-  const { recording, startRecording, stopRecording, audio } = useRecordVoice();
+  const {
+    recording,
+    startRecording,
+    stopRecording,
+    audio,
+    error: errorRecording,
+  } = useRecordVoice();
 
   const { processAudio, status: processingStatus } = useProcessing({
     recording,
+    errorRecording,
   });
 
   useEffect(() => {

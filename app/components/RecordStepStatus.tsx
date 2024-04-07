@@ -1,3 +1,5 @@
+import PlaybackButton from "./PlaybackButton";
+
 export default function RecordStepStatus({
   result,
   processing,
@@ -25,13 +27,15 @@ export default function RecordStepStatus({
         </div>
       )}
       {!processing && !error && result && (
-        <div className="">
+        <div className="flex flex-row">
           <div>
             <h3 className="font-bold">Nauhoitus onnistui</h3>
             <div className="text-xs">
               {(result.size / 1024).toFixed(0)} kilotavua
             </div>
           </div>
+          <div className="divider divider-horizontal"></div>
+          <PlaybackButton audio={result} />
         </div>
       )}
     </div>

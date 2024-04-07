@@ -18,7 +18,13 @@ export interface ProcessingStatus {
   error?: any;
 }
 
-export default function useProcessing({ recording }: { recording: boolean }) {
+export default function useProcessing({
+  recording,
+  errorRecording,
+}: {
+  recording: boolean;
+  errorRecording?: Error;
+}) {
   const [processing, setProcessing] = useState(false);
   const [audio, setAudio] = useState<Blob | undefined>(undefined);
 
@@ -66,6 +72,7 @@ export default function useProcessing({ recording }: { recording: boolean }) {
     record: {
       processing: recording,
       result: audio,
+      error: errorRecording,
     },
     transcription: {
       processing: isTranscribing,

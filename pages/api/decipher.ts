@@ -2,7 +2,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import OpenAI from "openai";
 
 import buildPrompt from "@/app/prompting/prompt";
-import { ApiError, DecipherApiResponse, ListedSpecies, readSpeciesList } from "@/app/utils/shared";
+import {
+  ApiError,
+  DecipherApiResponse,
+  ListedSpecies,
+  readSpeciesList,
+} from "@/app/utils/shared";
 
 const openai = new OpenAI();
 const DECIPHER_TIMEOUT_SECONDS = 5;
@@ -70,7 +75,10 @@ export default async function handler(
   if (text.length > MAX_TEXT_LENGTH) {
     res.status(400).json({
       errors: [
-        { title: ApiError.INPUT_TOO_LONG, detail: `Received ${text.length} characters, expected less than ${MAX_TEXT_LENGTH} characters` }
+        {
+          title: ApiError.INPUT_TOO_LONG,
+          detail: `Received ${text.length} characters, expected less than ${MAX_TEXT_LENGTH} characters`,
+        },
       ],
     });
   }
@@ -82,13 +90,13 @@ export default async function handler(
 ${systemPrompt}
 
 ${userPrompt}
-`
+`;
 
-  console.log(`
+  /* console.debug(`
 Sending prompt to OpenAI:
 
 ${prompt}
-`);
+`); */
 
   let chatResult: string | null;
   try {
@@ -106,43 +114,39 @@ ${prompt}
     chatResult = completion.choices[0].message.content;
   } catch (error: any) {
     console.error("Error deciphering text", error);
-    return res
-      .status(500)
-      .json({
-        errors: [
-          { title: ApiError.ERROR_CALLING_GPT, detail: error.message }
-        ], prompt
-      });
+    return res.status(500).json({
+      errors: [{ title: ApiError.ERROR_CALLING_GPT, detail: error.message }],
+      prompt,
+    });
   }
 
   if (!chatResult) {
-    return res
-      .status(500)
-      .json({
-        errors: [
-          { title: ApiError.EMPTY_RESPONSE_FROM_GPT }
-        ], prompt
-      })
+    return res.status(500).json({
+      errors: [{ title: ApiError.EMPTY_RESPONSE_FROM_GPT }],
+      prompt,
+    });
   }
 
   let rawResult: RawResult;
   try {
     rawResult = JSON.parse(chatResult);
   } catch (error: any) {
-    return res
-      .status(500)
-      .json({
-        errors: [
-          { title: ApiError.INVALID_RESPONSE_FROM_GPT, detail: chatResult }
-        ], prompt
-      });
-  };
+    return res.status(500).json({
+      errors: [
+        { title: ApiError.INVALID_RESPONSE_FROM_GPT, detail: chatResult },
+      ],
+      prompt,
+    });
+  }
 
   const validationResult = await validateResult(rawResult);
 
   const validationError = validationResult.error;
   if (validationError) {
-    return res.status(500).json({ errors: [{ title: validationError.toString(), detail: rawResult.laji }], prompt });
+    return res.status(500).json({
+      errors: [{ title: validationError.toString(), detail: rawResult.laji }],
+      prompt,
+    });
   }
 
   const finalResult = validationResult.result;

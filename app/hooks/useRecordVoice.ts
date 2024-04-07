@@ -5,6 +5,7 @@ import { createMediaStream } from "@/app/utils/createMediaStream";
 function useRecordVoice() {
   const [audio, setAudio] = useState(undefined as Blob | undefined);
   const [recording, setRecording] = useState(false);
+  const [error, setError] = useState<Error | undefined>(undefined);
   const isRecording = useRef(false);
 
   const stream = useRef<MediaStream | null>(null);
@@ -31,13 +32,18 @@ function useRecordVoice() {
   }, []);
 
   const startRecording = useCallback(async () => {
+    setError(undefined);
     console.log(`Starting recording`);
-    await initialize();
-    if (mediaRecorder.current) {
-      isRecording.current = true;
-      mediaRecorder.current?.start();
-      setRecording(true);
+    try {
+      await initialize();
+      if (mediaRecorder.current) {
+        isRecording.current = true;
+        mediaRecorder.current?.start();
+      }
+    } catch (err: any) {
+      setError(err);
     }
+    setRecording(true);
   }, [initialize]);
 
   const stopRecording = useCallback(() => {
@@ -53,7 +59,7 @@ function useRecordVoice() {
   const initializeMediaRecorder = (stream: MediaStream) => {
     console.log(`Initializing media recorder...`);
 
-    const MEDIA_TYPES = ["audio/webm", "audio/mp4"];
+    const MEDIA_TYPES = ["audio/webm", "audio/mp3", "audio/mp4"];
 
     const supportedTypes = MEDIA_TYPES.filter((type) =>
       MediaRecorder.isTypeSupported(type),
@@ -85,7 +91,7 @@ function useRecordVoice() {
     };
   };
 
-  return { recording, startRecording, stopRecording, audio };
+  return { recording, startRecording, stopRecording, audio, error };
 }
 
 export { useRecordVoice };
