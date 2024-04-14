@@ -43,10 +43,7 @@ export default function NavBar({ toggleMap }: { toggleMap: () => void }) {
           </svg>
         </button>
       </div>
-      <div className="flex-none">
-        <LoginButton />
-      </div>
-      <div className="flex-none">
+      <div className="ml-2 flex-none">
         <button className="btn btn-square btn-ghost" onClick={openInfo}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -63,6 +60,9 @@ export default function NavBar({ toggleMap }: { toggleMap: () => void }) {
             />
           </svg>
         </button>
+      </div>
+      <div className="ml-2 flex-none">
+        <LoginButton />
       </div>
     </div>
   );
