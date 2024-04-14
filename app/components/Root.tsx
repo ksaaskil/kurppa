@@ -1,6 +1,7 @@
 "use client";
 import useTheme from "../hooks/useTheme";
 import Providers from "./Providers";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 export interface ThemeProps {
   theme?: string;
@@ -26,11 +27,13 @@ export default function Root({
           crossOrigin=""
         />
       </head>
-      <body className={inter.className}>
-        <Providers theme={theme} setTheme={setTheme} themes={themes}>
-          {children}
-        </Providers>
-      </body>
+      <UserProvider>
+        <body className={inter.className}>
+          <Providers theme={theme} setTheme={setTheme} themes={themes}>
+            {children}
+          </Providers>
+        </body>
+      </UserProvider>
     </html>
   );
 }

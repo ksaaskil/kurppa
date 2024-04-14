@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { LocationContext } from "./Providers";
+import LoginButton from "./LoginButton";
 
 export default function NavBar({ toggleMap }: { toggleMap: () => void }) {
   const { enabled: locationEnabled } = useContext(LocationContext);
@@ -41,6 +42,9 @@ export default function NavBar({ toggleMap }: { toggleMap: () => void }) {
             />
           </svg>
         </button>
+      </div>
+      <div className="flex-none">
+        <LoginButton />
       </div>
       <div className="flex-none">
         <button className="btn btn-square btn-ghost" onClick={openInfo}>
