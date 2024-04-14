@@ -42,5 +42,5 @@ export default withApiAuthRequired(async function LoginRoute(
     emailVerified,
   });
 
-  return res.redirect(301, "/");
+  return res.redirect(307, "/");
 });
