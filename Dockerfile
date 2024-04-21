@@ -5,8 +5,11 @@ FROM base AS deps
 WORKDIR /app
 
 COPY package.json yarn.lock .yarnrc.yml ./
+COPY prisma prisma
+
 RUN corepack enable
 RUN yarn --immutable
+RUN yarn prisma generate
 
 FROM base AS builder
 WORKDIR /app
