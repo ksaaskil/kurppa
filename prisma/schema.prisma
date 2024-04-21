@@ -25,7 +25,7 @@ model Observation {
   userId    String @db.Uuid
   species   String
   date      DateTime
-  createdAt DateTime
+  createdAt DateTime @default(now())
   observerLatitude  Float?
   observerLongitude Float?
 }

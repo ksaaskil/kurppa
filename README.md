@@ -72,6 +72,12 @@ docker run --name postgres -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_DB
 
 ## Prisma
 
+Generate client:
+
+```sh
+yarn prisma generate
+```
+
 Create a migration:
 
 ```sh
