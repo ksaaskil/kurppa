@@ -1,21 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
-
-async function createUser({
-  email,
-  sub,
-  name,
-  picture,
-  emailVerified,
-}: {
-  email: string;
-  sub: string;
-  name?: string;
-  picture?: string;
-  emailVerified?: string;
-}) {
-  console.log(`Would create new user with email: ${email}`);
-}
+import { createUser } from "@/app/db/users";
 
 export default withApiAuthRequired(async function LoginRoute(
   req: NextApiRequest,
