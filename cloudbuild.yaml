@@ -68,6 +68,7 @@ steps:
       - jobs
       - execute
       - kurppa-migrate
+      - "--region=$_DEPLOY_REGION"
       - "--wait"
     id: Run migrate job
     entrypoint: gcloud
