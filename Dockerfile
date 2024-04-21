@@ -2,6 +2,8 @@ FROM node:20-bookworm-slim AS base
 
 FROM base AS deps
 # RUN apk add --no-cache libc6-compat
+RUN apt-get update -y && apt-get install -y openssl
+
 WORKDIR /app
 
 COPY package.json yarn.lock .yarnrc.yml ./
@@ -35,7 +37,6 @@ COPY --from=builder /app/app/resources ./resources
 
 RUN mkdir .next
 RUN chown nextjs:nodejs .next
-RUN apt-get update -y && apt-get install -y openssl
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
