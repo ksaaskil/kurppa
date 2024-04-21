@@ -36,7 +36,7 @@ export const THEMES = [
   "sunset",
 ];
 
-const DEFAULT_THEME = "forest";
+const DEFAULT_THEME = "light";
 
 export default function useTheme() {
   const [theme, setTheme] = useState("" as string | undefined);

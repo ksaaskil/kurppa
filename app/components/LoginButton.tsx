@@ -49,14 +49,14 @@ export default function LoginButton() {
         className="dropdown-content z-[1] card card-compact p-2 bg-base-100 shadow-xl"
       >
         {!user && (
-          <ul className="menu menu-md bg-base-200 w-56">
+          <ul className="menu menu-md bg-base-100 w-56">
             <li>
               <a href="/api/auth/login">Kirjaudu</a>
             </li>
           </ul>
         )}
         {user && (
-          <ul className="menu menu-md bg-base-200 w-56">
+          <ul className="menu menu-md bg-base-100 w-56">
             <li>
               <span className="font-bold">{user.email}</span>
             </li>
