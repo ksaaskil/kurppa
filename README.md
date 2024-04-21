@@ -93,6 +93,13 @@ docker build -t kurppa .
 docker run -p 3000:3000 --env-file .env kurppa
 ```
 
+Build migrate image:
+
+```sh
+docker build -t kurppa-migrate -f Dockerfile.migrate .
+docker run --env-file .env kurppa-migrate
+```
+
 ## Cloud deployment
 
 ### Pulumi

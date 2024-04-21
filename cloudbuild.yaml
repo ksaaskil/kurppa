@@ -68,7 +68,6 @@ steps:
       - jobs
       - execute
       - kurppa-migrate
-      - "--command="
       - "--region=$_DEPLOY_REGION"
       - "--wait"
     id: Run migrate job
