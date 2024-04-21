@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 export default handleAuth({
   async login(req: NextApiRequest, res: NextApiResponse<any>) {
     await handleLogin(req, res, {
-      returnTo: "/api/login",
+      returnTo: "/api/post-login",
     });
   },
 });

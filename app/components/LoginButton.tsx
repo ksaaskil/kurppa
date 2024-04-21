@@ -4,7 +4,13 @@ const UserIcon = ({ picture }: { picture?: string | null }) => {
   if (picture) {
     return (
       <button className="btn btn-xs btn-ghost">
-        <img src={picture} width={24} height={24} alt="User profile icon" />
+        <img
+          src={picture}
+          width={24}
+          height={24}
+          alt="User profile icon"
+          style={{ borderRadius: "50%" }}
+        />
       </button>
     );
   }
@@ -29,41 +35,37 @@ const UserIcon = ({ picture }: { picture?: string | null }) => {
 export default function LoginButton() {
   const { user } = useUser();
 
-  if (user) {
-    return (
-      <div className="dropdown dropdown-end">
-        <div
-          tabIndex={0}
-          role="button"
-          className="btn btn-circle btn-ghost text-info"
-        >
-          <UserIcon picture={user.picture} />
-        </div>
-        <div
-          tabIndex={0}
-          className="dropdown-content z-[1] card card-compact p-2 bg-base-100 shadow-xl"
-        >
-          <div className="card-body">
-            <p>
-              <span className="font-bold">Kirjautunut: </span>
-              <span>{user.email}</span>
-            </p>
-            <div className="card-actions justify-end">
-              <a href="/api/auth/logout">
-                <button className="btn btn-primary btn-sm">
-                  Kirjaudu ulos
-                </button>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <a href="/api/auth/login">
-      <button className="btn btn-primary btn-sm">Kirjaudu</button>
-    </a>
+    <div className="dropdown dropdown-end">
+      <div
+        tabIndex={0}
+        role="button"
+        className="btn btn-circle btn-ghost text-info"
+      >
+        <UserIcon picture={user?.picture} />
+      </div>
+      <div
+        tabIndex={0}
+        className="dropdown-content z-[1] card card-compact p-2 bg-base-100 shadow-xl"
+      >
+        {!user && (
+          <ul className="menu menu-md bg-base-200 w-56">
+            <li>
+              <a href="/api/auth/login">Kirjaudu</a>
+            </li>
+          </ul>
+        )}
+        {user && (
+          <ul className="menu menu-md bg-base-200 w-56">
+            <li>
+              <span className="font-bold">{user.email}</span>
+            </li>
+            <li>
+              <a href="/api/auth/logout">Kirjaudu ulos</a>
+            </li>
+          </ul>
+        )}
+      </div>
+    </div>
   );
 }
