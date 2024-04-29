@@ -1,6 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
-import { createObservation, listObservations } from "@/app/db/observations";
+import {
+  createObservation,
+  deleteObservation,
+  listObservations,
+} from "@/app/db/observations";
 import { Observation, findListedSpecies } from "@/app/utils/shared";
 
 export default withApiAuthRequired(async function ObservationsRoute(
@@ -44,6 +48,19 @@ export default withApiAuthRequired(async function ObservationsRoute(
       userEmail: user.email,
     });
     return res.status(200).json({ observations });
+  } else if (req.method === "DELETE") {
+    const { id: observationId } = req.query;
+    if (!observationId) {
+      return res
+        .status(400)
+        .json({ message: "Missing observation ID in query" });
+    }
+    if (typeof observationId !== "string") {
+      return res.status(400).json({
+        message: `Invalid type for observationId: expected 'string' but got: '${typeof observationId}'`,
+      });
+    }
+    deleteObservation({ observationId, userEmail: user.email });
   } else {
     return res.status(405).json({ message: "Method not allowed" });
   }

@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { getUserByEmail } from "./users";
-import { ListedSpecies, Observation, findListedSpecies } from "../utils/shared";
+import { Observation, findListedSpecies } from "../utils/shared";
 import { WorldLocation } from "../hooks/useLocation";
 
 const prisma = new PrismaClient();
@@ -74,4 +74,33 @@ export async function listObservations({
   return (await Promise.all(obsFutures))
     .filter((obs) => !!obs)
     .map((obs) => obs!);
+}
+
+export async function deleteObservation({
+  userEmail,
+  observationId,
+}: {
+  userEmail: string;
+  observationId: string;
+}): Promise<void> {
+  const user = await getUserByEmail(userEmail);
+  if (!user) {
+    throw new Error(`User does not exist: ${userEmail}`);
+  }
+  const observation = await prisma.observation.findFirst({
+    where: {
+      id: observationId,
+      userId: user.id,
+    },
+  });
+  if (!observation) {
+    throw new Error(
+      `Observation does not exist: ${observationId} for user: ${userEmail}`,
+    );
+  }
+  await prisma.observation.delete({
+    where: {
+      id: observationId,
+    },
+  });
 }
