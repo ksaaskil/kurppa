@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { getUserByEmail } from "./users";
 import { ListedSpecies, Observation, findListedSpecies } from "../utils/shared";
+import { WorldLocation } from "../hooks/useLocation";
 
 const prisma = new PrismaClient();
 
@@ -8,15 +9,22 @@ export async function createObservation({
   userEmail,
   species,
   date,
+  amount,
+  location,
 }: {
   userEmail: string;
   species: string;
   date: Date;
+  amount: number;
+  location?: WorldLocation;
 }) {
   const user = await getUserByEmail(userEmail);
   if (!user) {
     throw new Error(`User does not exist: ${userEmail}`);
   }
+  console.log(
+    `Creating observation for species: '${species}' with amount: ${amount} and date: ${date}`,
+  );
   const observation = await prisma.observation.create({
     data: {
       species,
@@ -59,5 +67,7 @@ export async function listObservations({
     };
     return obs;
   });
-  return (await Promise.all(obsFutures)).map((obs) => obs!);
+  return (await Promise.all(obsFutures))
+    .filter((obs) => !!obs)
+    .map((obs) => obs!);
 }

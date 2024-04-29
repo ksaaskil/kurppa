@@ -16,11 +16,13 @@ export default withApiAuthRequired(async function ObservationsRoute(
   const user = session.user;
 
   if (req.method === "POST") {
-    const species = req.body.species;
+    const { species, amount, date, location } = req.body;
     const observation = await createObservation({
       userEmail: user.email,
       species,
-      date: new Date(),
+      date: new Date(date),
+      amount,
+      location,
     });
 
     return res.status(200).json(observation);
