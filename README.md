@@ -34,8 +34,8 @@ Havaintojen syöttäminen Tiiraan on työlästä erityisesti linturetken aikana.
 - [x] Deploy to cloud (Google Cloud Run)
 - [ ] Authentication (Auth0)
 - [x] List of observations
-- [ ] Use location
-- [ ] Persist data to SQL
+- [x] Use location
+- [x] Persist data to SQL
 - [ ] Evaluation framework
 
 ## Development
@@ -53,6 +53,13 @@ Stack also includes:
 Install Node.js >= 20.
 
 Create `.env` file based on the example in [`.env.sample`](./.env.sample).
+
+Install dependencies:
+
+```sh
+yarn install
+yarn prisma generate
+```
 
 Run the development server:
 
