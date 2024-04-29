@@ -11,18 +11,30 @@ export interface ListedSpecies {
 export async function findListedSpecies(
   finnishName: string,
 ): Promise<ListedSpecies | undefined> {
-  const speciesList = await readSpeciesList();
-  return speciesList.find(
-    (species) =>
-      species.finnishName.toLowerCase() === finnishName.toLowerCase(),
-  );
+  const speciesMap = await readSpeciesMap();
+  return speciesMap[normalizeSpecies(finnishName)];
 }
 
-export async function readSpeciesList(): Promise<ListedSpecies[]> {
+function normalizeSpecies(species: string): string {
+  return species.toLowerCase().trim();
+}
+
+let speciesCache = {} as Record<string, ListedSpecies>;
+
+export async function readSpeciesMap(): Promise<Record<string, ListedSpecies>> {
+  if (Object.keys(speciesCache).length > 0) {
+    return speciesCache;
+  }
   const speciesListFile = `${process.cwd()}${RESOURCES_PATH}/linnut.json`;
   const content = await fs.readFile(speciesListFile, "utf8");
   const json = JSON.parse(content);
-  return json.species;
+  speciesCache = (json.species as any[]).reduce(
+    (acc: Record<string, ListedSpecies>, species: ListedSpecies) => {
+      return { ...acc, [normalizeSpecies(species.finnishName)]: species };
+    },
+    {} as Record<string, ListedSpecies>,
+  );
+  return speciesCache;
 }
 
 export interface DecipherResult {

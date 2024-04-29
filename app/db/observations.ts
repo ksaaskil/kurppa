@@ -22,6 +22,9 @@ export async function createObservation({
   if (!user) {
     throw new Error(`User does not exist: ${userEmail}`);
   }
+  if (!findListedSpecies(species)) {
+    throw new Error(`Unknown species: ${species}`);
+  }
   console.log(
     `Creating observation for species: '${species}' with amount: ${amount} and date: ${date}`,
   );

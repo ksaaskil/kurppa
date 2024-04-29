@@ -6,7 +6,8 @@ import {
   ApiError,
   DecipherApiResponse,
   ListedSpecies,
-  readSpeciesList,
+  findListedSpecies,
+  readSpeciesMap,
 } from "@/app/utils/shared";
 
 const openai = new OpenAI();
@@ -43,13 +44,7 @@ async function validateResult(result: RawResult): Promise<ValidateResult> {
     return { error: ApiError.INVALID_NUMBER };
   }
 
-  const speciesList: ListedSpecies[] = await readSpeciesList();
-
-  const matchedSpecies = speciesList.find(
-    (listedSpecies) =>
-      listedSpecies.finnishName.toLowerCase() ===
-      speciesFinnishInput.toLowerCase(),
-  );
+  const matchedSpecies = await findListedSpecies(speciesFinnishInput);
 
   if (!matchedSpecies) {
     return { error: ApiError.UKNOWN_SPECIES };

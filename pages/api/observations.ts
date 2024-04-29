@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 import { createObservation, listObservations } from "@/app/db/observations";
-import { Observation } from "@/app/utils/shared";
+import { Observation, findListedSpecies } from "@/app/utils/shared";
 
 export default withApiAuthRequired(async function ObservationsRoute(
   req: NextApiRequest,
@@ -17,6 +17,19 @@ export default withApiAuthRequired(async function ObservationsRoute(
 
   if (req.method === "POST") {
     const { species, amount, date, location } = req.body;
+
+    if (!species || !findListedSpecies(species)) {
+      return res.status(400).json({ message: `Invalid species: ${species}` });
+    }
+
+    if (!amount) {
+      return res.status(400).json({ message: `Invalid amount: ${amount}` });
+    }
+
+    if (!date) {
+      return res.status(400).json({ message: `Invalid date: ${date}` });
+    }
+
     const observation = await createObservation({
       userEmail: user.email,
       species,
