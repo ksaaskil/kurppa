@@ -8,6 +8,13 @@ export interface ListedSpecies {
   link: string;
 }
 
+export async function findListedSpecies(
+  finnishName: string,
+): Promise<ListedSpecies | undefined> {
+  const speciesList = await readSpeciesList();
+  return speciesList.find((species) => species.finnishName === finnishName);
+}
+
 export async function readSpeciesList(): Promise<ListedSpecies[]> {
   const speciesListFile = `${process.cwd()}${RESOURCES_PATH}/linnut.json`;
   console.log(`Reading species list from file: ${speciesListFile}`);
@@ -23,6 +30,7 @@ export interface DecipherResult {
 }
 
 export interface Observation {
+  id?: string;
   species: ListedSpecies;
   amount: number;
   date: Date;

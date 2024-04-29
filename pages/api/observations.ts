@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
-import { createObservation } from "@/app/db/observations";
+import { createObservation, listObservations } from "@/app/db/observations";
+import { Observation } from "@/app/utils/shared";
 
 export default withApiAuthRequired(async function ObservationsRoute(
   req: NextApiRequest,
@@ -12,18 +13,23 @@ export default withApiAuthRequired(async function ObservationsRoute(
     return res.status(400).json({ message: "No session" });
   }
 
-  if (req.method !== "POST") {
+  const user = session.user;
+
+  if (req.method === "POST") {
+    const species = req.body.species;
+    const observation = await createObservation({
+      userEmail: user.email,
+      species,
+      date: new Date(),
+    });
+
+    return res.status(200).json(observation);
+  } else if (req.method === "GET") {
+    const observations: Observation[] = await listObservations({
+      userEmail: user.email,
+    });
+    return res.status(200).json({ observations });
+  } else {
     return res.status(405).json({ message: "Method not allowed" });
   }
-
-  const user = session.user;
-  const species = req.body.species;
-
-  const observation = await createObservation({
-    userEmail: user.email,
-    species,
-    date: new Date(),
-  });
-
-  return res.status(200).json(observation);
 });
