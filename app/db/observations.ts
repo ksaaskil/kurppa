@@ -32,6 +32,7 @@ export async function createObservation({
     data: {
       species,
       date,
+      amount,
       user: {
         connect: {
           email: userEmail,
@@ -66,7 +67,7 @@ export async function listObservations({
       id: observation.id,
       species: listedSpecies,
       date: observation.date,
-      amount: 1, // TODO
+      amount: observation.amount,
     };
     return obs;
   });
