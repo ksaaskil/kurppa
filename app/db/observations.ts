@@ -33,6 +33,10 @@ export async function createObservation({
       species,
       date,
       amount,
+      observerLatitude: location?.latitude,
+      observerLongitude: location?.longitude,
+      observationLocationAccuracy: location?.accuracy,
+      observationLocationTimestamp: location?.timestamp,
       user: {
         connect: {
           email: userEmail,
@@ -63,11 +67,27 @@ export async function listObservations({
       console.warn(`Unknown species: ${observation.species}`);
       return undefined;
     }
+    const location =
+      observation.observerLatitude &&
+      observation.observerLongitude &&
+      observation.observationLocationAccuracy &&
+      observation.observationLocationTimestamp
+        ? {
+            location: {
+              latitude: observation.observerLatitude,
+              longitude: observation.observerLongitude,
+              accuracy: observation.observationLocationAccuracy,
+              timestamp: observation.observationLocationTimestamp,
+            },
+          }
+        : {};
+
     const obs: Observation = {
       id: observation.id,
       species: listedSpecies,
       date: observation.date,
       amount: observation.amount,
+      ...location,
     };
     return obs;
   });

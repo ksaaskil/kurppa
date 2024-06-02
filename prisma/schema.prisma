@@ -29,4 +29,6 @@ model Observation {
   amount    Int @default(0)
   observerLatitude  Float?
   observerLongitude Float?
+  observationLocationAccuracy Float?
+  observationLocationTimestamp DateTime?
 }
