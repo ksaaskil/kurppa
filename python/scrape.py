@@ -5,7 +5,7 @@ from pathlib import Path
 import requests
 
 DEFAULT_INPUT = Path(__file__).parent.parent / "scripts" / "linnut.json"
-DEFAULT_OUTPUT = Path(__file__) / "scraped"
+DEFAULT_OUTPUT = Path(__file__).parent / "scraped"
 
 logging.basicConfig(level=logging.INFO)
 
@@ -20,11 +20,16 @@ def read_text(url: str) -> str:
 
 def scrape(bird: dict[str, str]) -> None:
     link = bird['link']
+    logging.info(f"Reading URL: {link}")
     text = read_text(url=link)
-
+    logging.info(f"Got {len(text)} characters from '{link}'")
+    output_file = DEFAULT_OUTPUT / f"""{bird["finnishName"]}.txt"""
+    logging.info(f"Writing to file: {output_file}")
+    Path(output_file).write_text(text)
 
 def main():
     birds = read_input()
 
-    for bird in birds:
+    for i, bird in enumerate(birds):
+        logging.info(f"Starting to scrape for bird {i+1}/{len(birds)}: {bird['finnishName']}")
         scrape(bird)
