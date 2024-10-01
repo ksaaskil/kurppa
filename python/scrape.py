@@ -26,7 +26,14 @@ def read_text(url: str) -> str:
         return ""
     
     # finnish = matches[1]
-    normalized = matches[0] + matches[1]
+    # normalized = matches[0] + matches[1]
+    # Find the match that contains most ä and ö
+    if matches[0].count('ä') + matches[0].count('ö') > matches[1].count('ä') + matches[1].count('ö'):
+        logging.info(f"Using first match, found {matches[0].count('ä') + matches[0].count('ö')} ä and ö")
+        normalized = matches[0]
+    else:
+        logging.info(f"Using second match, found {matches[1].count('ä') + matches[1].count('ö')} ä and ö")
+        normalized = matches[1]
     try:
         return normalized.encode().decode('unicode-escape').encode('latin-1').decode('utf-8')
     except Exception as ex:
@@ -50,7 +57,7 @@ def scrape(bird: dict[str, str], skip_existing=False) -> None:
     logging.info(f"Writing to file: {output_file}")
     Path(output_file).write_text(text)
 
-SKIP_EXISTING=True
+SKIP_EXISTING=False
 
 def main():
     birds = read_input()

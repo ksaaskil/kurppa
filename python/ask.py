@@ -6,7 +6,7 @@ import os # for getting API token from env variable OPENAI_API_KEY
 from scipy import spatial  # for calculating vector similarities for search
 
 # models
-EMBEDDING_MODEL = "text-embedding-ada-002"
+EMBEDDING_MODEL = "text-embedding-3-small"
 GPT_MODEL = "gpt-3.5-turbo"
 EMBEDDINGS_PATH = "embeddings.csv"
 
@@ -90,7 +90,7 @@ def main():
     client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", "<your OpenAI API key if not set as env var>"))
     df = pd.read_csv(EMBEDDINGS_PATH)
     df['embedding'] = df['embedding'].apply(ast.literal_eval)
-    query = "Mikä lintu on musta ja valkoinen?"
+    query = "Miltä alli näyttää?"
     response = ask(client, query, df, print_message=True)
     print(response)
 
