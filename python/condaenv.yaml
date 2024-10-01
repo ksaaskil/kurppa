@@ -1,6 +1,6 @@
 name: kurppa
 dependencies:
-  - python=3.12
+  - python=3.11.1
   - pip
   - pip:
       - poetry
