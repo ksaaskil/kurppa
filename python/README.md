@@ -27,3 +27,12 @@ Scrape using file `../scripts/linnut.json`:
 ```sh
 python scrape.py
 ```
+
+## Create embeddings for scraped files
+
+Write embeddings to file `embeddings.csv`:
+
+```sh
+export OPENAI_KEY=...
+python embed.py
+```

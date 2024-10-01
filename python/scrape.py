@@ -17,20 +17,21 @@ def read_text(url: str) -> str:
     """https://stackoverflow.com/a/69594284"""
     response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
     text = response.text
-    pattern = """{"article":(.+?)\"[,}]"""
+    pattern = """{"article":"(.+?)\"[,}]"""
+
     matches = re.findall(pattern, text)
     if len(matches) != 2:
         logging.error(f"Wrong number of string matches found for URL: {url}, got {len(matches)}")
         logging.error(f"Text: {text}")
         return ""
-    assert len(matches) == 2, f"Expected 2 matches, got {len(matches)}"
-    finnish = matches[1]
-    # normalized = unicodedata.normalize('NFKD', finnish).encode('ascii', 'ignore').decode('unicode-escape')
+    
+    # finnish = matches[1]
+    normalized = matches[0] + matches[1]
     try:
-        return finnish.encode().decode('unicode-escape').encode('latin-1').decode('utf-8')
+        return normalized.encode().decode('unicode-escape').encode('latin-1').decode('utf-8')
     except Exception as ex:
         logging.error(f"Error: {ex}")
-        logging.error(f"Text: {finnish}")
+        logging.error(f"Text: {normalized}")
         return ""
 
 
@@ -57,7 +58,8 @@ def main():
     for i, bird in enumerate(birds):
         logging.info(f"Starting to scrape for bird {i+1}/{len(birds)}: {bird['finnishName']}")
         scrape(bird, skip_existing=SKIP_EXISTING)
-        time.sleep(1)
+        if not SKIP_EXISTING:
+            time.sleep(1)
 
 if __name__ == "__main__":
     main()
