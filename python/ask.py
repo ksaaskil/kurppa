@@ -78,11 +78,19 @@ def get_embeddings() -> pd.DataFrame:
     return _embeddings_df
 
 
+PROMPT = """
+Autat käyttäjää tunnistamaan mahdollisen lintulajin.
+Tehtäväsi on palauttaa lista mahdollisista lintulajeista jotka sopivat käyttäjän
+antamiin tuntomerkkeihin. Voit myös kysyä lisätietoja tai kertoa lisää lajin tuntomerkeistä.
+"""
+DEFAULT_TOKEN_BUDGET = 32 * 1024 - 500
+
+
 def ask(
     client: OpenAI,
     query: str,
     model: str = GPT_MODEL,
-    token_budget: int = 32 * 1024 - 500,
+    token_budget: int = DEFAULT_TOKEN_BUDGET,
     print_message: bool = False,
 ) -> tuple[str, str]:
     """Answers a query using GPT and a dataframe of relevant texts and embeddings."""
@@ -90,11 +98,7 @@ def ask(
     message = query_message(client, query, df, model=model, token_budget=token_budget)
     if print_message:
         print(message)
-    PROMPT = """
-Autat käyttäjää tunnistamaan mahdollisen lintulajin.
-Tehtäväsi on palauttaa lista mahdollisista lintulajeista jotka sopivat käyttäjän
-antamiin tuntomerkkeihin. Voit myös kysyä lisätietoja tai kertoa lisää lajin tuntomerkeistä.
-"""
+
     messages = [
         {"role": "system", "content": PROMPT},
         {"role": "user", "content": message},
@@ -108,6 +112,32 @@ antamiin tuntomerkkeihin. Voit myös kysyä lisätietoja tai kertoa lisää laji
     if not response_message:
         raise Exception("Empty response from GPT")
     return response_message, message
+
+
+def ask_stream(
+    client: OpenAI,
+    query: str,
+    model: str = GPT_MODEL,
+    token_budget: int = DEFAULT_TOKEN_BUDGET,
+):
+    df = get_embeddings()
+    message = query_message(client, query, df, model=model, token_budget=token_budget)
+
+    messages = [
+        {"role": "system", "content": PROMPT},
+        {"role": "user", "content": message},
+    ]
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,  # type: ignore
+        temperature=0,
+        stream=True,
+    )
+    partial_message = ""
+    for chunk in response:
+        if chunk.choices[0].delta.content is not None:
+            partial_message = partial_message + chunk.choices[0].delta.content
+            yield partial_message
 
 
 def main():
