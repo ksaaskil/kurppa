@@ -36,3 +36,10 @@ Write embeddings to file `embeddings.csv`:
 export OPENAI_KEY=...
 python embed.py
 ```
+
+## Start chat app
+
+```sh
+export OPENAI_API_KEY=...
+python chat.py
+```
