@@ -147,13 +147,17 @@ def main():
         )
     )
     # Read input from stdin
-    query = input("Kysy mitä tahansa Suomen linnuista: ")
-    response, message = ask(client, query, print_message=PRINT_MESSAGE)
+    while True:
+        query = input("Kysy mitä tahansa Suomen linnuista: ")
+        if not query:
+            break
 
-    if PRINT_MESSAGE:
-        logging.info(f"Message: {message}")
+        response, message = ask(client, query, print_message=PRINT_MESSAGE)
 
-    print(response)
+        if PRINT_MESSAGE:
+            logging.info(f"Message: {message}")
+
+        print(response)
 
 
 if __name__ == "__main__":
