@@ -13,8 +13,7 @@ import {
 const openai = new OpenAI();
 const DECIPHER_TIMEOUT_SECONDS = 5;
 
-const MODEL = "gpt-3.5-turbo-0125";
-// const MODEL = "gpt-3.5-turbo";
+const MODEL = "gpt-4o-mini";
 
 interface Result {
   species: ListedSpecies;
