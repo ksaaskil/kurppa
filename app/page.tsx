@@ -62,7 +62,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-dvh">
       <NavBar toggleMap={toggleMap} />
       <div className="h-[calc(100vh-74px)] relative">
         <RecordView
