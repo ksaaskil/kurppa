@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { LocationContext } from "./Providers";
 import LoginButton from "./LoginButton";
+import Logo from "../resources/kurppa.png";
+import Image from "next/image";
 
 export default function NavBar({ toggleMap }: { toggleMap: () => void }) {
   const { enabled: locationEnabled } = useContext(LocationContext);
@@ -12,10 +14,13 @@ export default function NavBar({ toggleMap }: { toggleMap: () => void }) {
   return (
     <div className="navbar bg-transparent">
       <div className="flex-1">
+        <Image src={Logo} width={50} height={50} alt="Kurppa logo" />
+      </div>
+      {/* <div className="flex-1">
         <div className="prose">
           <h1 className="font-bold px-2">Kurppa</h1>
         </div>
-      </div>
+      </div> */}
       <div className="flex-none">
         <button
           className="btn btn-square stroke-primary btn-ghost"
