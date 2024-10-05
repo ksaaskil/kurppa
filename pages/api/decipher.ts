@@ -77,7 +77,7 @@ export default async function handler(
     });
   }
 
-  const { system: systemPrompt, user: userPrompt } = buildPrompt(text);
+  const { system: systemPrompt, user: userPrompt } = await buildPrompt(text);
 
   // Only used for logging
   const prompt = `
@@ -85,12 +85,6 @@ ${systemPrompt}
 
 ${userPrompt}
 `;
-
-  /* console.debug(`
-Sending prompt to OpenAI:
-
-${prompt}
-`); */
 
   let chatResult: string | null;
   try {

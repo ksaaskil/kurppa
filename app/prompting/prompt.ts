@@ -1,4 +1,6 @@
-export default function buildPrompt(userInput: string) {
+import { readSpeciesMap } from "../utils/shared";
+
+export default async function buildPrompt(userInput: string) {
   const description = `Tehtävä on määrittää lintulaji ja määrä käyttäjän
 luonnollisella kielellä antamasta syötteestä. Käyttäjän syöte on teksti kuten
 'kolme töyhtökiurua' ja vastaus on JSON-objekti jossa on laji ja määrä
@@ -51,12 +53,19 @@ Jos lintulaji on kirjoitettu väärin, korjaa se oikeaan muotoon. Korjauksen pit
     },
   ];
 
+  const speciesMap = await readSpeciesMap();
+  const speciesList = Object.keys(speciesMap);
+
   const systemPrompt = `${description}
 Esimerkkejä:
 
 ${examples
   .map((example) => `>>> ${example.input}\n${example.response}`)
-  .join("\n\n")}`;
+  .join("\n\n")}
+
+Lajin täytyy olla yksi seuraavista:
+${speciesList.join(", ")}.
+  `;
 
   return { system: systemPrompt, user: `>>> ${userInput}` };
 }
