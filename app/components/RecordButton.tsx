@@ -10,7 +10,7 @@ export default function RecordButton({
   const canRecord = !(processing || recording);
   return (
     <button
-      className={`btn btn-block btn-lg ${canRecord ? `bg-success` : ``}`}
+      className={`btn btn-block btn-lg ${canRecord ? `bg-accent` : ``}`}
       disabled={processing}
       onClick={toggleRecording}
     >

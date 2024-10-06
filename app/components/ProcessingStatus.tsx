@@ -84,8 +84,8 @@ export default function ProcessingStatus({
 }) {
   return (
     (visible && (
-      <div className="toast toast-end toast-middle flex flex-col">
-        <ul className="timeline timeline-compact timeline-vertical">
+      <div className="card card-bordered card-compact w-full shadow-xl border-primary p-4 overflow-auto">
+        <ul className="timeline timeline-end timeline-compact timeline-horizontal">
           <li>
             <div className="timeline-middle">
               <ResolvedIcon
