@@ -35,7 +35,7 @@ export default function Instructions() {
   return (
     <>
       {example && (
-        <div className="card card-bordered w-full shadow-xl border-primary">
+        <div className="card card-bordered card-compact w-full shadow-xl border-primary">
           <div className="card-body flex flex-col text-center">
             {isSafari && (
               <span>

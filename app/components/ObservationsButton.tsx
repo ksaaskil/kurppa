@@ -4,7 +4,7 @@ export default function ObservationsButton({
   onClick: () => void;
 }) {
   return (
-    <button className="btn btn-circle btn-outline" onClick={onClick}>
+    <button className="btn btn-circle btn-sm btn-outline" onClick={onClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

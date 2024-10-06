@@ -18,15 +18,17 @@ export default function RecordView({
 }) {
   return (
     <div className="h-full container mx-auto flex flex-col items-center justify-end">
-      <div className="grow p-4">
+      <div className="px-2 w-full lg:max-w-lg">
         {lastObservation && <LastObservation observation={lastObservation} />}
         {!lastObservation && <Instructions />}
       </div>
-      <ActionButtons
-        processing={processingStatus.processing}
-        recording={recording}
-        toggleRecording={toggleRecording}
-      />
+      <div className="px-2 w-full lg:max-w-lg mt-2">
+        <ActionButtons
+          processing={processingStatus.processing}
+          recording={recording}
+          toggleRecording={toggleRecording}
+        />
+      </div>
 
       <ProcessingStatus
         status={processingStatus}
