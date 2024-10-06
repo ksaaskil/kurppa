@@ -6,6 +6,8 @@ import ProcessingStatus from "./ProcessingStatus";
 import { ProcessingStatus as IProcessingStatus } from "../hooks/useProcessing";
 import dynamic from "next/dynamic";
 import LocationSwitch from "./LocationSwitch";
+import Logo from "../resources/kurppa-1024.png";
+import Image from "next/image";
 
 const Map = dynamic(() => import("./Map"), {
   loading: () => <p>Kartta latautuu...</p>,
@@ -33,6 +35,16 @@ export default function RecordView({
         </div>
       )}
       <div className="w-full flex-grow grow">{showMap && <Map />}</div>
+      {!showMap && (
+        <div className="w-full h-full flex-grow grow relative">
+          <Image
+            src={Logo}
+            alt="Kurppa logo"
+            layout="fill"
+            objectFit="contain"
+          />
+        </div>
+      )}
 
       <div className="w-full">
         <ProcessingStatus
