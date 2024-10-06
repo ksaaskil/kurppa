@@ -14,10 +14,7 @@ export default function Map() {
   }, []);
 
   return (
-    <div
-      className="z-40 top-0 left-0 absolute w-full h-full bg-primary"
-      ref={ref}
-    >
+    <div className="z-40 w-full h-full bg-primary" ref={ref}>
       <MapWrapperMemo center={undefined} height={height}>
         <MapMarkers />
       </MapWrapperMemo>

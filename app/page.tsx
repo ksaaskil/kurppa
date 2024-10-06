@@ -1,5 +1,4 @@
 "use client";
-import dynamic from "next/dynamic";
 import { useRecordVoice } from "@/app/hooks/useRecordVoice";
 import { useObservations } from "./hooks/useObservations";
 import { useEffect, useState } from "react";
@@ -9,11 +8,6 @@ import SettingsDialog from "./components/SettingsDialog";
 import ObservationsDialog from "./components/ObservationsDialog";
 import InfoDialog from "./components/InfoDialog";
 import RecordView from "./components/RecordView";
-
-const Map = dynamic(() => import("./components/Map"), {
-  loading: () => <p>Kartta latautuu...</p>,
-  ssr: false,
-});
 
 export default function Home() {
   const {
@@ -70,8 +64,8 @@ export default function Home() {
           lastObservation={lastObservation}
           recording={recording}
           processingStatus={processingStatus}
+          showMap={showMap}
         />
-        {showMap && <Map />}
       </div>
       <SettingsDialog />
       <ObservationsDialog observations={observations} />
