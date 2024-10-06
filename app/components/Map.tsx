@@ -10,7 +10,8 @@ export default function Map() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setHeight(ref.current?.clientHeight || 0);
+    // Add a bit of delay so that we can resolve the size more safely
+    setTimeout(() => setHeight(ref.current?.clientHeight || 0), 500);
   }, []);
 
   return (
