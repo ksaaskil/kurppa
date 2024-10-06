@@ -28,13 +28,12 @@ export default function RecordStepStatus({
       )}
       {!processing && !error && result && (
         <div className="flex flex-row">
-          <div>
-            <h3 className="font-bold">Nauhoitus onnistui</h3>
+          <div className="mr-2">
+            <h3 className="font-bold">Nauhoitus</h3>
             <div className="text-xs">
               {(result.size / 1024).toFixed(0)} kilotavua
             </div>
           </div>
-          <div className="divider divider-horizontal"></div>
           <PlaybackButton audio={result} />
         </div>
       )}

@@ -31,7 +31,7 @@ export default function Decipher({
       {!loading && !error && result && (
         <div className="">
           <div>
-            <h3 className="font-bold">Tekstin ymmärtäminen onnistui</h3>
+            <h3 className="font-bold">Tekstin ymmärtäminen</h3>
             <div className="text-xs">Laji: {result.species.finnishName}</div>
             <div className="text-xs">Määrä: {result.amount}</div>
           </div>

@@ -35,7 +35,7 @@ export default function Transcription({
       {!isTranscribing && !transcriptionError && transcription && (
         <div className="">
           <div>
-            <h3 className="font-bold">Puheesta tekstiksi onnistui</h3>
+            <h3 className="font-bold">Puheesta tekstiksi</h3>
             <div className="text-xs">{transcription}</div>
           </div>
         </div>

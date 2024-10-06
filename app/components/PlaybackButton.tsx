@@ -66,7 +66,7 @@ export default function PlaybackButton({ audio }: { audio: Blob }) {
         onEnded={() => setPlaying(false)}
       />
       <button
-        className={`btn btn-sm btn-secondary btn-circle`}
+        className={`btn btn-xs btn-secondary btn-circle`}
         onClick={togglePlay}
       >
         {playing ? <StopIcon /> : <PlayIcon />}
