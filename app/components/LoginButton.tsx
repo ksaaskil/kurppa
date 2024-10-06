@@ -20,7 +20,7 @@ const UserIcon = ({ picture }: { picture?: string | null }) => {
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke="currentColor"
+      stroke={`stroke-primary`}
       className="w-6 h-6"
     >
       <path
@@ -40,7 +40,7 @@ export default function LoginButton() {
       <div
         tabIndex={0}
         role="button"
-        className="btn btn-circle btn-ghost text-info"
+        className="btn btn-circle btn-ghost text-info stroke-primary"
       >
         <UserIcon picture={user?.picture} />
       </div>
