@@ -32,11 +32,16 @@ Havaintojen syöttäminen Tiiraan on työlästä erityisesti linturetken aikana.
 - [x] UI layout
   - [x] Theme
 - [x] Deploy to cloud (Google Cloud Run)
-- [ ] Authentication (Auth0)
+- [x] Authentication (Auth0)
 - [x] List of observations
 - [x] Use location
 - [x] Persist data to SQL
 - [ ] Evaluation framework
+- [ ] Map update
+  - [ ] Move icon
+  - [ ] Show badge of location status
+- [ ] Remove useless theme change features
+- [ ] Add welcome banner
 
 ## Development
 

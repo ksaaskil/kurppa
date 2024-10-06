@@ -64,7 +64,7 @@ export default function Home() {
   return (
     <main className="min-h-dvh">
       <NavBar toggleMap={toggleMap} />
-      <div className="h-[calc(100vh-74px)] relative">
+      <div className="h-[calc(100dvh-64px)] relative">
         <RecordView
           toggleRecording={toggleRecording}
           lastObservation={lastObservation}
