@@ -37,11 +37,9 @@ Havaintojen syöttäminen Tiiraan on työlästä erityisesti linturetken aikana.
 - [x] Use location
 - [x] Persist data to SQL
 - [ ] Evaluation framework
-- [ ] Map update
-  - [ ] Move icon
-  - [ ] Show badge of location status
-- [ ] Remove useless theme change features
-- [ ] Add welcome banner
+- [ ] Show badge of positioning status
+- [ ] Fix bug where map is not centered to current location
+- [ ] Add welcome view
 
 ## Development
 
