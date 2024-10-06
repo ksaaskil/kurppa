@@ -26,7 +26,6 @@ export default function NavBar({ toggleMap }: { toggleMap: () => void }) {
       <div className="flex-none">
         <button
           className="btn btn-square stroke-primary btn-ghost"
-          disabled={!locationEnabled}
           onClick={toggleMap}
         >
           <svg

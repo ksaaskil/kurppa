@@ -5,6 +5,7 @@ import LastObservation from "./LastObservation";
 import ProcessingStatus from "./ProcessingStatus";
 import { ProcessingStatus as IProcessingStatus } from "../hooks/useProcessing";
 import dynamic from "next/dynamic";
+import LocationSwitch from "./LocationSwitch";
 
 const Map = dynamic(() => import("./Map"), {
   loading: () => <p>Kartta latautuu...</p>,
@@ -26,7 +27,13 @@ export default function RecordView({
 }) {
   return (
     <div className="h-full container mx-auto flex flex-col items-center justify-end lg:max-w-lg space-y-4 px-2">
+      {showMap && (
+        <div className="w-full">
+          <LocationSwitch />
+        </div>
+      )}
       <div className="w-full flex-grow grow">{showMap && <Map />}</div>
+
       <div className="w-full">
         <ProcessingStatus
           status={processingStatus}
