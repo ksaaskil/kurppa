@@ -6,7 +6,7 @@ import ProcessingStatus from "./ProcessingStatus";
 import { ProcessingStatus as IProcessingStatus } from "../hooks/useProcessing";
 import dynamic from "next/dynamic";
 import LocationSwitch from "./LocationSwitch";
-import Logo from "../resources/kurppa-1024.png";
+import Logo from "../resources/leaves-no-bg-1024.png";
 import Image from "next/image";
 
 const Map = dynamic(() => import("./Map"), {

@@ -48,7 +48,8 @@ export default function useTheme() {
   }
 
   useEffect(() => {
-    const selectedTheme = window.localStorage.getItem("data-theme");
+    // const selectedTheme = window.localStorage.getItem("data-theme");
+    const selectedTheme = "light";
     selectTheme(selectedTheme || DEFAULT_THEME);
   }, []);
 

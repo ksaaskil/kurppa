@@ -8,6 +8,8 @@ import SettingsDialog from "./components/SettingsDialog";
 import ObservationsDialog from "./components/ObservationsDialog";
 import InfoDialog from "./components/InfoDialog";
 import RecordView from "./components/RecordView";
+// import Logo from "./resources/leaves-2-1024.png"
+// import Image from "next/image";
 
 export default function Home() {
   const {
@@ -56,7 +58,16 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-dvh">
+    <main className="min-h-dvh relative">
+      {/* <div className="w-full h-full flex-grow grow absolute overflow-hidden">
+        <Image
+          fill={true}
+          src={Logo}
+          alt="Kurppa logo"
+          objectFit="cover"
+        />
+      </div> */}
+
       <NavBar toggleMap={toggleMap} />
       <div className="h-[calc(100dvh-64px)] relative">
         <RecordView
