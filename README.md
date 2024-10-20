@@ -40,6 +40,7 @@ Havaintojen syöttäminen Tiiraan on työlästä erityisesti linturetken aikana.
 - [ ] Show badge of positioning status
 - [ ] Fix bug where map is not centered to current location
 - [ ] Add welcome view
+- [ ] Better list of observations
 
 ## Development
 

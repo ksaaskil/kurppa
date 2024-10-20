@@ -95,6 +95,7 @@ ${userPrompt}
           { role: "user", content: userPrompt },
         ],
         model: MODEL,
+        temperature: 0,
       },
       { timeout: DECIPHER_TIMEOUT_SECONDS * 1000 },
     );
