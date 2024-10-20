@@ -40,8 +40,8 @@ export default function RecordView({
           <Image
             src={Logo}
             alt="Kurppa logo"
-            layout="fill"
-            objectFit="contain"
+            fill={true}
+            style={{ objectFit: "cover" }}
           />
         </div>
       )}
