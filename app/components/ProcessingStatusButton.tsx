@@ -1,4 +1,7 @@
 import { ProcessingStatus } from "../hooks/useProcessing";
+import DecipherStatus from "./DecipherStatus";
+import RecordStepStatus from "./RecordStepStatus";
+import Transcription from "./TranscriptionStatus";
 
 function ProcessingIcon() {
   return (
@@ -22,7 +25,7 @@ function ErrorIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="stroke-current shrink-0 h-6 w-6"
+      className="stroke-error shrink-0 h-6 w-6"
       fill="none"
       viewBox="0 0 24 24"
     >
@@ -40,7 +43,7 @@ function SuccessIcon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="stroke-current shrink-0 h-6 w-6"
+      className="stroke-success shrink-0 h-6 w-6"
       fill="none"
       viewBox="0 0 24 24"
     >
@@ -97,7 +100,7 @@ export default function ProcessingStatusButton({
       <div
         tabIndex={0}
         role="button"
-        className="btn btn-circle btn-ghost text-info stroke-primary"
+        className={`btn btn-circle btn-ghost text-info stroke-primary ${hasError ? `btn-error` : ``}`}
       >
         <ResolvedIcon
           success={hasSuccess}
@@ -109,7 +112,38 @@ export default function ProcessingStatusButton({
         tabIndex={0}
         className="dropdown-content z-[1] card card-compact p-2 bg-base-100 shadow-xl"
       >
-        <></>
+        <ul className="steps steps-vertical w-56">
+          <li
+            data-content={`${status.record.result ? `✓` : status.record.error ? `x` : `x`}`}
+            className={`step ${status.record.result ? `step-success` : status.record.error ? `step-error` : `step-neutral`}`}
+          >
+            <RecordStepStatus
+              result={status.record.result}
+              error={status.record.error}
+              processing={status.record.processing}
+            />
+          </li>
+          <li
+            data-content={`${status.transcription.result ? `✓` : status.transcription.error ? `x` : `x`}`}
+            className={`step ${status.transcription.result ? `step-success` : status.transcription.error ? `step-error` : `step-neutral`}`}
+          >
+            <Transcription
+              transcription={status.transcription.result}
+              transcriptionError={status.transcription.error}
+              isTranscribing={status.transcription.processing}
+            />
+          </li>
+          <li
+            data-content={`${status.decipher.result ? `✓` : status.decipher.error ? `x` : `x`}`}
+            className={`step ${status.decipher.result ? `step-success` : status.decipher.error ? `step-error` : `step-neutral`}`}
+          >
+            <DecipherStatus
+              result={status.decipher.result}
+              error={status.decipher.error}
+              loading={status.decipher.processing}
+            />
+          </li>
+        </ul>
       </div>
     </div>
   );
