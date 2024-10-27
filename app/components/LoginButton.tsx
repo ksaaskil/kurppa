@@ -1,4 +1,4 @@
-import { useUser } from "@auth0/nextjs-auth0/client";
+import { UserProfile, useUser } from "@auth0/nextjs-auth0/client";
 
 const UserIcon = ({ picture }: { picture?: string | null }) => {
   if (picture) {
@@ -32,9 +32,7 @@ const UserIcon = ({ picture }: { picture?: string | null }) => {
   );
 };
 
-export default function LoginButton() {
-  const { user } = useUser();
-
+function LoginButtonForUser({ user }: { user?: UserProfile }) {
   return (
     <div className="dropdown dropdown-end">
       <div
@@ -42,7 +40,14 @@ export default function LoginButton() {
         role="button"
         className="btn btn-circle btn-ghost text-info stroke-primary"
       >
-        <UserIcon picture={user?.picture} />
+        {user ? (
+          <UserIcon picture={user?.picture} />
+        ) : (
+          <div className="indicator">
+            <span className="indicator-item badge badge-xs badge-primary"></span>
+            <UserIcon />
+          </div>
+        )}
       </div>
       <div
         tabIndex={0}
@@ -68,4 +73,10 @@ export default function LoginButton() {
       </div>
     </div>
   );
+}
+
+export default function LoginButton() {
+  const { user } = useUser();
+
+  return <LoginButtonForUser user={user} />;
 }
