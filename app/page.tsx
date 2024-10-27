@@ -70,7 +70,7 @@ export default function Home() {
         />
       </div> */}
 
-      <NavBar toggleMap={toggleMap} />
+      <NavBar toggleMap={toggleMap} processingStatus={processingStatus} />
       <div className="h-[calc(100dvh-64px)] relative">
         <RecordView
           toggleRecording={toggleRecording}
