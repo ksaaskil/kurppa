@@ -17,6 +17,9 @@ function MapBadge({
   locationProps: LocationProps;
 }) {
   const [hasAccurateLocation, setHasAccurateLocation] = useState(false);
+  const [locationError, setLocationError] = useState<
+    GeolocationPositionError | undefined
+  >(undefined);
 
   useEffect(() => {
     console.log(`Starting checking location quality at interval`);
@@ -24,8 +27,12 @@ function MapBadge({
       console.log(`Checking location quality...`);
       if (!locationProps.enabled) {
         setHasAccurateLocation(false);
+        setLocationError(undefined);
         return;
       }
+
+      const locationError = locationProps.locationErrorRef?.current;
+      setLocationError(locationError);
 
       const location = locationProps.locationRef?.current;
       if (!location) {
@@ -46,6 +53,13 @@ function MapBadge({
     return (
       <div className="indicator">
         <span className="indicator-item badge badge-neutral badge-xs"></span>
+        {children}
+      </div>
+    );
+  } else if (!!locationError) {
+    return (
+      <div className="indicator">
+        <span className="indicator-item badge badge-error badge-xs"></span>
         {children}
       </div>
     );

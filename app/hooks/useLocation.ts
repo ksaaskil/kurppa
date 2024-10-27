@@ -78,9 +78,11 @@ export function useLocation() {
           accuracy: position.coords.accuracy,
           timestamp: position.timestamp,
         });
+        locationErrorRef.current = undefined;
       },
       (error) => {
         console.log(`Location error`, error);
+        locationRef.current = undefined;
         locationErrorRef.current = error;
       },
       geoLocationOptions,
