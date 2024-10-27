@@ -1,8 +1,15 @@
-import { useContext } from "react";
+import { Ref, useContext, useEffect, useState } from "react";
 import { LocationContext, LocationProps } from "./Providers";
 import LoginButton from "./LoginButton";
 import Logo from "../resources/kurppa.png";
 import Image from "next/image";
+
+function toEpochSeconds(date: Date): number {
+  return Math.floor(date.getTime() / 1000);
+}
+
+const MAX_RECENT_INTERVAL_SECONDS = 5 * 60;
+const MAX_ACCURACY_METERS = 50;
 
 function MapBadge({
   children,
@@ -11,10 +18,42 @@ function MapBadge({
   children: React.ReactNode;
   locationProps: LocationProps;
 }) {
+  const [hasAccurateLocation, setHasAccurateLocation] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log(`Checking location quality...`);
+      if (!locationProps.enabled) {
+        setHasAccurateLocation(false);
+        return;
+      }
+
+      const location = locationProps.locationRef?.current;
+      if (!location) {
+        setHasAccurateLocation(false);
+        return;
+      }
+
+      const elapsed = Date.now() / 1000 - toEpochSeconds(location.timestamp);
+      const isRecent = elapsed < MAX_RECENT_INTERVAL_SECONDS;
+      const isAccurate = location.accuracy < MAX_ACCURACY_METERS;
+
+      setHasAccurateLocation(isRecent && isAccurate);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [locationProps]);
+
   if (!locationProps.enabled) {
     return (
       <div className="indicator">
         <span className="indicator-item badge badge-neutral badge-xs"></span>
+        {children}
+      </div>
+    );
+  } else if (hasAccurateLocation) {
+    return (
+      <div className="indicator">
+        <span className="indicator-item badge badge-success badge-xs"></span>
         {children}
       </div>
     );
