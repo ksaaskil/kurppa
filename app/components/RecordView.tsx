@@ -47,18 +47,6 @@ export default function RecordView({
       )}
 
       <div className="w-full">
-        <ProcessingStatus
-          status={processingStatus}
-          visible={
-            !recording &&
-            (processingStatus.processing ||
-              !!processingStatus.decipher.error ||
-              !!processingStatus.transcription.error ||
-              !!processingStatus.transcription.result)
-          }
-        />
-      </div>
-      <div className="w-full">
         {lastObservation && <LastObservation observation={lastObservation} />}
         {!lastObservation && <Instructions />}
       </div>
